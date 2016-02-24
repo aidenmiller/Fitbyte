@@ -7,7 +7,7 @@ public class testapi{
 	{
 		Api test = new Api();
 		System.out.println("Diggy dog");
-		test.test123();
+		test.sync();
 		
 	}
 	

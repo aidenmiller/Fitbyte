@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+
 import com.github.scribejava.apis.FitbitApi20;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuthService;
@@ -19,13 +21,22 @@ import java.awt.Desktop;
 import java.net.URI;
 import org.json.JSONObject;
 import org.json.JSONArray;
+import java.util.Date; 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class Api{
 	
 	private static String CALL_BACK_URI="http://localhost:8080";
     private static int CALL_BACK_PORT=8080;
+    private String requestUrlPrefix = "https://api.fitbit.com/1/user/3WGW2P/";
+    private String date;
+    private FitbitOAuth20ServiceImpl service;
+    private OAuth2AccessToken accessToken;
     
     public Api() {
+    	
+    	 this.date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
     
    //read credentials from a file
         BufferedReader bufferedReader=null;
@@ -89,7 +100,7 @@ public class Api{
         }
     //  Create the Fitbit service - you will ask this to ask for access/refresh pairs
         //     and to add authorization information to the requests to the API
-        FitbitOAuth20ServiceImpl service = (FitbitOAuth20ServiceImpl) new ServiceBuilder()
+        this.service = (FitbitOAuth20ServiceImpl) new ServiceBuilder()
                 .apiKey(clientID)       //fitbit uses the clientID here
                 .apiSecret(apiSecret)
                 .callback("http://localhost:8080")
@@ -101,7 +112,7 @@ public class Api{
         //  It can expire - at which point you will use the refresh token to refresh it
         //  See: https://dev.fitbit.com/docs/oauth2/#refreshing-tokens
         //    I have authenticated and given you the contents of the response to use
-        OAuth2AccessToken accessToken = new OAuth2AccessToken(
+        this.accessToken = new OAuth2AccessToken(
                 accessTokenItself,
                 tokenType,
                 refreshToken,
@@ -110,9 +121,7 @@ public class Api{
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
         System.out.println();
-        //Example request:
-        //    This is always the prefix (for my account)
-        String requestUrlPrefix = "https://api.fitbit.com/1/user/3WGW2P/";
+        
         String requestUrl;
         //    The URL from this point is how you ask for different information
         requestUrl = requestUrlPrefix + "activities/activityCalories/date/2016-02-13/1d.json";
@@ -222,7 +231,17 @@ public class Api{
     	
     }
 	
-	
+	public void sync(){
+		 String requestUrl;
+	        //    The URL from this point is how you ask for different information
+	        requestUrl = requestUrlPrefix + "activities/date/"+date+".json";
+	        OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl, service);
+	        service.signRequest(accessToken, request);
+            Response response = request.send();
+            System.out.println("HTTP RESPONSE CODE: " + response.getCode());
+            System.out.println("HTTP response body:\n"+response.getBody());
+		
+	}
 	
 	
 	
