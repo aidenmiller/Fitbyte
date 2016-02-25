@@ -1,4 +1,4 @@
-package ca.uwo.csd.cs2212.FitbitTest;
+package ca.uwo.csd.cs2212.team07;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DateFormat;
+
 
 import com.github.scribejava.apis.FitbitApi20;
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -30,13 +30,13 @@ public class Api{
 	private static String CALL_BACK_URI="http://localhost:8080";
     private static int CALL_BACK_PORT=8080;
     private String requestUrlPrefix = "https://api.fitbit.com/1/user/3WGW2P/";
-    private String date;
+    private String todayDate;
     private FitbitOAuth20ServiceImpl service;
     private OAuth2AccessToken accessToken;
     
     public Api() {
     	
-    	 this.date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+    	 this.todayDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
     
    //read credentials from a file
         BufferedReader bufferedReader=null;
@@ -231,19 +231,50 @@ public class Api{
     	
     }
 	
-	public void sync(){
-		 String requestUrl;
+	public Response syncToday(){
+		 	String requestUrl;
 	        //    The URL from this point is how you ask for different information
-	        requestUrl = requestUrlPrefix + "activities/date/"+date+".json";
+	        requestUrl = requestUrlPrefix + "activities/date/"+todayDate+".json";
 	        OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl, service);
 	        service.signRequest(accessToken, request);
             Response response = request.send();
-            System.out.println("HTTP RESPONSE CODE: " + response.getCode());
-            System.out.println("HTTP response body:\n"+response.getBody());
-		
+            
+            return response;     
 	}
 	
-	
+	public Response getCalories(SimpleDateFormat date) {
+		String requestUrl;
+	        //    The URL from this point is how you ask for different information
+	        requestUrl = requestUrlPrefix + ""; //needs URL
+	        OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl, service);
+	        service.signRequest(accessToken, request);
+            Response response = request.send();
+            
+            return response;     	
+	}
+        
+        public Response getLifetime() {
+            String requestUrl;
+	        //    The URL from this point is how you ask for different information
+	        requestUrl = requestUrlPrefix + "activities.json";
+	        OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl, service);
+	        service.signRequest(accessToken, request);
+            Response response = request.send();
+            
+            return response;     
+            
+        }
+        
+        public Response getBestDays() {
+             String requestUrl;
+	        //    The URL from this point is how you ask for different information
+	        requestUrl = requestUrlPrefix + "activities.json";
+	        OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl, service);
+	        service.signRequest(accessToken, request);
+            Response response = request.send();
+            
+            return response; 
+        }
 	
 	
 }

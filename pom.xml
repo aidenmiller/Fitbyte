@@ -68,7 +68,7 @@
    				<configuration>
     				<archive>
      					<manifest>
-      						<mainClass>ca.uwo.csd.cs2212.FitbitTest.testapi</mainClass>
+      						<mainClass>ca.uwo.csd.cs2212.team07.testapi</mainClass>
    	  					</manifest>
     				</archive>
    				</configuration>
@@ -83,7 +83,7 @@
     				</descriptorRefs>
    					<archive>
       					<manifest>
-        					<mainClass>ca.uwo.csd.cs2212.FitbitTest.testapi</mainClass>
+        					<mainClass>ca.uwo.csd.cs2212.team07.testapi</mainClass>
       					</manifest>
     				</archive>
   				</configuration>

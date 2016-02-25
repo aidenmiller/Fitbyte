@@ -1,4 +1,4 @@
-package ca.uwo.csd.cs2212.FitbitTest;
+package ca.uwo.csd.cs2212.team07;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
