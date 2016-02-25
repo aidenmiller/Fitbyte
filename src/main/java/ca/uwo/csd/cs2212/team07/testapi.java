@@ -9,9 +9,9 @@ public class testapi{
 	{
 		Api test = new Api();
 		
-		Response bestDays = test.getBestDays();
+		Response res = test.getDailySummary("2016-01-15");
                 
-                System.out.println("BEST DAYS: " +bestDays.getBody());
+                System.out.println("DailyActivitySummary for jan 15 2016: " +res.getBody());
 		
 	}
 	
