@@ -1,8 +1,8 @@
 package ca.uwo.csd.cs2212.team07;
 
 import java.awt.Color;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +18,7 @@ import javax.swing.JToggleButton;
 public class Dashboard extends JPanel {
 
     private JToggleButton menuButton;
-    
+
     public Dashboard() {
         super();
         initPanel();
@@ -26,8 +26,7 @@ public class Dashboard extends JPanel {
     }
 
     private void initPanel() {
-        this.setName("Dashboard");
-
+        this.setBackground(Color.GREEN); //Color of the menu bar
         Date date = new Date(); //Generates the current date
         /* Formats the date into a readable format */
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
@@ -45,7 +44,6 @@ public class Dashboard extends JPanel {
         JLabel activeMinutesData = new JLabel("10");
         JLabel sedentaryMinutes = new JLabel("Sedentary Minutes: ");
         JLabel sedentaryMinutesData = new JLabel("10");
-
 
         GroupLayout layout;
         layout = new GroupLayout(this);
@@ -118,23 +116,36 @@ public class Dashboard extends JPanel {
         );
 
         this.setLayout(layout);
-        this.setBackground(Color.WHITE); //Color of the menu bar
     }
 
     private void initMenuButton() {
-        menuButton = new JToggleButton(new ImageIcon(getFile("dashboard.png")));
-        menuButton.setBorderPainted(false);
+        ImageIcon icon = new ImageIcon(getFile("dashboard.png"));
         ImageIcon iconP = new ImageIcon(getFile("dashboard_pressed.png"));
+        menuButton = new JToggleButton();
+        menuButton.setToolTipText("Dashboard");
+        menuButton.setBorderPainted(false);
+        menuButton.setIcon(icon);
         menuButton.setRolloverIcon(iconP);
         menuButton.setSelectedIcon(iconP);
         menuButton.setRolloverSelectedIcon(iconP);
         
+        final JPanel panel = this;
+        menuButton.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent ev) {
+                if (ev.getStateChange() == ItemEvent.SELECTED) {
+                    panel.setVisible(true);
+                } else if (ev.getStateChange() == ItemEvent.DESELECTED) {
+                    panel.setVisible(false);
+                }
+            }
+        });
+
     }
-    
+
     public JToggleButton getMenuButton() {
         return this.menuButton;
     }
-    
+
     /* Found this method online - deals with finding images after packaging */
     private BufferedImage getFile(String fileName) {
 

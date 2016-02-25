@@ -21,16 +21,22 @@ import java.awt.Color;
 import javax.swing.GroupLayout;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 
 public class MainWindow extends JFrame {
 
     /* Container used to store the different panels (dashboard, daily goals, etc) */
     private JPanel cards;
-    /* CardLayout used to switch between the different panels above using cardLayout.show() */
-    private CardLayout cardLayout;
     /* Containers for each of the pages, these need to be be designed better (maybe separate classes for each panel) */
     private Dashboard dashboard;
-    private JPanel  dailyGoals, accolades, heartRate, settings;
+    private DailyGoals dailyGoals;
+    private Accolades accolades;
+    private HeartRate heartRate;
+    private Settings settings;
     /* Object that groups together buttons like Radio Buttons, allowing only one to be selected */
     private ButtonGroup buttonGroup;
 
@@ -52,121 +58,70 @@ public class MainWindow extends JFrame {
         /* BorderLayout allows positions through NORTH, EAST, SOUTH, WEST, etc. from the swingTut */
         this.setLayout(new BorderLayout());
 
-        /* Below is the initialization of each of the panes and adding them to the CardLayout */
-        cards = new JPanel(new CardLayout());
-
+        /* Initialization of each of the panest */
         dashboard = new Dashboard();
+        dailyGoals = new DailyGoals();
+        accolades = new Accolades();
+        heartRate = new HeartRate();
+        settings = new Settings();
 
-        dailyGoals = new JPanel();
-        dailyGoals.setName("Daily Goals");
-        dailyGoals.add(new JLabel("Daily Goals!"));
+        /* Adding the panels to the cards pane*/
+        cards = new JPanel(new CardLayout());
+        cards.add(dashboard, "");
+        cards.add(dailyGoals, "");
+        cards.add(accolades, "");
+        cards.add(heartRate, "");
+        cards.add(settings, "");
 
-        accolades = new JPanel();
-        accolades.setName("Accolades");
-        accolades.add(new JLabel("Accolades!"));
-
-        heartRate = new JPanel();
-        heartRate.setName("Heart Rate");
-        heartRate.add(new JLabel("Heart Rate!"));
-
-        settings = new JPanel();
-        settings.setName("Settings");
-        settings.add(new JLabel("Settings!"));
-
-        /* Adding the panels to the cards panel with their names as identifiers */
-        cards.add(dashboard, dashboard.getName());
-        cards.add(dailyGoals, dailyGoals.getName());
-        cards.add(accolades, accolades.getName());
-        cards.add(heartRate, heartRate.getName());
-        cards.add(settings, settings.getName());
-        /* This creates the object that allows us to switch between panes */
-        cardLayout = (CardLayout) (cards.getLayout());
-
-        /* Adds the cards pane to the center, with the menu above (see below for menu) */
+        /* adds menu and cards pane to the window */
         this.add(this.createMenu(), BorderLayout.NORTH);
         this.add(cards, BorderLayout.CENTER);
+
     }
 
     private JPanel createMenu() {
         JPanel panel = new JPanel();
         buttonGroup = new ButtonGroup();
 
-        /* Creates menu button for dashboard using JToggleButton (I would use JButton but wanted to use ButtonGroup) */
-        buttonGroup.add(dashboard.getMenuButton());
-        /* MouseListeners... I have been trying to find a good way to move this to the Dashboard class */
-        //MouseListener for Dashboard
-        dashboard.getMenuButton().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Dashboard Button Pressed"); //for testing purposes
-                cardLayout.show(cards, dashboard.getName());
-            }
-        });
+        JToggleButton dashboardButton = dashboard.getMenuButton();
+        buttonGroup.add(dashboardButton);
 
-        JToggleButton dailyGoalsButton = this.createMenuButton(getFile("dailygoals.png"), getFile("dailygoals_pressed.png"));
+        JToggleButton dailyGoalsButton = dailyGoals.getMenuButton();
         buttonGroup.add(dailyGoalsButton);
-        //MouseListener for Daily Goals
-        dailyGoalsButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Daily Goals Button Pressed"); //for testing purposes
-                cardLayout.show(cards, dailyGoals.getName());
-            }
-        });
 
-        JToggleButton accoladesButton = this.createMenuButton(getFile("accolades.png"), getFile("accolades_pressed.png"));
+        JToggleButton accoladesButton = accolades.getMenuButton();
         buttonGroup.add(accoladesButton);
-        //MouseListener for Accolades
-        accoladesButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Accolades Button Pressed"); //for testing purposes
-                cardLayout.show(cards, accolades.getName());
-            }
-        });
 
-        JToggleButton heartRateButton = this.createMenuButton(getFile("heartrate.png"), getFile("heartrate_pressed.png"));
+        JToggleButton heartRateButton = heartRate.getMenuButton();
         buttonGroup.add(heartRateButton);
-        //MouseListener for Heart Rate
-        heartRateButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Heart Rate Button Pressed"); //for testing purposes
-                cardLayout.show(cards, heartRate.getName());
-            }
-        });
 
-        JToggleButton settingsButton = this.createMenuButton(getFile("settings.png"), getFile("settings_pressed.png"));
+        JToggleButton settingsButton = settings.getMenuButton();
         buttonGroup.add(settingsButton);
-        //MouseListener for Settings
-        settingsButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Settings Button Pressed"); //for testing purposes
-                cardLayout.show(cards, settings.getName());
-            }
-        });
 
+        dashboardButton.doClick();
+
+        /* REFRESHING */
         JButton refreshButton = new JButton(new ImageIcon(getFile("refresh.png")));
         refreshButton.setBorderPainted(false);
         refreshButton.setRolloverIcon(new ImageIcon(getFile("refresh_pressed.png")));
-        /* JLabel to display the last refreshed time, initially will be never but should pull from stored data...*/
+        // JLabel to display the last refreshed time, initially will be never but should pull from stored data...
         final JLabel refreshLabel = new JLabel("last synced: never");
-        /* Literally just to make the font smaller, but allows font change if we want to */
+        // Literally just to make the font smaller, but allows font change if we want to 
         refreshLabel.setFont(new Font(refreshLabel.getFont().getName(), Font.PLAIN, 10));
         //MouseListener for Refresh
         refreshButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("Refresh Button Pressed"); //for testing purposes
                 Date date = new Date(); //Generates the current date
-                /* Formats the date into a readable format */
+                // Formats the date into a readable format 
                 SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz");
-                /* Sets the label to display the new last synced time */
+                // Sets the label to display the new last synced time 
                 refreshLabel.setText("last synced: " + sdf.format(date));
             }
         });
+        /* END OF REFRESHING */
 
+ /* EXITING PROGRAM */
         JButton exitButton = new JButton(new ImageIcon(getFile("exit.png")));
         exitButton.setBorderPainted(false);
         exitButton.setRolloverIcon(new ImageIcon(getFile("exit_pressed.png")));
@@ -174,67 +129,28 @@ public class MainWindow extends JFrame {
         exitButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("Exit Button Pressed"); //for testing purposes
                 System.exit(0); //this needs to be handle serialization of data and make sure program closes properly
             }
         });
+        /* END OF EXITING */
 
-        /* All of the below is for layout purposes (from swingTut)... might choose a different layout option if I find one */
-        GroupLayout layout = new GroupLayout(panel);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-
-        layout.setHorizontalGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(dashboard.getMenuButton())
-                                .addComponent(dailyGoalsButton)
-                                .addComponent(accoladesButton)
-                                .addComponent(heartRateButton)
-                                .addComponent(settingsButton)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(refreshLabel)
-                                .addComponent(refreshButton)
-                                .addComponent(exitButton)
-                        )
-                )
-        );
-
-        layout.setVerticalGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(dashboard.getMenuButton())
-                        .addComponent(dailyGoalsButton)
-                        .addComponent(accoladesButton)
-                        .addComponent(heartRateButton)
-                        .addComponent(settingsButton)
-                        .addComponent(refreshButton)
-                        .addComponent(exitButton)
-                        .addComponent(refreshLabel)
-                )
-        );
-
-        panel.setLayout(layout);
-        panel.setBackground(Color.ORANGE); //Color of the menu bar
+ /* Adding the menu buttons to the panel */
+        panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
+        panel.add(dashboardButton);
+        panel.add(dailyGoalsButton);
+        panel.add(accoladesButton);
+        panel.add(heartRateButton);
+        panel.add(settingsButton);
+        panel.add(Box.createHorizontalGlue());
+        panel.add(refreshLabel);
+        panel.add(refreshButton);
+        panel.add(exitButton);
 
         return panel;
     }
 
-    /* Used to compact the creation of the menu buttons Dashboard, Daily Goals, etc. */
- /* Hoping to be able to move mouseListener into here, but we will see... */
-    private JToggleButton createMenuButton(BufferedImage icon, BufferedImage iconPressed) {
-        JToggleButton button = new JToggleButton(new ImageIcon(icon));
-        button.setBorderPainted(false);
-        ImageIcon iconP = new ImageIcon(iconPressed);
-        button.setRolloverIcon(iconP);
-        button.setSelectedIcon(iconP);
-        button.setRolloverSelectedIcon(iconP);
-
-        return button;
-    }
-
     /* Found this method online - deals with finding images after packaging */
     private BufferedImage getFile(String fileName) {
-
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream is = classloader.getResourceAsStream(fileName);
 
@@ -246,7 +162,6 @@ public class MainWindow extends JFrame {
         }
 
         return image;
-
     }
 
 }
