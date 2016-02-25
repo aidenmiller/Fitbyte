@@ -29,8 +29,8 @@ public class Accolades extends JPanel {
     }
 
     private void initMenuButton() {
-        ImageIcon icon = new ImageIcon(getFile("dashboard.png"));
-        ImageIcon iconP = new ImageIcon(getFile("dashboard_pressed.png"));
+        ImageIcon icon = new ImageIcon(getFile("accolades.png"));
+        ImageIcon iconP = new ImageIcon(getFile("accolades_pressed.png"));
         menuButton = new JToggleButton();
         menuButton.setToolTipText("Accolades");
         menuButton.setBorderPainted(false);
