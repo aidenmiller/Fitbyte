@@ -15,9 +15,11 @@ import javax.swing.JToggleButton;
 public class Accolades extends JPanel {
 
     private JToggleButton menuButton;
+    private FitbitInfo fitbitInfo;
 
-    public Accolades() {
+    public Accolades(FitbitInfo info) {
         super();
+        fitbitInfo = info;
         initPanel();
         initMenuButton();
     }
@@ -56,7 +58,7 @@ public class Accolades extends JPanel {
         return this.menuButton;
     }
     
-    public void refresh() {
+    public void refreshInfo(FitbitInfo info) {
         System.out.println("Accolades Refreshing");
     }
 

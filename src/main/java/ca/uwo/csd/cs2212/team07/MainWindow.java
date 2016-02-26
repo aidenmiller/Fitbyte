@@ -19,6 +19,10 @@ import javax.swing.ButtonGroup;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 
@@ -35,6 +39,7 @@ public class MainWindow extends JFrame {
     private Settings settings;
     /* Object that groups together buttons like Radio Buttons, allowing only one to be selected */
     private ButtonGroup buttonGroup;
+    private FitbitInfo fitbitInfo;
 
     /* Constructor for this class, called by App*/
     public MainWindow(int m) {
@@ -52,14 +57,23 @@ public class MainWindow extends JFrame {
         /* This will need to be removed at some point as only the X button created should close the app and Serialize data */
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        fitbitInfo = new FitbitInfo();
+        try {
+            fitbitInfo.loadInfo(mode);
+        } catch (Exception e) {
+            System.out.println("No user info stored");
+            System.out.println("REDIRECT TO USER LOGIN");
+            fitbitInfo.refreshInfo(mode);
+        }
+
         /* BorderLayout allows positions through NORTH, EAST, SOUTH, WEST, etc. from the swingTut */
         this.setLayout(new BorderLayout());
 
         /* Initialization of each of the panest */
-        dashboard = new Dashboard();
-        dailyGoals = new DailyGoals();
-        accolades = new Accolades();
-        heartRate = new HeartRate();
+        dashboard = new Dashboard(fitbitInfo);
+        dailyGoals = new DailyGoals(fitbitInfo);
+        accolades = new Accolades(fitbitInfo);
+        heartRate = new HeartRate(fitbitInfo);
         settings = new Settings();
 
         /* creates the menu and adds it to the window */
@@ -111,20 +125,17 @@ public class MainWindow extends JFrame {
         refreshButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //Only allow refresh to work in normal mode
-                if (mode == 0) {
-                    dashboard.refresh();
-                    dailyGoals.refresh();
-                    accolades.refresh();
-                    heartRate.refresh();
+                fitbitInfo.refreshInfo(mode);
+                dashboard.refreshInfo(fitbitInfo);
+                dailyGoals.refreshInfo(fitbitInfo);
+                accolades.refreshInfo(fitbitInfo);
+                heartRate.refreshInfo(fitbitInfo);
 
-                    Date date = new Date(); //Generates the current date
-                    // Formats the date into a readable format 
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz");
-                    // Sets the label to display the new last synced time 
-                    refreshLabel.setText("last synced: " + sdf.format(date));
-
-                } 
+                Date date = new Date(); //Generates the current date
+                // Formats the date into a readable format 
+                SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz");
+                // Sets the label to display the new last synced time 
+                refreshLabel.setText("last synced: " + sdf.format(date));
             }
         });
 
@@ -136,6 +147,11 @@ public class MainWindow extends JFrame {
         exitButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                try {
+                    fitbitInfo.storeInfo(mode);
+                } catch (Exception ex) {
+                    System.out.println("Error storing info");
+                }
                 System.exit(0); //this needs to be handle serialization of data and make sure program closes properly
             }
         });
