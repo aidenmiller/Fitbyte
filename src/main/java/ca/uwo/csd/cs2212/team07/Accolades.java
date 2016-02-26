@@ -55,6 +55,10 @@ public class Accolades extends JPanel {
     public JToggleButton getMenuButton() {
         return this.menuButton;
     }
+    
+    public void refresh() {
+        System.out.println("Accolades Refreshing");
+    }
 
     /* Found this method online - deals with finding images after packaging */
     private BufferedImage getFile(String fileName) {

@@ -162,4 +162,8 @@ public class Dashboard extends JPanel {
         return image;
 
     }
+    
+    public void refresh() {
+        System.out.println("Dashboard Refreshing");
+    }
 }

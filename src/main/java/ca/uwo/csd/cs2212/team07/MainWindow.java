@@ -13,22 +13,18 @@ import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JToggleButton;
-import javax.swing.LayoutStyle;
 import javax.swing.JButton;
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
-import java.awt.Color;
-import javax.swing.GroupLayout;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.GridLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.Color;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 
 public class MainWindow extends JFrame {
 
+    private final int mode;
     /* Container used to store the different panels (dashboard, daily goals, etc) */
     private JPanel cards;
     /* Containers for each of the pages, these need to be be designed better (maybe separate classes for each panel) */
@@ -41,7 +37,8 @@ public class MainWindow extends JFrame {
     private ButtonGroup buttonGroup;
 
     /* Constructor for this class, called by App*/
-    public MainWindow() {
+    public MainWindow(int m) {
+        this.mode = m;
         /*calls initUI method below which does most of the work */
         this.initUI();
     }
@@ -65,6 +62,9 @@ public class MainWindow extends JFrame {
         heartRate = new HeartRate();
         settings = new Settings();
 
+        /* creates the menu and adds it to the window */
+        this.add(this.createMenu(), BorderLayout.NORTH);
+
         /* Adding the panels to the cards pane*/
         cards = new JPanel(new CardLayout());
         cards.add(dashboard, "");
@@ -73,8 +73,7 @@ public class MainWindow extends JFrame {
         cards.add(heartRate, "");
         cards.add(settings, "");
 
-        /* adds menu and cards pane to the window */
-        this.add(this.createMenu(), BorderLayout.NORTH);
+        /* adds cards pane to the window */
         this.add(cards, BorderLayout.CENTER);
 
     }
@@ -100,7 +99,7 @@ public class MainWindow extends JFrame {
 
         dashboardButton.doClick();
 
-        /* REFRESHING */
+        // REFRESHING 
         JButton refreshButton = new JButton(new ImageIcon(getFile("refresh.png")));
         refreshButton.setBorderPainted(false);
         refreshButton.setRolloverIcon(new ImageIcon(getFile("refresh_pressed.png")));
@@ -112,16 +111,24 @@ public class MainWindow extends JFrame {
         refreshButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Date date = new Date(); //Generates the current date
-                // Formats the date into a readable format 
-                SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz");
-                // Sets the label to display the new last synced time 
-                refreshLabel.setText("last synced: " + sdf.format(date));
+                //Only allow refresh to work in normal mode
+                if (mode == 0) {
+                    dashboard.refresh();
+                    dailyGoals.refresh();
+                    accolades.refresh();
+                    heartRate.refresh();
+
+                    Date date = new Date(); //Generates the current date
+                    // Formats the date into a readable format 
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz");
+                    // Sets the label to display the new last synced time 
+                    refreshLabel.setText("last synced: " + sdf.format(date));
+
+                } 
             }
         });
-        /* END OF REFRESHING */
 
- /* EXITING PROGRAM */
+        // EXITING PROGRAM 
         JButton exitButton = new JButton(new ImageIcon(getFile("exit.png")));
         exitButton.setBorderPainted(false);
         exitButton.setRolloverIcon(new ImageIcon(getFile("exit_pressed.png")));
@@ -132,9 +139,8 @@ public class MainWindow extends JFrame {
                 System.exit(0); //this needs to be handle serialization of data and make sure program closes properly
             }
         });
-        /* END OF EXITING */
 
- /* Adding the menu buttons to the panel */
+        // Adding the buttons to the menu panel
         panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
         panel.add(dashboardButton);
         panel.add(dailyGoalsButton);
@@ -145,6 +151,8 @@ public class MainWindow extends JFrame {
         panel.add(refreshLabel);
         panel.add(refreshButton);
         panel.add(exitButton);
+
+        panel.setBackground(Color.ORANGE);
 
         return panel;
     }
