@@ -8,20 +8,18 @@ import org.json.JSONException;
 public class testapi{
 	
 	
-	public static void main(String[] args)
+	public static void main(String[] args) 
 	{
 		Api test = new Api();
-		System.out.println("HERE WE GO: \n\n");
+          
             try {
-                BestDay[] bestdays = test.getBestDays();
-                for(int i = 0; i< bestdays.length; i++)
-                {
-                    System.out.println(bestdays[i].toString());
-                }
+              Daily today = test.syncToday();
+              System.out.println(today.toString());
             } catch (JSONException ex) {
                 Logger.getLogger(testapi.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (RefreshTokenException ex) {
+               System.err.println("ERROR");
             }
-            
                 
           
                
