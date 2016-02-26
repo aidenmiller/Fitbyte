@@ -148,8 +148,8 @@ public class RefreshTokens {
                 System.out.println("Rate limit exceeded");
                 throw new RefreshTokenException("429-Rate Limit Exceeded");
             default:
-                System.out.println("HTTP response code: " + response.getCode());
-                System.out.println("HTTP response body:\n" + response.getBody());
+               /* System.out.println("HTTP response code: " + response.getCode());
+                System.out.println("HTTP response body:\n" + response.getBody()); */
         }
 
         BufferedWriter bufferedWriter = null;
