@@ -73,7 +73,7 @@
    				<configuration>
     				<archive>
      					<manifest>
-      						<mainClass>ca.uwo.csd.cs2212.team07.testapi</mainClass>
+      						<mainClass>ca.uwo.csd.cs2212.team07.App</mainClass>
    	  					</manifest>
     				</archive>
    				</configuration>
@@ -88,7 +88,7 @@
     				</descriptorRefs>
    					<archive>
       					<manifest>
-        					<mainClass>ca.uwo.csd.cs2212.team07.testapi</mainClass>
+        					<mainClass>ca.uwo.csd.cs2212.team07.App</mainClass>
       					</manifest>
     				</archive>
   				</configuration>
