@@ -13,11 +13,17 @@ public class testapi{
 		Api test = new Api();
 		System.out.println("HERE WE GO: \n\n");
             try {
-                Response res = test.getBestDays();
+                BestDay[] bestdays = test.getBestDays();
+                for(int i = 0; i< bestdays.length; i++)
+                {
+                    System.out.println(bestdays[i].toString());
+                }
             } catch (JSONException ex) {
                 Logger.getLogger(testapi.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
                 
+          
                
 		
 	}

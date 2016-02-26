@@ -268,8 +268,9 @@ public class Api {
         OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl, service);
         service.signRequest(accessToken, request);
         Response response = request.send();
+        
 
-        return response;
+        return null;
 
     }
 
@@ -281,7 +282,6 @@ public class Api {
         OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl, service);
         service.signRequest(accessToken, request);
         Response response = request.send();
-        System.out.println(response.getBody());
        
         JSONObject obj = new JSONObject(response.getBody());
         
@@ -290,9 +290,9 @@ public class Api {
         JSONObject bestTotalFloors = obj.getJSONObject("best").getJSONObject("total").getJSONObject("floors");
         JSONObject bestTotalSteps = obj.getJSONObject("best").getJSONObject("total").getJSONObject("steps");
         
-        BestDay distanceBestDay = new BestDay(bestTotalDistance.getString("date"), "distance", bestTotalDistance.getLong("value"));
-        BestDay floorsBestDay = new BestDay(bestTotalFloors.getString("date"), "floors", bestTotalFloors.getLong("value"));
-        BestDay stepsBestDay = new BestDay(bestTotalSteps.getString("date"), "steps", bestTotalSteps.getLong("value"));
+        BestDay distanceBestDay = new BestDay(bestTotalDistance.getString("date"), "distance", bestTotalDistance.getDouble("value"));
+        BestDay floorsBestDay = new BestDay(bestTotalFloors.getString("date"), "floors", bestTotalFloors.getDouble("value"));
+        BestDay stepsBestDay = new BestDay(bestTotalSteps.getString("date"), "steps", bestTotalSteps.getDouble("value"));
         
         BestDay[] bestDayArray = {distanceBestDay, floorsBestDay, stepsBestDay};
         

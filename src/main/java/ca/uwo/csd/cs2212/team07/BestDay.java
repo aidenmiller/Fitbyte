@@ -6,9 +6,9 @@ public class BestDay {
     
     public final String date;
     public final String activity;
-    public final long value;
+    public final double value;
     
-    public BestDay(String bestDate, String act, long bestValue) {
+    public BestDay(String bestDate, String act, double bestValue) {
         
         this.date = bestDate;
         this.activity = act;
