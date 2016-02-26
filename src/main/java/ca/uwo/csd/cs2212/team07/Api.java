@@ -19,7 +19,7 @@ public class Api {
     }
 
     public static Daily getDailySummary(String date) throws JSONException, RefreshTokenException {
-        String requestUrlPrefix = "https://api.fitbit.com/1/user/3WGW2P/";
+        String requestUrlPrefix = "https://api.fitbit.com/1/user/-/";
         
         double floorGoal ,distanceGoal, distance, elevation, floors;
         floorGoal = distanceGoal = distance = elevation = floors = 0;
@@ -80,7 +80,7 @@ public class Api {
     } */
 
     public static Lifetime getLifetime() throws JSONException, RefreshTokenException {
-        String requestUrlPrefix = "https://api.fitbit.com/1/user/3WGW2P/";
+        String requestUrlPrefix = "https://api.fitbit.com/1/user/-/";
         String requestUrl;
         //    The URL from this point is how you ask for different information
         requestUrl = requestUrlPrefix + "activities.json";
@@ -95,7 +95,7 @@ public class Api {
     }
 
     public static BestDay[] getBestDays() throws JSONException, RefreshTokenException {
-        String requestUrlPrefix = "https://api.fitbit.com/1/user/3WGW2P/";
+        String requestUrlPrefix = "https://api.fitbit.com/1/user/-/";
         String requestUrl;
         
         //    The URL from this point is how you ask for different information
