@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Iterator;
 
 import com.github.scribejava.apis.FitbitApi20;
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -24,6 +25,8 @@ import org.json.JSONArray;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import org.json.JSONException;
+import static org.json.JSONObject.getNames;
 
 public class Api {
 
@@ -270,15 +273,37 @@ public class Api {
 
     }
 
-    public Response getBestDays() {
+    public BestDay[] getBestDays() throws JSONException {
         String requestUrl;
+        
         //    The URL from this point is how you ask for different information
         requestUrl = requestUrlPrefix + "activities.json";
         OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl, service);
         service.signRequest(accessToken, request);
         Response response = request.send();
-
-        return response;
-    }
-
+        System.out.println(response.getBody());
+       
+        JSONObject obj = new JSONObject(response.getBody());
+        
+   
+        JSONObject bestTotalDistance = obj.getJSONObject("best").getJSONObject("total").getJSONObject("distance");
+        JSONObject bestTotalFloors = obj.getJSONObject("best").getJSONObject("total").getJSONObject("floors");
+        JSONObject bestTotalSteps = obj.getJSONObject("best").getJSONObject("total").getJSONObject("steps");
+        
+        BestDay distanceBestDay = new BestDay(bestTotalDistance.getString("date"), "distance", bestTotalDistance.getLong("value"));
+        BestDay floorsBestDay = new BestDay(bestTotalFloors.getString("date"), "floors", bestTotalFloors.getLong("value"));
+        BestDay stepsBestDay = new BestDay(bestTotalSteps.getString("date"), "steps", bestTotalSteps.getLong("value"));
+        
+        BestDay[] bestDayArray = {distanceBestDay, floorsBestDay, stepsBestDay};
+        
+        return bestDayArray;
+       
+     }
 }
+
+
+
+     
+  
+
+
