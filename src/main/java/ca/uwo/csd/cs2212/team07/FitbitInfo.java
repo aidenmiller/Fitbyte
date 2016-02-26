@@ -24,7 +24,9 @@ public class FitbitInfo /*implements Serializable*/ {
         if(mode == 0) {
             System.out.println("REFRESH INFO - NORMAL MODE");
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-            this.day = Api.getDailySummary(date);
+            //THIS NEEDS TO BE CHANGED WHEN WE ARE ABLE TO SWITCH BETWEEN DAYS
+            this.day = Api.getDailySummary(date); 
+            
             
             
             
