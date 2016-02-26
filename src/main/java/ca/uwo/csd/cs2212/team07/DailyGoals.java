@@ -15,9 +15,11 @@ import javax.swing.JToggleButton;
 public class DailyGoals extends JPanel {
 
     private JToggleButton menuButton;
+    private FitbitInfo fitbitInfo;
 
-    public DailyGoals() {
+    public DailyGoals(FitbitInfo info) {
         super();
+        fitbitInfo = info;
         initPanel();
         initMenuButton();
     }
@@ -54,6 +56,10 @@ public class DailyGoals extends JPanel {
 
     public JToggleButton getMenuButton() {
         return this.menuButton;
+    }
+    
+    public void refreshInfo(FitbitInfo info) {
+        System.out.println("Daily Goals Refreshing");
     }
 
     /* Found this method online - deals with finding images after packaging */

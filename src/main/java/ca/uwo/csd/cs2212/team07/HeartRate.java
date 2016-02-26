@@ -15,9 +15,11 @@ import javax.swing.JToggleButton;
 public class HeartRate extends JPanel {
 
     private JToggleButton menuButton;
+    private FitbitInfo fitbitInfo;
 
-    public HeartRate() {
+    public HeartRate(FitbitInfo info) {
         super();
+        fitbitInfo = info;
         initPanel();
         initMenuButton();
     }
@@ -54,6 +56,10 @@ public class HeartRate extends JPanel {
 
     public JToggleButton getMenuButton() {
         return this.menuButton;
+    }
+    
+    public void refreshInfo(FitbitInfo info) {
+        System.out.println("Heart Rate Refreshing");
     }
 
     /* Found this method online - deals with finding images after packaging */

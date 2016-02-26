@@ -11,12 +11,11 @@ public class App {
         } else {
             mode = 0;
         }
-
+		//comment
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                //need to check args to see if to run in test mode or not
-                MainWindow window = new MainWindow();
+                MainWindow window = new MainWindow(mode);
                 window.setVisible(true);
             }
         });

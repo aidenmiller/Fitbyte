@@ -15,9 +15,11 @@ import javax.swing.JToggleButton;
 public class Accolades extends JPanel {
 
     private JToggleButton menuButton;
+    private FitbitInfo fitbitInfo;
 
-    public Accolades() {
+    public Accolades(FitbitInfo info) {
         super();
+        fitbitInfo = info;
         initPanel();
         initMenuButton();
     }
@@ -54,6 +56,10 @@ public class Accolades extends JPanel {
 
     public JToggleButton getMenuButton() {
         return this.menuButton;
+    }
+    
+    public void refreshInfo(FitbitInfo info) {
+        System.out.println("Accolades Refreshing");
     }
 
     /* Found this method online - deals with finding images after packaging */

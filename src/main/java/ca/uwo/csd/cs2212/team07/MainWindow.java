@@ -13,22 +13,22 @@ import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JToggleButton;
-import javax.swing.LayoutStyle;
 import javax.swing.JButton;
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
-import java.awt.Color;
-import javax.swing.GroupLayout;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.GridLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.Color;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 
 public class MainWindow extends JFrame {
 
+    private final int mode;
     /* Container used to store the different panels (dashboard, daily goals, etc) */
     private JPanel cards;
     /* Containers for each of the pages, these need to be be designed better (maybe separate classes for each panel) */
@@ -39,9 +39,11 @@ public class MainWindow extends JFrame {
     private Settings settings;
     /* Object that groups together buttons like Radio Buttons, allowing only one to be selected */
     private ButtonGroup buttonGroup;
+    private FitbitInfo fitbitInfo;
 
     /* Constructor for this class, called by App*/
-    public MainWindow() {
+    public MainWindow(int m) {
+        this.mode = m;
         /*calls initUI method below which does most of the work */
         this.initUI();
     }
@@ -55,15 +57,27 @@ public class MainWindow extends JFrame {
         /* This will need to be removed at some point as only the X button created should close the app and Serialize data */
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        fitbitInfo = new FitbitInfo();
+        try {
+            fitbitInfo.loadInfo(mode);
+        } catch (Exception e) {
+            System.out.println("No user info stored");
+            System.out.println("REDIRECT TO USER LOGIN");
+            fitbitInfo.refreshInfo(mode);
+        }
+
         /* BorderLayout allows positions through NORTH, EAST, SOUTH, WEST, etc. from the swingTut */
         this.setLayout(new BorderLayout());
 
         /* Initialization of each of the panest */
-        dashboard = new Dashboard();
-        dailyGoals = new DailyGoals();
-        accolades = new Accolades();
-        heartRate = new HeartRate();
+        dashboard = new Dashboard(fitbitInfo);
+        dailyGoals = new DailyGoals(fitbitInfo);
+        accolades = new Accolades(fitbitInfo);
+        heartRate = new HeartRate(fitbitInfo);
         settings = new Settings();
+
+        /* creates the menu and adds it to the window */
+        this.add(this.createMenu(), BorderLayout.NORTH);
 
         /* Adding the panels to the cards pane*/
         cards = new JPanel(new CardLayout());
@@ -73,8 +87,7 @@ public class MainWindow extends JFrame {
         cards.add(heartRate, "");
         cards.add(settings, "");
 
-        /* adds menu and cards pane to the window */
-        this.add(this.createMenu(), BorderLayout.NORTH);
+        /* adds cards pane to the window */
         this.add(cards, BorderLayout.CENTER);
 
     }
@@ -100,7 +113,7 @@ public class MainWindow extends JFrame {
 
         dashboardButton.doClick();
 
-        /* REFRESHING */
+        // REFRESHING 
         JButton refreshButton = new JButton(new ImageIcon(getFile("refresh.png")));
         refreshButton.setBorderPainted(false);
         refreshButton.setRolloverIcon(new ImageIcon(getFile("refresh_pressed.png")));
@@ -112,6 +125,12 @@ public class MainWindow extends JFrame {
         refreshButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                fitbitInfo.refreshInfo(mode);
+                dashboard.refreshInfo(fitbitInfo);
+                dailyGoals.refreshInfo(fitbitInfo);
+                accolades.refreshInfo(fitbitInfo);
+                heartRate.refreshInfo(fitbitInfo);
+
                 Date date = new Date(); //Generates the current date
                 // Formats the date into a readable format 
                 SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz");
@@ -119,9 +138,8 @@ public class MainWindow extends JFrame {
                 refreshLabel.setText("last synced: " + sdf.format(date));
             }
         });
-        /* END OF REFRESHING */
 
- /* EXITING PROGRAM */
+        // EXITING PROGRAM 
         JButton exitButton = new JButton(new ImageIcon(getFile("exit.png")));
         exitButton.setBorderPainted(false);
         exitButton.setRolloverIcon(new ImageIcon(getFile("exit_pressed.png")));
@@ -129,12 +147,16 @@ public class MainWindow extends JFrame {
         exitButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                try {
+                    fitbitInfo.storeInfo(mode);
+                } catch (Exception ex) {
+                    System.out.println("Error storing info");
+                }
                 System.exit(0); //this needs to be handle serialization of data and make sure program closes properly
             }
         });
-        /* END OF EXITING */
 
- /* Adding the menu buttons to the panel */
+        // Adding the buttons to the menu panel
         panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
         panel.add(dashboardButton);
         panel.add(dailyGoalsButton);
@@ -145,6 +167,8 @@ public class MainWindow extends JFrame {
         panel.add(refreshLabel);
         panel.add(refreshButton);
         panel.add(exitButton);
+
+        panel.setBackground(Color.ORANGE);
 
         return panel;
     }

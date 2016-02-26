@@ -18,9 +18,11 @@ import javax.swing.JToggleButton;
 public class Dashboard extends JPanel {
 
     private JToggleButton menuButton;
+    private FitbitInfo fitbitInfo;
 
-    public Dashboard() {
+    public Dashboard(FitbitInfo info) {
         super();
+        fitbitInfo = info;
         initPanel();
         initMenuButton();
     }
@@ -29,7 +31,7 @@ public class Dashboard extends JPanel {
         this.setBackground(Color.GREEN); //Color of the menu bar
         Date date = new Date(); //Generates the current date
         /* Formats the date into a readable format */
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz");
 
         JLabel day = new JLabel("Today: " + sdf.format(date));
         JLabel caloriesBurned = new JLabel("Calories Burned: ");
@@ -146,6 +148,10 @@ public class Dashboard extends JPanel {
         return this.menuButton;
     }
 
+     public void refreshInfo(FitbitInfo info) {
+        System.out.println("Dashboard Refreshing");
+    }
+    
     /* Found this method online - deals with finding images after packaging */
     private BufferedImage getFile(String fileName) {
 
@@ -162,4 +168,6 @@ public class Dashboard extends JPanel {
         return image;
 
     }
+    
+   
 }
