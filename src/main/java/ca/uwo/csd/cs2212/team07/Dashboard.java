@@ -35,17 +35,17 @@ public class Dashboard extends JPanel {
 
         JLabel day = new JLabel("Today: " + sdf.format(date));
         JLabel caloriesBurned = new JLabel("Calories Burned: ");
-        JLabel caloriesBurnedData = new JLabel("10");
+        JLabel caloriesBurnedData = new JLabel(""+fitbitInfo.getDay().caloriesOut);
         JLabel totalDistance = new JLabel("Total Distance: ");
-        JLabel totalDistanceData = new JLabel("10");
+        JLabel totalDistanceData = new JLabel(""+fitbitInfo.getDay().distance);
         JLabel floorsClimbed = new JLabel("Floors Climbed: ");
-        JLabel floorsClimbedData = new JLabel("10");
+        JLabel floorsClimbedData = new JLabel("" + fitbitInfo.getDay().floors);
         JLabel stepsTaken = new JLabel("Steps Taken: ");
-        JLabel stepsTakenData = new JLabel("10");
+        JLabel stepsTakenData = new JLabel("" + fitbitInfo.getDay().steps);
         JLabel activeMinutes = new JLabel("Active Minutes: ");
-        JLabel activeMinutesData = new JLabel("10");
+        JLabel activeMinutesData = new JLabel("" + fitbitInfo.getDay().activeMins);
         JLabel sedentaryMinutes = new JLabel("Sedentary Minutes: ");
-        JLabel sedentaryMinutesData = new JLabel("10");
+        JLabel sedentaryMinutesData = new JLabel("" + fitbitInfo.getDay().sedentaryMins);
 
         GroupLayout layout;
         layout = new GroupLayout(this);
