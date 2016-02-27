@@ -60,20 +60,15 @@ public class MainWindow extends JFrame {
         /* This will need to be removed at some point as only the X button created should close the app and Serialize data */
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        try {
-            fitbitInfo = new FitbitInfo();
-        } catch (JSONException ex) {
-            System.err.println("Error Accessing API");
-        } catch (RefreshTokenException ex) {
-            System.err.println("Error Accessing API");
-        }
+        fitbitInfo = new FitbitInfo();
+
         try {
             fitbitInfo.loadInfo(mode);
         } catch (Exception e) {
             System.out.println("No user info stored");
             System.out.println("REDIRECT TO USER LOGIN");
         }
-        
+
         try {
             fitbitInfo.refreshInfo(mode);
         } catch (JSONException ex) {

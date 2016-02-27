@@ -19,6 +19,7 @@ public class Dashboard extends JPanel {
 
     private JToggleButton menuButton;
     private FitbitInfo fitbitInfo;
+    private JLabel day;
     private JLabel sedentaryMinutesData;
     private JLabel activeMinutesData;
     private JLabel stepsTakenData;
@@ -35,11 +36,8 @@ public class Dashboard extends JPanel {
 
     private void initPanel() {
         this.setBackground(Color.GREEN); //Color of the menu bar
-        Date date = new Date(); //Generates the current date
-        /* Formats the date into a readable format */
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz");
 
-        JLabel day = new JLabel("Today: " + sdf.format(date));
+        day = new JLabel(new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz").format(new Date()));
         JLabel caloriesBurned = new JLabel("Calories Burned: ");
         caloriesBurnedData = new JLabel("" + fitbitInfo.getDay().caloriesOut);
         JLabel totalDistance = new JLabel("Total Distance: ");
@@ -157,13 +155,15 @@ public class Dashboard extends JPanel {
     public void refreshInfo(FitbitInfo info) {
         this.fitbitInfo = info;
         System.out.println("Dashboard Refreshing");
+        
+        day.setText(new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz").format(new Date()));
         sedentaryMinutesData.setText("" + fitbitInfo.getDay().sedentaryMins);
-
         activeMinutesData.setText("" + fitbitInfo.getDay().activeMins);
         stepsTakenData.setText("" + fitbitInfo.getDay().steps);
         floorsClimbedData.setText("" + fitbitInfo.getDay().floors);
         totalDistanceData.setText("" + fitbitInfo.getDay().distance);
         caloriesBurnedData.setText("" + fitbitInfo.getDay().caloriesOut);
+
     }
 
     /* Found this method online - deals with finding images after packaging */
