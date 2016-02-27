@@ -63,9 +63,9 @@ public class MainWindow extends JFrame {
         try {
             fitbitInfo = new FitbitInfo();
         } catch (JSONException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error Accessing API");
         } catch (RefreshTokenException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error Accessing API");
         }
         try {
             fitbitInfo.loadInfo(mode);
@@ -75,9 +75,9 @@ public class MainWindow extends JFrame {
                 System.out.println("REDIRECT TO USER LOGIN");
                 fitbitInfo.refreshInfo(mode);
             } catch (JSONException ex) {
-                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("Error Accessing API");
             } catch (RefreshTokenException ex) {
-                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("Error Accessing API");
             }
         }
 
@@ -153,9 +153,9 @@ public class MainWindow extends JFrame {
                     // Sets the label to display the new last synced time
                     refreshLabel.setText("last synced: " + sdf.format(date));
                 } catch (JSONException ex) { //DO SOME EXCEPTION SHIT HERE
-                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println("Error Accessing API");
                 } catch (RefreshTokenException ex) {
-                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    System.err.println("Error Accessing API");
                 }
             }
         });
