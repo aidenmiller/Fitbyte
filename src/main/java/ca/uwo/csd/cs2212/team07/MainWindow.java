@@ -70,16 +70,18 @@ public class MainWindow extends JFrame {
         try {
             fitbitInfo.loadInfo(mode);
         } catch (Exception e) {
-            try {
-                System.out.println("No user info stored");
-                System.out.println("REDIRECT TO USER LOGIN");
-                fitbitInfo.refreshInfo(mode);
-            } catch (JSONException ex) {
-                System.err.println("Error Accessing API");
-            } catch (RefreshTokenException ex) {
-                System.err.println("Error Accessing API");
-            }
+            System.out.println("No user info stored");
+            System.out.println("REDIRECT TO USER LOGIN");
         }
+        
+        try {
+            fitbitInfo.refreshInfo(mode);
+        } catch (JSONException ex) {
+            System.err.println("Error Accessing API");
+        } catch (RefreshTokenException ex) {
+            System.err.println("Error Accessing API");
+        }
+
 
         /* BorderLayout allows positions through NORTH, EAST, SOUTH, WEST, etc. from the swingTut */
         this.setLayout(new BorderLayout());
@@ -146,7 +148,7 @@ public class MainWindow extends JFrame {
                     dailyGoals.refreshInfo(fitbitInfo);
                     accolades.refreshInfo(fitbitInfo);
                     heartRate.refreshInfo(fitbitInfo);
-                    
+
                     Date date = new Date(); //Generates the current date
                     // Formats the date into a readable format
                     SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz");

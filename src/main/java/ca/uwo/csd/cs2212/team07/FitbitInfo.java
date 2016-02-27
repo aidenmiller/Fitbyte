@@ -18,7 +18,7 @@ public class FitbitInfo /*implements Serializable*/ {
     // private static final long serialVersionUID = 1L;
     public FitbitInfo() throws JSONException, RefreshTokenException {
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        this.day = Api.getDailySummary(date);
+        this.day = Api.getDailySummary(date); //you shouldn't call this when the class is instantiated, as we do want it to store serialized data
         this.bestDays = Api.getBestDays();
         this.lifetime = Api.getLifetime();
 
