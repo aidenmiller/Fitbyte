@@ -12,22 +12,37 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
+/**
+ * Creates a Settings panel that displays the User Settings to the user
+ *
+ * @author team07
+ */
 public class Settings extends JPanel {
 
     private JToggleButton menuButton;
 
+    /**
+     * Constructor for the Settings class
+     */
     public Settings() {
         super();
         initPanel();
         initMenuButton();
     }
 
+    /**
+     * Creates the panel to display the page to the user with the relevant
+     * information.
+     */
     private void initPanel() {
         this.setBackground(Color.CYAN); //Color of the menu bar
         JLabel text = new JLabel("This is a JLabel on the Settings panel");
         this.add(text);
     }
 
+    /**
+     * Creates a Menu Button to be displayed on the menu bar of the program
+     */
     private void initMenuButton() {
         ImageIcon icon = new ImageIcon(getFile("settings.png"));
         ImageIcon iconP = new ImageIcon(getFile("settings_pressed.png"));
@@ -38,7 +53,7 @@ public class Settings extends JPanel {
         menuButton.setRolloverIcon(iconP);
         menuButton.setSelectedIcon(iconP);
         menuButton.setRolloverSelectedIcon(iconP);
-        
+
         final JPanel panel = this;
         menuButton.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent ev) {
@@ -52,11 +67,22 @@ public class Settings extends JPanel {
 
     }
 
+    /**
+     * Returns the Menu Button for this page
+     *
+     * @return a JToggleButton for this page
+     */
     public JToggleButton getMenuButton() {
         return this.menuButton;
     }
 
-    /* Found this method online - deals with finding images after packaging */
+    /**
+     * Creates a buffered image using a filename in order to find it in the
+     * resources folder
+     *
+     * @param fileName the name of the file in the resources folder
+     * @return a BufferedImage of the file
+     */
     private BufferedImage getFile(String fileName) {
 
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
