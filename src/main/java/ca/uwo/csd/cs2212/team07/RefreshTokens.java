@@ -16,11 +16,12 @@ import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.model.*; //Request Verb
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.apis.service.FitbitOAuth20ServiceImpl;
-import java.awt.Desktop;
-import java.net.URI;
-import org.json.JSONObject;
-import org.json.JSONArray;
 
+
+/**
+ * 
+ * @author aiden
+ */
 public class RefreshTokens {
 
     private static String CALL_BACK_URI = "http://localhost:8080";
