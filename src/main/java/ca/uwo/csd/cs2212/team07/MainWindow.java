@@ -23,8 +23,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import org.json.JSONException;
 
 public class MainWindow extends JFrame {
 
@@ -58,13 +61,22 @@ public class MainWindow extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         fitbitInfo = new FitbitInfo();
+
         try {
             fitbitInfo.loadInfo(mode);
         } catch (Exception e) {
             System.out.println("No user info stored");
             System.out.println("REDIRECT TO USER LOGIN");
-            fitbitInfo.refreshInfo(mode);
         }
+
+        try {
+            fitbitInfo.refreshInfo(mode);
+        } catch (JSONException ex) {
+            System.err.println("Error Accessing API");
+        } catch (RefreshTokenException ex) {
+            System.err.println("Error Accessing API");
+        }
+
 
         /* BorderLayout allows positions through NORTH, EAST, SOUTH, WEST, etc. from the swingTut */
         this.setLayout(new BorderLayout());
@@ -125,17 +137,23 @@ public class MainWindow extends JFrame {
         refreshButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                fitbitInfo.refreshInfo(mode);
-                dashboard.refreshInfo(fitbitInfo);
-                dailyGoals.refreshInfo(fitbitInfo);
-                accolades.refreshInfo(fitbitInfo);
-                heartRate.refreshInfo(fitbitInfo);
+                try {
+                    fitbitInfo.refreshInfo(mode);
+                    dashboard.refreshInfo(fitbitInfo);
+                    dailyGoals.refreshInfo(fitbitInfo);
+                    accolades.refreshInfo(fitbitInfo);
+                    heartRate.refreshInfo(fitbitInfo);
 
-                Date date = new Date(); //Generates the current date
-                // Formats the date into a readable format 
-                SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz");
-                // Sets the label to display the new last synced time 
-                refreshLabel.setText("last synced: " + sdf.format(date));
+                    Date date = new Date(); //Generates the current date
+                    // Formats the date into a readable format
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz");
+                    // Sets the label to display the new last synced time
+                    refreshLabel.setText("last synced: " + sdf.format(date));
+                } catch (JSONException ex) { //DO SOME EXCEPTION SHIT HERE
+                    System.err.println("Error Accessing API");
+                } catch (RefreshTokenException ex) {
+                    System.err.println("Error Accessing API");
+                }
             }
         });
 
