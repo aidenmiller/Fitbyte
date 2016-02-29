@@ -53,17 +53,17 @@ public class Dashboard extends JPanel {
 
         date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(new Date()));
         JLabel caloriesBurned = new JLabel("Calories Burned: ");
-        caloriesBurnedData = new JLabel("" + fitbitInfo.getDay().caloriesOut);
+        caloriesBurnedData = new JLabel("" + fitbitInfo.getDay().getCaloriesOut());
         JLabel totalDistance = new JLabel("Total Distance: ");
-        totalDistanceData = new JLabel("" + fitbitInfo.getDay().distance);
+        totalDistanceData = new JLabel("" + fitbitInfo.getDay().getDistance());
         JLabel floorsClimbed = new JLabel("Floors Climbed: ");
-        floorsClimbedData = new JLabel("" + fitbitInfo.getDay().floors);
+        floorsClimbedData = new JLabel("" + fitbitInfo.getDay().getFloors());
         JLabel stepsTaken = new JLabel("Steps Taken: ");
-        stepsTakenData = new JLabel("" + fitbitInfo.getDay().steps);
+        stepsTakenData = new JLabel("" + fitbitInfo.getDay().getSteps());
         JLabel activeMinutes = new JLabel("Active Minutes: ");
-        activeMinutesData = new JLabel("" + fitbitInfo.getDay().activeMins);
+        activeMinutesData = new JLabel("" + fitbitInfo.getDay().getActiveMins());
         JLabel sedentaryMinutes = new JLabel("Sedentary Minutes: ");
-        sedentaryMinutesData = new JLabel("" + fitbitInfo.getDay().sedentaryMins);
+        sedentaryMinutesData = new JLabel("" + fitbitInfo.getDay().getSedentaryMins());
 
         GroupLayout layout;
         layout = new GroupLayout(this);
@@ -185,12 +185,12 @@ public class Dashboard extends JPanel {
         System.out.println("Dashboard Refreshing");
 
         date.setText(new SimpleDateFormat("dd MMM yyyy").format(new Date()));
-        sedentaryMinutesData.setText("" + fitbitInfo.getDay().sedentaryMins);
-        activeMinutesData.setText("" + fitbitInfo.getDay().activeMins);
-        stepsTakenData.setText("" + fitbitInfo.getDay().steps);
-        floorsClimbedData.setText("" + fitbitInfo.getDay().floors);
-        totalDistanceData.setText("" + fitbitInfo.getDay().distance);
-        caloriesBurnedData.setText("" + fitbitInfo.getDay().caloriesOut);
+        sedentaryMinutesData.setText("" + fitbitInfo.getDay().getSedentaryMins());
+        activeMinutesData.setText("" + fitbitInfo.getDay().getActiveMins());
+        stepsTakenData.setText("" + fitbitInfo.getDay().getSteps());
+        floorsClimbedData.setText("" + fitbitInfo.getDay().getFloors());
+        totalDistanceData.setText("" + fitbitInfo.getDay().getDistance());
+        caloriesBurnedData.setText("" + fitbitInfo.getDay().getCaloriesOut());
 
     }
 
