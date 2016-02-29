@@ -10,11 +10,10 @@ public class testapi{
 	
 	public static void main(String[] args) 
 	{
-		Api test = new Api();
+		
           
             try {
-              Daily today = test.syncToday();
-              System.out.println(today.toString());
+             Api.userProfile();
             } catch (JSONException ex) {
                 Logger.getLogger(testapi.class.getName()).log(Level.SEVERE, null, ex);
             } catch (RefreshTokenException ex) {
