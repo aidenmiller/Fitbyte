@@ -15,11 +15,28 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
+/**
+ * Creates a Dashboard panel that displays the Dashboard to the user.
+ *
+ * @author team07
+ */
 public class Dashboard extends JPanel {
 
     private JToggleButton menuButton;
     private FitbitInfo fitbitInfo;
+    private JLabel date;
+    private JLabel sedentaryMinutesData;
+    private JLabel activeMinutesData;
+    private JLabel stepsTakenData;
+    private JLabel floorsClimbedData;
+    private JLabel totalDistanceData;
+    private JLabel caloriesBurnedData;
 
+    /**
+     * Constructor for the Dashboard class
+     *
+     * @param info FitBit data for the user to display
+     */
     public Dashboard(FitbitInfo info) {
         super();
         fitbitInfo = info;
@@ -27,25 +44,26 @@ public class Dashboard extends JPanel {
         initMenuButton();
     }
 
+    /**
+     * Creates the panel to display the page to the user with the relevant
+     * information.
+     */
     private void initPanel() {
         this.setBackground(Color.GREEN); //Color of the menu bar
-        Date date = new Date(); //Generates the current date
-        /* Formats the date into a readable format */
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz");
 
-        JLabel day = new JLabel("Today: " + sdf.format(date));
+        date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(new Date()));
         JLabel caloriesBurned = new JLabel("Calories Burned: ");
-        JLabel caloriesBurnedData = new JLabel("10");
+        caloriesBurnedData = new JLabel("" + fitbitInfo.getDay().caloriesOut);
         JLabel totalDistance = new JLabel("Total Distance: ");
-        JLabel totalDistanceData = new JLabel("10");
+        totalDistanceData = new JLabel("" + fitbitInfo.getDay().distance);
         JLabel floorsClimbed = new JLabel("Floors Climbed: ");
-        JLabel floorsClimbedData = new JLabel("10");
+        floorsClimbedData = new JLabel("" + fitbitInfo.getDay().floors);
         JLabel stepsTaken = new JLabel("Steps Taken: ");
-        JLabel stepsTakenData = new JLabel("10");
+        stepsTakenData = new JLabel("" + fitbitInfo.getDay().steps);
         JLabel activeMinutes = new JLabel("Active Minutes: ");
-        JLabel activeMinutesData = new JLabel("10");
+        activeMinutesData = new JLabel("" + fitbitInfo.getDay().activeMins);
         JLabel sedentaryMinutes = new JLabel("Sedentary Minutes: ");
-        JLabel sedentaryMinutesData = new JLabel("10");
+        sedentaryMinutesData = new JLabel("" + fitbitInfo.getDay().sedentaryMins);
 
         GroupLayout layout;
         layout = new GroupLayout(this);
@@ -53,7 +71,7 @@ public class Dashboard extends JPanel {
         layout.setAutoCreateContainerGaps(true);
 
         layout.setHorizontalGroup(layout.createSequentialGroup()
-                .addComponent(day)
+                .addComponent(date)
                 .addGap(20)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
@@ -84,7 +102,7 @@ public class Dashboard extends JPanel {
         );
 
         layout.setVerticalGroup(layout.createSequentialGroup()
-                .addComponent(day)
+                .addComponent(date)
                 .addGap(50)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                         .addComponent(caloriesBurned)
@@ -120,6 +138,9 @@ public class Dashboard extends JPanel {
         this.setLayout(layout);
     }
 
+    /**
+     * Creates a Menu Button to be displayed on the menu bar of the program
+     */
     private void initMenuButton() {
         ImageIcon icon = new ImageIcon(getFile("dashboard.png"));
         ImageIcon iconP = new ImageIcon(getFile("dashboard_pressed.png"));
@@ -130,7 +151,7 @@ public class Dashboard extends JPanel {
         menuButton.setRolloverIcon(iconP);
         menuButton.setSelectedIcon(iconP);
         menuButton.setRolloverSelectedIcon(iconP);
-        
+
         final JPanel panel = this;
         menuButton.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent ev) {
@@ -144,15 +165,42 @@ public class Dashboard extends JPanel {
 
     }
 
+    /**
+     * Returns the Menu Button for this page
+     *
+     * @return a JToggleButton for this page
+     */
     public JToggleButton getMenuButton() {
         return this.menuButton;
     }
 
-     public void refreshInfo(FitbitInfo info) {
+    /**
+     * Refreshes the info on this page with the info contained in the FitbitInfo
+     * provided
+     *
+     * @param info the FitbitInfo provided with new data
+     */
+    public void refreshInfo(FitbitInfo info) {
+        this.fitbitInfo = info;
         System.out.println("Dashboard Refreshing");
+
+        date.setText(new SimpleDateFormat("dd MMM yyyy").format(new Date()));
+        sedentaryMinutesData.setText("" + fitbitInfo.getDay().sedentaryMins);
+        activeMinutesData.setText("" + fitbitInfo.getDay().activeMins);
+        stepsTakenData.setText("" + fitbitInfo.getDay().steps);
+        floorsClimbedData.setText("" + fitbitInfo.getDay().floors);
+        totalDistanceData.setText("" + fitbitInfo.getDay().distance);
+        caloriesBurnedData.setText("" + fitbitInfo.getDay().caloriesOut);
+
     }
-    
-    /* Found this method online - deals with finding images after packaging */
+
+    /**
+     * Creates a buffered image using a filename in order to find it in the
+     * resources folder
+     *
+     * @param fileName the name of the file in the resources folder
+     * @return a BufferedImage of the file
+     */
     private BufferedImage getFile(String fileName) {
 
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -168,6 +216,5 @@ public class Dashboard extends JPanel {
         return image;
 
     }
-    
-   
+
 }

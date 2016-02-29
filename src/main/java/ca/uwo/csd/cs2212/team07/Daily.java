@@ -13,7 +13,7 @@ public class Daily {
     public final String date;
 
     public final long activeMinGoal, calOutGoal, stepsGoal, activityCalories, caloriesBMR, caloriesOut, fairlyActiveMins, lightlyActiveMins,
-            marginalCalories, sedentaryMins, steps, veryActiveMins;
+            marginalCalories, sedentaryMins, steps, veryActiveMins, activeMins;
     public final double floorGoal, distanceGoal, distance, elevation, floors;
 
     /**
@@ -60,6 +60,7 @@ public class Daily {
         this.steps = dailySteps;
         this.veryActiveMins = dailyVeryActMins;
         this.fairlyActiveMins = dailyFairlyActiveMins;
+        this.activeMins = fairlyActiveMins + veryActiveMins + lightlyActiveMins;
     }
 
     /**

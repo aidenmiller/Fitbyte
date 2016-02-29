@@ -145,6 +145,19 @@ public class Api {
         
         return bestDayArray;
      } 
+    
+    public static void userProfile() throws RefreshTokenException, JSONException {
+          String requestUrlPrefix = "https://api.fitbit.com/1/user/-/"; // url prefix for all api calls
+        String requestUrl;
+        
+        //    The URL from this point is how you ask for different information
+        requestUrl = requestUrlPrefix + "profile.json";
+       
+        Response response = RefreshTokens.getResponse(requestUrl); // get response from api
+        JSONObject obj = new JSONObject(response.getBody());
+        
+        System.out.println("HELLO! + " +response.getCode());
+    }
 }
 
 

@@ -12,11 +12,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
+/**
+ * Creates an Accolades panel that displays the Accolades to the user
+ *
+ * @author team07
+ */
 public class Accolades extends JPanel {
 
     private JToggleButton menuButton;
     private FitbitInfo fitbitInfo;
 
+    /**
+     * Constructor for the Accolades class
+     *
+     * @param info FitBit data for the user to display
+     */
     public Accolades(FitbitInfo info) {
         super();
         fitbitInfo = info;
@@ -24,12 +34,19 @@ public class Accolades extends JPanel {
         initMenuButton();
     }
 
+    /**
+     * Creates the panel to display the page to the user with the relevant
+     * information.
+     */
     private void initPanel() {
         this.setBackground(Color.BLUE); //Color of the menu bar
         JLabel text = new JLabel("This is a JLabel on the Accolades panel");
         this.add(text);
     }
 
+    /**
+     * Creates a Menu Button to be displayed on the menu bar of the program
+     */
     private void initMenuButton() {
         ImageIcon icon = new ImageIcon(getFile("accolades.png"));
         ImageIcon iconP = new ImageIcon(getFile("accolades_pressed.png"));
@@ -40,7 +57,7 @@ public class Accolades extends JPanel {
         menuButton.setRolloverIcon(iconP);
         menuButton.setSelectedIcon(iconP);
         menuButton.setRolloverSelectedIcon(iconP);
-        
+
         final JPanel panel = this;
         menuButton.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent ev) {
@@ -54,15 +71,32 @@ public class Accolades extends JPanel {
 
     }
 
+    /**
+     * Returns the Menu Button for this page
+     *
+     * @return a JToggleButton for this page
+     */
     public JToggleButton getMenuButton() {
         return this.menuButton;
     }
-    
+
+    /**
+     * Refreshes the info on this page with the info contained in the FitbitInfo
+     * provided
+     *
+     * @param info the FitbitInfo provided with new data
+     */
     public void refreshInfo(FitbitInfo info) {
         System.out.println("Accolades Refreshing");
     }
 
-    /* Found this method online - deals with finding images after packaging */
+    /**
+     * Creates a buffered image using a filename in order to find it in the
+     * resources folder
+     *
+     * @param fileName the name of the file in the resources folder
+     * @return a BufferedImage of the file
+     */
     private BufferedImage getFile(String fileName) {
 
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
