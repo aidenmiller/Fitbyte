@@ -29,69 +29,79 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import org.json.JSONException;
 
+/**
+ * Creates a Main Window frame that displays the program
+ * @author team07
+ */
 public class MainWindow extends JFrame {
 
     private final int mode;
-    /* Container used to store the different panels (dashboard, daily goals, etc) */
+    // Container used to store the different panels (dashboard, daily goals, etc)
     private JPanel cards;
-    /* Containers for each of the pages, these need to be be designed better (maybe separate classes for each panel) */
+    // Containers for each of the pages
     private Dashboard dashboard;
     private DailyGoals dailyGoals;
     private Accolades accolades;
     private HeartRate heartRate;
     private Settings settings;
-    /* Object that groups together buttons like Radio Buttons, allowing only one to be selected */
+    // Object that groups together buttons like Radio Buttons, allowing only one to be selected at a time
     private ButtonGroup buttonGroup;
+    // Object that stores user FitBit data (such as calories burned, etc.) - should be Serialized class
     private FitbitInfo fitbitInfo;
 
-    /* Constructor for this class, called by App*/
-    public MainWindow(int m) {
-        this.mode = m;
+    /**
+     * Constructs a new MainWindow in either normal mode or test mode 
+     * @param mode whether or not the user is on normal mode (0) or test mode (1)
+     */
+    public MainWindow(int mode) {
+        this.mode = mode;
         /*calls initUI method below which does most of the work */
         this.initUI();
     }
 
-    /* Most of the UI generation */
+    /**
+     * Constructs the UI to be displayed in the window
+     */
     private void initUI() {
         this.setTitle("FitBit Program - CS2212 Team07");
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
         this.setResizable(false); //disables resizing
-        /* This will need to be removed at some point as only the X button created should close the app and Serialize data */
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+     
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE); //change this at some point
 
-        fitbitInfo = new FitbitInfo();
+        fitbitInfo = new FitbitInfo(); //creates a new fitbitInfo object to store user data
 
         try {
-            fitbitInfo.loadInfo(mode);
-        } catch (Exception e) {
+            fitbitInfo.loadInfo(mode); //try to load user info from stored file
+        } catch (Exception e) { //thrown if no user data is found
             System.out.println("No user info stored");
-            System.out.println("REDIRECT TO USER LOGIN");
+            System.out.println("REDIRECT TO USER LOGIN"); //user will need to authenticate
         }
 
         try {
-            fitbitInfo.refreshInfo(mode);
-        } catch (JSONException ex) {
+            fitbitInfo.refreshInfo(mode); //tries to refresh user data
+        } catch (JSONException ex) { 
             System.err.println("Error Accessing API");
         } catch (RefreshTokenException ex) {
             System.err.println("Error Accessing API");
         }
 
 
-        /* BorderLayout allows positions through NORTH, EAST, SOUTH, WEST, etc. from the swingTut */
+        // BorderLayout allows positions through NORTH, EAST, SOUTH, WEST, etc.*/
         this.setLayout(new BorderLayout());
 
-        /* Initialization of each of the panest */
+        // Initialization of each of the panels
         dashboard = new Dashboard(fitbitInfo);
         dailyGoals = new DailyGoals(fitbitInfo);
         accolades = new Accolades(fitbitInfo);
         heartRate = new HeartRate(fitbitInfo);
         settings = new Settings();
 
-        /* creates the menu and adds it to the window */
+        // creates the top menu bar and adds it to the window
         this.add(this.createMenu(), BorderLayout.NORTH);
 
-        /* Adding the panels to the cards pane*/
+        // Adding the menu panels to the cards pane
         cards = new JPanel(new CardLayout());
         cards.add(dashboard, "");
         cards.add(dailyGoals, "");
@@ -99,33 +109,29 @@ public class MainWindow extends JFrame {
         cards.add(heartRate, "");
         cards.add(settings, "");
 
-        /* adds cards pane to the window */
+        // adds cards pane to the window
         this.add(cards, BorderLayout.CENTER);
 
     }
 
+    /**
+     * Creates the top menu bar to allow user to switch between pages, exit, and refresh data
+     * @return the menu bar created
+     */
     private JPanel createMenu() {
         JPanel panel = new JPanel();
         buttonGroup = new ButtonGroup();
 
-        JToggleButton dashboardButton = dashboard.getMenuButton();
-        buttonGroup.add(dashboardButton);
+        //adds the menu buttons to the button group
+        buttonGroup.add(dashboard.getMenuButton());
+        buttonGroup.add(dailyGoals.getMenuButton());
+        buttonGroup.add(accolades.getMenuButton());
+        buttonGroup.add(heartRate.getMenuButton());
+        buttonGroup.add(settings.getMenuButton());
+        //does a mouse click for dashboard to set it as the current page
+        dashboard.getMenuButton().doClick();
 
-        JToggleButton dailyGoalsButton = dailyGoals.getMenuButton();
-        buttonGroup.add(dailyGoalsButton);
-
-        JToggleButton accoladesButton = accolades.getMenuButton();
-        buttonGroup.add(accoladesButton);
-
-        JToggleButton heartRateButton = heartRate.getMenuButton();
-        buttonGroup.add(heartRateButton);
-
-        JToggleButton settingsButton = settings.getMenuButton();
-        buttonGroup.add(settingsButton);
-
-        dashboardButton.doClick();
-
-        // REFRESHING 
+        // REFRESHING - plan to make this it's own class hopefully
         JButton refreshButton = new JButton(new ImageIcon(getFile("refresh.png")));
         refreshButton.setBorderPainted(false);
         refreshButton.setRolloverIcon(new ImageIcon(getFile("refresh_pressed.png")));
@@ -149,7 +155,7 @@ public class MainWindow extends JFrame {
                     SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz");
                     // Sets the label to display the new last synced time
                     refreshLabel.setText("last synced: " + sdf.format(date));
-                } catch (JSONException ex) { //DO SOME EXCEPTION SHIT HERE
+                } catch (JSONException ex) { 
                     System.err.println("Error Accessing API");
                 } catch (RefreshTokenException ex) {
                     System.err.println("Error Accessing API");
@@ -170,28 +176,34 @@ public class MainWindow extends JFrame {
                 } catch (Exception ex) {
                     System.out.println("Error storing info");
                 }
-                System.exit(0); //this needs to be handle serialization of data and make sure program closes properly
+                System.exit(0); //exit the program
             }
         });
 
         // Adding the buttons to the menu panel
         panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
-        panel.add(dashboardButton);
-        panel.add(dailyGoalsButton);
-        panel.add(accoladesButton);
-        panel.add(heartRateButton);
-        panel.add(settingsButton);
-        panel.add(Box.createHorizontalGlue());
+        panel.add(dashboard.getMenuButton());
+        panel.add(dailyGoals.getMenuButton());
+        panel.add(accolades.getMenuButton());
+        panel.add(heartRate.getMenuButton());
+        panel.add(settings.getMenuButton());
+        panel.add(Box.createHorizontalGlue()); //puts space between the first few menu items and the rest
         panel.add(refreshLabel);
         panel.add(refreshButton);
         panel.add(exitButton);
 
-        panel.setBackground(Color.ORANGE);
+        panel.setBackground(Color.ORANGE); //color of menu bar
 
         return panel;
     }
 
-    /* Found this method online - deals with finding images after packaging */
+    /**
+     * Creates a buffered image using a filename in order to find it in the
+     * resources folder
+     *
+     * @param fileName the name of the file in the resources folder
+     * @return a BufferedImage of the file
+     */
     private BufferedImage getFile(String fileName) {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream is = classloader.getResourceAsStream(fileName);
