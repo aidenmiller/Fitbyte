@@ -85,7 +85,10 @@ public class MainWindow extends JFrame {
             System.err.println("Error Accessing API");
         } catch (RefreshTokenException ex) {
             System.err.println("Error Accessing API");
+            
         }
+       
+       
 
 
         // BorderLayout allows positions through NORTH, EAST, SOUTH, WEST, etc.*/

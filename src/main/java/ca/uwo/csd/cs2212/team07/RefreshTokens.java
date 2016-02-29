@@ -140,7 +140,12 @@ public class RefreshTokens {
                 //   See:  https://dev.fitbit.com/docs/oauth2/#refreshing-tokens           
                 // This accessToken is now the current one, and the old ones will not work
                 //   again.  You should save the contents of accessToken.
+                try {
                 accessToken = service.refreshOAuth2AccessToken(accessToken);
+                }
+                catch (Exception e) {
+                    throw new RefreshTokenException("Error refreshing token, expired token");
+                }
 
                 // Now we can try to access the service again
                 // Make sure you create a new OAuthRequest object each time!
