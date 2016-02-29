@@ -3,8 +3,12 @@ package ca.uwo.csd.cs2212.team07;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -188,6 +192,30 @@ public class Dashboard extends JPanel {
         floorsClimbedData.setText("" + fitbitInfo.getDay().getFloors());
         totalDistanceData.setText("" + fitbitInfo.getDay().getDistance());
         caloriesBurnedData.setText("" + fitbitInfo.getDay().getCaloriesOut());
+
+    }
+
+    /**
+     * Creates a buffered image using a filename in order to find it in the
+     * resources folder
+     *
+     * @param fileName the name of the file in the resources folder
+     * @return a BufferedImage of the file
+     */
+    private BufferedImage getFile(String fileName) {
+
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        InputStream is = classloader.getResourceAsStream(fileName);
+
+        BufferedImage image = null;
+
+        try {
+            image = ImageIO.read(is);
+        } catch (IOException e) {
+        }
+
+        return image;
+
 
     }
 

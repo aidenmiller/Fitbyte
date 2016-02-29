@@ -91,41 +91,48 @@ public class MainWindow extends JFrame {
                 System.err.println("Error Accessing API");
             }
 
+            try {
+                fitbitInfo.refreshInfo(); //tries to refresh user data
+            } catch (JSONException ex) {
+                System.err.println("Error Accessing API");
+            } catch (RefreshTokenException ex) {
+                System.err.println("Error Accessing API");
+
+            }
+
+            // BorderLayout allows positions through NORTH, EAST, SOUTH, WEST, etc.*/
+            this.setLayout(new BorderLayout());
+
+            // Initialization of each of the panels
+            dashboard = new Dashboard(fitbitInfo);
+            dailyGoals = new DailyGoals(fitbitInfo);
+            accolades = new Accolades(fitbitInfo);
+            heartRate = new HeartRate(fitbitInfo);
+            settings = new Settings();
+
+            // creates the top menu bar and adds it to the window
+            this.add(this.createMenu(), BorderLayout.NORTH);
+
+            // Adding the menu panels to the cards pane
+            cards = new JPanel(new CardLayout());
+            cards.add(dashboard, "");
+            cards.add(dailyGoals, "");
+            cards.add(accolades, "");
+            cards.add(heartRate, "");
+            cards.add(settings, "");
+
+            // adds cards pane to the window
+            this.add(cards, BorderLayout.CENTER);
+
         }
-
-        // BorderLayout allows positions through NORTH, EAST, SOUTH, WEST, etc.*/
-        this.setLayout(new BorderLayout());
-
-        // Initialization of each of the panels
-        dashboard = new Dashboard(fitbitInfo);
-        dailyGoals = new DailyGoals(fitbitInfo);
-        accolades = new Accolades(fitbitInfo);
-        heartRate = new HeartRate(fitbitInfo);
-        settings = new Settings();
-
-        // creates the top menu bar and adds it to the window
-        this.add(this.createMenu(), BorderLayout.NORTH);
-
-        // Adding the menu panels to the cards pane
-        cards = new JPanel(new CardLayout());
-        cards.add(dashboard, "");
-        cards.add(dailyGoals, "");
-        cards.add(accolades, "");
-        cards.add(heartRate, "");
-        cards.add(settings, "");
-
-        // adds cards pane to the window
-        this.add(cards, BorderLayout.CENTER);
-
     }
-
-    /**
-     * Creates the top menu bar to allow user to switch between pages, exit, and
-     * refresh data
-     *
-     * @return the menu bar created
-     */
-    private JPanel createMenu() {
+        /**
+         * Creates the top menu bar to allow user to switch between pages, exit,
+         * and refresh data
+         *
+         * @return the menu bar created
+         */
+        private JPanel createMenu() {
         JPanel panel = new JPanel();
         buttonGroup = new ButtonGroup();
 
@@ -180,12 +187,11 @@ public class MainWindow extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    if(mode == 0) {
+                    if (mode == 0) {
                         FileReader.storeInfo(fitbitInfo);
                         System.out.println("STORE FILE SUCCESS");
-                    }
-                    else {
-                         JOptionPane.showMessageDialog(new JFrame(), "Thanks for trying Test Mode!");
+                    } else {
+                        JOptionPane.showMessageDialog(new JFrame(), "Thanks for trying Test Mode!");
                     }
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(new JFrame(), "ERROR! Unable to store user data.");

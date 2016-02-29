@@ -33,29 +33,54 @@ public class BestDay implements Serializable {
         return "Activity: " + this.activity + "\nDate: " + this.date + "\nValue: " + this.value;
     }
 
+    /**
+     * getDate() method
+     * @return String of date when this best date was achieved on
+     */
     public String getDate() {
         return date;
     }
 
+    /**
+     * setDate() method:
+     * @param date String date to set as the date relating to this BestDay object
+     */
     public void setDate(String date) {
         this.date = date;
     }
 
+    /**
+     * getActivity() method:
+     * @return the activity associated with this best day object
+     */
     public String getActivity() {
         return activity;
     }
 
+    /**
+     * setActivity() method:
+     * @param activity String of activity name associated with this BestDay object
+     */
     public void setActivity(String activity) {
         this.activity = activity;
     }
 
+    /**
+     * getValue() method:
+     * @return value of the floors/steps/distance traveled on this BestDay
+     */
     public double getValue() {
         return value;
     }
 
+    /**
+     * setValue() method:
+     * @param value double value to set as the distance/steps/floors of this best day
+     */
     public void setValue(double value) {
         this.value = value;
     }
 
     
 }
+
