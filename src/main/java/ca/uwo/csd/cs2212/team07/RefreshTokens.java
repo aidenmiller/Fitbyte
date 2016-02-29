@@ -6,26 +6,31 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
+
 import com.github.scribejava.apis.FitbitApi20;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.model.*; //Request Verb
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.apis.service.FitbitOAuth20ServiceImpl;
-import java.awt.Desktop;
-import java.net.URI;
-import org.json.JSONObject;
-import org.json.JSONArray;
 
+
+/**
+ *  This class is used to refresh tokens and make API calls
+ * @author Team07
+ */
 public class RefreshTokens {
 
+   // Static instance variables
     private static String CALL_BACK_URI = "http://localhost:8080";
     private static int CALL_BACK_PORT = 8080;
 
+    /**
+     * getResponse() method, used to make an API request and returns the response from Fitbit
+     * @param requestUrl url specifying the api request to make
+     * @return Response object containing JSON object with information from Fitbit
+     * @throws RefreshTokenException  if there is a problem refreshing (status code != 200)
+     */
     public static Response getResponse(String requestUrl) throws RefreshTokenException {
 
         //read credentials from a file
@@ -51,13 +56,13 @@ public class RefreshTokens {
             // File with service credentials.
 
             FileReader fileReader
-                    = new FileReader("src/main/resources/Team7Credentials.txt");
+                    = new FileReader("src/main/resources/Team7Credentials.txt"); // location of credential file
             bufferedReader = new BufferedReader(fileReader);
             clientID = bufferedReader.readLine();
             apiKey = bufferedReader.readLine();
             apiSecret = bufferedReader.readLine();
             bufferedReader.close();
-            fileReader = new FileReader("src/main/resources/Team7Tokens.txt");
+            fileReader = new FileReader("src/main/resources/Team7Tokens.txt"); // location of tokens file
             bufferedReader = new BufferedReader(fileReader);
 
             accessTokenItself = bufferedReader.readLine();
@@ -66,15 +71,15 @@ public class RefreshTokens {
             expiresIn = Long.parseLong(bufferedReader.readLine());
             rawResponse = bufferedReader.readLine();
 
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) { // error message if file cannot be opened
             System.out.println(
                     "Unable to open file\n" + ex.getMessage());
             System.exit(1);
-        } catch (IOException ex) {
-            System.out.println(
+        } catch (IOException ex) {  // error message if file cannot be written
+            System.out.println( 
                     "Error reading/write file\n" + ex.getMessage());
             System.exit(1);
-        } finally {
+        } finally { // gets executed no matter what
             try {
                 if (bufferedReader != null) // Always close files.
                 {
@@ -189,9 +194,11 @@ public class RefreshTokens {
                         "Error closing file\n" + e.getMessage());
             }
         }//end try
+        
+        // if the response code was not 200, throw exception
         if (response.getCode() != 200) {
             throw new RefreshTokenException("Error Accessing API");
-        } else {
+        } else { // else response is valid, return response
             return response;
         }
     }
