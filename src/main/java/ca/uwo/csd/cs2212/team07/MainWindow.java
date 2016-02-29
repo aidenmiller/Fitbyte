@@ -3,28 +3,16 @@ package ca.uwo.csd.cs2212.team07;
 import javax.swing.JFrame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JToggleButton;
 import javax.swing.JButton;
-import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Calendar;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
@@ -84,55 +72,48 @@ public class MainWindow extends JFrame {
             System.out.println("REDIRECT TO USER LOGIN"); //user will need to authenticate
             //USER LOGIN HERE
             try {
-                fitbitInfo.refreshInfo(); //tries to refresh user data
+                fitbitInfo.refreshInfo(Calendar.getInstance()); //tries to refresh user data
             } catch (JSONException ex) {
                 System.err.println("Error Accessing API");
             } catch (RefreshTokenException ex) {
                 System.err.println("Error Accessing API");
             }
-
-            try {
-                fitbitInfo.refreshInfo(); //tries to refresh user data
-            } catch (JSONException ex) {
-                System.err.println("Error Accessing API");
-            } catch (RefreshTokenException ex) {
-                System.err.println("Error Accessing API");
-
-            }
-
-            // BorderLayout allows positions through NORTH, EAST, SOUTH, WEST, etc.*/
-            this.setLayout(new BorderLayout());
-
-            // Initialization of each of the panels
-            dashboard = new Dashboard(fitbitInfo);
-            dailyGoals = new DailyGoals(fitbitInfo);
-            accolades = new Accolades(fitbitInfo);
-            heartRate = new HeartRate(fitbitInfo);
-            settings = new Settings();
-
-            // creates the top menu bar and adds it to the window
-            this.add(this.createMenu(), BorderLayout.NORTH);
-
-            // Adding the menu panels to the cards pane
-            cards = new JPanel(new CardLayout());
-            cards.add(dashboard, "");
-            cards.add(dailyGoals, "");
-            cards.add(accolades, "");
-            cards.add(heartRate, "");
-            cards.add(settings, "");
-
-            // adds cards pane to the window
-            this.add(cards, BorderLayout.CENTER);
 
         }
+
+        // Initialization of each of the panels
+        dashboard = new Dashboard(fitbitInfo, mode);
+        dailyGoals = new DailyGoals(fitbitInfo);
+        accolades = new Accolades(fitbitInfo);
+        heartRate = new HeartRate(fitbitInfo);
+        settings = new Settings();
+
+        // BorderLayout allows positions through NORTH, EAST, SOUTH, WEST, etc.*/
+        this.setLayout(new BorderLayout());
+
+        // creates the top menu bar and adds it to the window
+        this.add(this.createMenu(), BorderLayout.NORTH);
+
+        // Adding the menu panels to the cards pane
+        cards = new JPanel(new CardLayout());
+        cards.add(dashboard, "");
+        cards.add(dailyGoals, "");
+        cards.add(accolades, "");
+        cards.add(heartRate, "");
+        cards.add(settings, "");
+
+        // adds cards pane to the window
+        this.add(cards, BorderLayout.CENTER);
+
     }
-        /**
-         * Creates the top menu bar to allow user to switch between pages, exit,
-         * and refresh data
-         *
-         * @return the menu bar created
-         */
-        private JPanel createMenu() {
+
+    /**
+     * Creates the top menu bar to allow user to switch between pages, exit, and
+     * refresh data
+     *
+     * @return the menu bar created
+     */
+    private JPanel createMenu() {
         JPanel panel = new JPanel();
         buttonGroup = new ButtonGroup();
 
@@ -146,11 +127,11 @@ public class MainWindow extends JFrame {
         dashboard.getMenuButton().doClick();
 
         // REFRESHING - plan to make this it's own class hopefully
-        JButton refreshButton = new JButton(new ImageIcon(getFile("refresh.png")));
+        JButton refreshButton = new JButton(new ImageIcon(FileReader.getImage("refresh.png")));
         refreshButton.setBorderPainted(false);
-        refreshButton.setRolloverIcon(new ImageIcon(getFile("refresh_pressed.png")));
+        refreshButton.setRolloverIcon(new ImageIcon(FileReader.getImage("refresh_pressed.png")));
         // JLabel to display the last refreshed time, initially will be never but should pull from stored data...
-        lastSync = new JLabel("last synced: " + fitbitInfo.getLastRefreshTime());
+        lastSync = new JLabel("last synced: " + fitbitInfo.getLastRefreshTime().getTime());
         // Literally just to make the font smaller, but allows font change if we want to 
         lastSync.setFont(new Font(lastSync.getFont().getName(), Font.PLAIN, 10));
         //MouseListener for Refresh
@@ -159,14 +140,14 @@ public class MainWindow extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 try {
                     if (mode == 0) {
-                        fitbitInfo.refreshInfo();
-                        dashboard.refreshInfo(fitbitInfo);
+                        fitbitInfo.refreshInfo(Calendar.getInstance());
+                        dashboard.update(fitbitInfo);
                         dailyGoals.refreshInfo(fitbitInfo);
                         accolades.refreshInfo(fitbitInfo);
                         heartRate.refreshInfo(fitbitInfo);
 
                         // Sets the label to display the new last synced time
-                        lastSync.setText("last synced: " + fitbitInfo.getLastRefreshTime());
+                        lastSync.setText("last synced: " + fitbitInfo.getLastRefreshTime().getTime());
                     } else {
                         JOptionPane.showMessageDialog(new JFrame(), "ERROR! Unable to refresh in TEST MODE.");
                     }
@@ -179,9 +160,9 @@ public class MainWindow extends JFrame {
         });
 
         // EXITING PROGRAM 
-        JButton exitButton = new JButton(new ImageIcon(getFile("exit.png")));
+        JButton exitButton = new JButton(new ImageIcon(FileReader.getImage("exit.png")));
         exitButton.setBorderPainted(false);
-        exitButton.setRolloverIcon(new ImageIcon(getFile("exit_pressed.png")));
+        exitButton.setRolloverIcon(new ImageIcon(FileReader.getImage("exit_pressed.png")));
         //MouseListener for Exit
         exitButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -215,27 +196,6 @@ public class MainWindow extends JFrame {
         panel.setBackground(Color.ORANGE); //color of menu bar
 
         return panel;
-    }
-
-    /**
-     * Creates a buffered image using a filename in order to find it in the
-     * resources folder
-     *
-     * @param fileName the name of the file in the resources folder
-     * @return a BufferedImage of the file
-     */
-    private BufferedImage getFile(String fileName) {
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream(fileName);
-
-        BufferedImage image = null;
-
-        try {
-            image = ImageIO.read(is);
-        } catch (IOException e) {
-        }
-
-        return image;
     }
 
 }

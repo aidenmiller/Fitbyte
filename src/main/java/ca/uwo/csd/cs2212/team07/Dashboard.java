@@ -3,17 +3,17 @@ package ca.uwo.csd.cs2212.team07;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Calendar;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
+import org.json.JSONException;
 
 /**
  * Creates a Dashboard panel that displays the Dashboard to the user.
@@ -31,15 +31,20 @@ public class Dashboard extends JPanel {
     private JLabel floorsClimbedData;
     private JLabel totalDistanceData;
     private JLabel caloriesBurnedData;
+    private Calendar currDayView;
+    private int offset;
+    final private int mode;
 
     /**
      * Constructor for the Dashboard class
      *
-     * @param info FitBit data for the user to display
+     * @param fitbitInfo FitBit data for the user to display
+     * @param mode if the user is running in normal mode or test mode
      */
-    public Dashboard(FitbitInfo info) {
+    public Dashboard(FitbitInfo fitbitInfo, int mode) {
         super();
-        fitbitInfo = info;
+        this.fitbitInfo = fitbitInfo;
+        this.mode = mode;
         initPanel();
         initMenuButton();
     }
@@ -52,7 +57,42 @@ public class Dashboard extends JPanel {
 
         this.setBackground(Color.GREEN); //Color of the menu bar
 
-        date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(new Date()));
+        
+        JButton prevDayButton = new JButton("Previous");
+        JButton nextDayButton = new JButton("Next");
+        offset = 0;
+
+        if (mode == 0) {
+            currDayView = (Calendar) fitbitInfo.getLastRefreshTime().clone(); //create a copy of the current time
+            final Dashboard dash = this;
+            
+            prevDayButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    currDayView.add(Calendar.DAY_OF_MONTH, -1);
+                    offset++;
+                    dash.showDay(currDayView);
+
+                }
+            });
+            nextDayButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (offset > 1) {
+                        currDayView.add(Calendar.DAY_OF_MONTH, 1);
+                        offset--;
+                        dash.showDay(currDayView);
+                    } else if (offset == 1) {
+                        currDayView.add(Calendar.DAY_OF_MONTH, 1);
+                        offset--;
+                        dash.update(fitbitInfo);
+                    }
+
+                }
+            });
+        }
+
+        date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
         JLabel caloriesBurned = new JLabel("Calories Burned: ");
         caloriesBurnedData = new JLabel("" + fitbitInfo.getDay().getCaloriesOut());
         JLabel totalDistance = new JLabel("Total Distance: ");
@@ -72,9 +112,13 @@ public class Dashboard extends JPanel {
         layout.setAutoCreateContainerGaps(true);
 
         layout.setHorizontalGroup(layout.createSequentialGroup()
-                .addComponent(date)
-                .addGap(20)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(date)
+                                .addComponent(prevDayButton)
+                                .addComponent(nextDayButton)
+                        )
+                        .addGap(20)
                         .addGroup(layout.createSequentialGroup()
                                 .addComponent(caloriesBurned)
                                 .addComponent(caloriesBurnedData)
@@ -103,7 +147,11 @@ public class Dashboard extends JPanel {
         );
 
         layout.setVerticalGroup(layout.createSequentialGroup()
-                .addComponent(date)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addComponent(date)
+                        .addComponent(prevDayButton)
+                        .addComponent(nextDayButton)
+                )
                 .addGap(50)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                         .addComponent(caloriesBurned)
@@ -181,11 +229,11 @@ public class Dashboard extends JPanel {
      *
      * @param info the FitbitInfo provided with new data
      */
-    public void refreshInfo(FitbitInfo info) {
+    public void update(FitbitInfo info) {
         this.fitbitInfo = info;
         System.out.println("Dashboard Refreshing");
 
-        date.setText(new SimpleDateFormat("dd MMM yyyy").format(new Date()));
+        date.setText(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
         sedentaryMinutesData.setText("" + fitbitInfo.getDay().getSedentaryMins());
         activeMinutesData.setText("" + fitbitInfo.getDay().getActiveMins());
         stepsTakenData.setText("" + fitbitInfo.getDay().getSteps());
@@ -195,26 +243,24 @@ public class Dashboard extends JPanel {
 
     }
 
-    /**
-     * Creates a buffered image using a filename in order to find it in the
-     * resources folder
-     *
-     * @param fileName the name of the file in the resources folder
-     * @return a BufferedImage of the file
-     */
-    private BufferedImage getFile(String fileName) {
-
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream(fileName);
-
-        BufferedImage image = null;
+    public void showDay(Calendar day) {
+        FitbitInfo newDayInfo = new FitbitInfo();
 
         try {
-            image = ImageIO.read(is);
-        } catch (IOException e) {
+            newDayInfo.refreshInfo(day);
+        } catch (JSONException ex) {
+            System.err.println("Error Accessing API");
+        } catch (RefreshTokenException ex) {
+            System.err.println("Error Accessing API");
         }
 
-        return image;
+        date.setText(new SimpleDateFormat("dd MMM yyyy").format(newDayInfo.getLastRefreshTime().getTime()));
+        sedentaryMinutesData.setText("" + newDayInfo.getDay().getSedentaryMins());
+        activeMinutesData.setText("" + newDayInfo.getDay().getActiveMins());
+        stepsTakenData.setText("" + newDayInfo.getDay().getSteps());
+        floorsClimbedData.setText("" + newDayInfo.getDay().getFloors());
+        totalDistanceData.setText("" + newDayInfo.getDay().getDistance());
+        caloriesBurnedData.setText("" + newDayInfo.getDay().getCaloriesOut());
 
 
     }
