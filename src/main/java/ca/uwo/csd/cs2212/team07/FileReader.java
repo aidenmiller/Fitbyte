@@ -52,23 +52,13 @@ public class FileReader {
      * occurs while storing
      *
      * @param fitbitInfo the fitbitInfo to store
-     * @param mode whether or not the user is on normal mode (0) or test mode
-     * (1)
      * @throws Exception Thrown is error occurs while storing
      */
-    public static void storeInfo(FitbitInfo fitbitInfo, int mode) throws Exception {
+    public static void storeInfo(FitbitInfo fitbitInfo) throws Exception {
 
-        ObjectOutputStream out;
-
-        if (mode == 0) {
-            out = new ObjectOutputStream(new FileOutputStream("user.data"));
-            out.writeObject(fitbitInfo);
-            System.out.println("STORE INFO SUCCESS");
-        } else {
-            out = new ObjectOutputStream(new FileOutputStream("test.data"));
-            out.writeObject(fitbitInfo);
-            System.out.println("TEST MODE STORE SUCCESS");
-        }
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("user.data"));
+        out.writeObject(fitbitInfo);
+        System.out.println("STORE INFO SUCCESS");
 
     }
 

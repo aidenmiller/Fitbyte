@@ -3,12 +3,14 @@ package ca.uwo.csd.cs2212.team07;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import org.json.JSONException;
 
 public class FitbitInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     private Daily day; //holds daily data
     private BestDay[] bestDays; //holds best days data
     private Lifetime lifetime; //hold lifetime data
@@ -25,24 +27,17 @@ public class FitbitInfo implements Serializable {
      * Refreshes user data by getting the current date and calling the API for
      * the relevant data
      *
-     * @param mode whether or not the user is on normal mode (0) or test mode
-     * (1)
      * @throws JSONException Thrown from API calls
      * @throws RefreshTokenException Thrown if Token is out of date
      */
-    public void refreshInfo(int mode) throws JSONException, RefreshTokenException {
-        if (mode == 0) {
-            System.out.println("REFRESH INFO - NORMAL MODE"); //for testing
-            Date now = new Date();
-            lastRefreshTime = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz").format(now);
-            String date = new SimpleDateFormat("yyyy-MM-dd").format(now);
-            this.day = Api.getDailySummary(date);
-            this.bestDays = Api.getBestDays();
-            this.lifetime = Api.getLifetime();
-
-        } else {
-            System.out.println("REFRESH INFO - TEST MODE"); //for testing
-        }
+    public void refreshInfo() throws JSONException, RefreshTokenException {
+        System.out.println("REFRESH INFO - NORMAL MODE"); //for testing
+        Date now = new Date();
+        lastRefreshTime = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz").format(now);
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(now);
+        this.day = Api.getDailySummary(date);
+        this.bestDays = Api.getBestDays();
+        this.lifetime = Api.getLifetime();
 
     }
 

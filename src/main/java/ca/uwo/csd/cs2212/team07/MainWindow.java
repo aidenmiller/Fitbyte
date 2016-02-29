@@ -84,7 +84,7 @@ public class MainWindow extends JFrame {
             System.out.println("REDIRECT TO USER LOGIN"); //user will need to authenticate
             //USER LOGIN HERE
             try {
-                fitbitInfo.refreshInfo(mode); //tries to refresh user data
+                fitbitInfo.refreshInfo(); //tries to refresh user data
             } catch (JSONException ex) {
                 System.err.println("Error Accessing API");
             } catch (RefreshTokenException ex) {
@@ -151,14 +151,18 @@ public class MainWindow extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    fitbitInfo.refreshInfo(mode);
-                    dashboard.refreshInfo(fitbitInfo);
-                    dailyGoals.refreshInfo(fitbitInfo);
-                    accolades.refreshInfo(fitbitInfo);
-                    heartRate.refreshInfo(fitbitInfo);
+                    if (mode == 0) {
+                        fitbitInfo.refreshInfo();
+                        dashboard.refreshInfo(fitbitInfo);
+                        dailyGoals.refreshInfo(fitbitInfo);
+                        accolades.refreshInfo(fitbitInfo);
+                        heartRate.refreshInfo(fitbitInfo);
 
-                    // Sets the label to display the new last synced time
-                    lastSync.setText("last synced: " + fitbitInfo.getLastRefreshTime());
+                        // Sets the label to display the new last synced time
+                        lastSync.setText("last synced: " + fitbitInfo.getLastRefreshTime());
+                    } else {
+                        JOptionPane.showMessageDialog(new JFrame(), "ERROR! Unable to refresh in TEST MODE.");
+                    }
                 } catch (JSONException ex) {
                     System.err.println("Error Accessing API");
                 } catch (RefreshTokenException ex) {
@@ -176,10 +180,15 @@ public class MainWindow extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    FileReader.storeInfo(fitbitInfo,mode);
-                    System.out.println("STORE FILE SUCCESS");
+                    if(mode == 0) {
+                        FileReader.storeInfo(fitbitInfo);
+                        System.out.println("STORE FILE SUCCESS");
+                    }
+                    else {
+                         JOptionPane.showMessageDialog(new JFrame(), "Thanks for trying Test Mode!");
+                    }
                 } catch (Exception ex) {
-                  JOptionPane.showMessageDialog(new JFrame(), "ERROR! Unable to store user data.");
+                    JOptionPane.showMessageDialog(new JFrame(), "ERROR! Unable to store user data.");
                 }
                 System.exit(0); //exit the program
             }
