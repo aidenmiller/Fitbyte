@@ -21,6 +21,7 @@ public class Accolades extends JPanel {
 
     private JToggleButton menuButton;
     private FitbitInfo fitbitInfo;
+    private FileReader file;
 
     /**
      * Constructor for the Accolades class
@@ -39,6 +40,7 @@ public class Accolades extends JPanel {
      * information.
      */
     private void initPanel() {
+        file = new FileReader();
         this.setBackground(Color.BLUE); //Color of the menu bar
         JLabel text = new JLabel("This is a JLabel on the Accolades panel");
         this.add(text);
@@ -48,8 +50,8 @@ public class Accolades extends JPanel {
      * Creates a Menu Button to be displayed on the menu bar of the program
      */
     private void initMenuButton() {
-        ImageIcon icon = new ImageIcon(getFile("accolades.png"));
-        ImageIcon iconP = new ImageIcon(getFile("accolades_pressed.png"));
+        ImageIcon icon = new ImageIcon(file.getFile("accolades.png"));
+        ImageIcon iconP = new ImageIcon(file.getFile("accolades_pressed.png"));
         menuButton = new JToggleButton();
         menuButton.setToolTipText("Accolades");
         menuButton.setBorderPainted(false);
@@ -90,26 +92,4 @@ public class Accolades extends JPanel {
         System.out.println("Accolades Refreshing");
     }
 
-    /**
-     * Creates a buffered image using a filename in order to find it in the
-     * resources folder
-     *
-     * @param fileName the name of the file in the resources folder
-     * @return a BufferedImage of the file
-     */
-    private BufferedImage getFile(String fileName) {
-
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream(fileName);
-
-        BufferedImage image = null;
-
-        try {
-            image = ImageIO.read(is);
-        } catch (IOException e) {
-        }
-
-        return image;
-
-    }
 }

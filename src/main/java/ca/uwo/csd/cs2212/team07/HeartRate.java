@@ -16,6 +16,7 @@ public class HeartRate extends JPanel {
 
     private JToggleButton menuButton;
     private FitbitInfo fitbitInfo;
+    private FileReader file;
 
     /**
      * Constructor for the HeartRate class
@@ -34,6 +35,7 @@ public class HeartRate extends JPanel {
      * information.
      */
     private void initPanel() {
+        file = new FileReader();
         this.setBackground(Color.MAGENTA); //Color of the menu bar
         JLabel text = new JLabel("This is a JLabel on the Heart Rate Zones panel");
         this.add(text);
@@ -43,8 +45,8 @@ public class HeartRate extends JPanel {
      * Creates a Menu Button to be displayed on the menu bar of the program
      */
     private void initMenuButton() {
-        ImageIcon icon = new ImageIcon(getFile("heartrate.png"));
-        ImageIcon iconP = new ImageIcon(getFile("heartrate_pressed.png"));
+        ImageIcon icon = new ImageIcon(file.getFile("heartrate.png"));
+        ImageIcon iconP = new ImageIcon(file.getFile("heartrate_pressed.png"));
         menuButton = new JToggleButton();
         menuButton.setToolTipText("Heart Rate Zones");
         menuButton.setBorderPainted(false);
@@ -85,26 +87,4 @@ public class HeartRate extends JPanel {
         System.out.println("Heart Rate Refreshing");
     }
 
-    /**
-     * Creates a buffered image using a filename in order to find it in the
-     * resources folder
-     *
-     * @param fileName the name of the file in the resources folder
-     * @return a BufferedImage of the file
-     */
-    private BufferedImage getFile(String fileName) {
-
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream(fileName);
-
-        BufferedImage image = null;
-
-        try {
-            image = ImageIO.read(is);
-        } catch (IOException e) {
-        }
-
-        return image;
-
-    }
 }

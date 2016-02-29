@@ -20,6 +20,7 @@ import javax.swing.JToggleButton;
 public class Settings extends JPanel {
 
     private JToggleButton menuButton;
+    private FileReader file;
 
     /**
      * Constructor for the Settings class
@@ -35,6 +36,7 @@ public class Settings extends JPanel {
      * information.
      */
     private void initPanel() {
+        file = new FileReader();
         this.setBackground(Color.CYAN); //Color of the menu bar
         JLabel text = new JLabel("This is a JLabel on the Settings panel");
         this.add(text);
@@ -44,8 +46,8 @@ public class Settings extends JPanel {
      * Creates a Menu Button to be displayed on the menu bar of the program
      */
     private void initMenuButton() {
-        ImageIcon icon = new ImageIcon(getFile("settings.png"));
-        ImageIcon iconP = new ImageIcon(getFile("settings_pressed.png"));
+        ImageIcon icon = new ImageIcon(file.getFile("settings.png"));
+        ImageIcon iconP = new ImageIcon(file.getFile("settings_pressed.png"));
         menuButton = new JToggleButton();
         menuButton.setToolTipText("Settings");
         menuButton.setBorderPainted(false);
@@ -76,26 +78,4 @@ public class Settings extends JPanel {
         return this.menuButton;
     }
 
-    /**
-     * Creates a buffered image using a filename in order to find it in the
-     * resources folder
-     *
-     * @param fileName the name of the file in the resources folder
-     * @return a BufferedImage of the file
-     */
-    private BufferedImage getFile(String fileName) {
-
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream(fileName);
-
-        BufferedImage image = null;
-
-        try {
-            image = ImageIO.read(is);
-        } catch (IOException e) {
-        }
-
-        return image;
-
-    }
 }

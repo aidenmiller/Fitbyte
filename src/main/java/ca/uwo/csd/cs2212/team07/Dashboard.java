@@ -31,6 +31,7 @@ public class Dashboard extends JPanel {
     private JLabel floorsClimbedData;
     private JLabel totalDistanceData;
     private JLabel caloriesBurnedData;
+    private FileReader file;
 
     /**
      * Constructor for the Dashboard class
@@ -49,6 +50,8 @@ public class Dashboard extends JPanel {
      * information.
      */
     private void initPanel() {
+        file = new FileReader();
+
         this.setBackground(Color.GREEN); //Color of the menu bar
 
         date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(new Date()));
@@ -142,8 +145,8 @@ public class Dashboard extends JPanel {
      * Creates a Menu Button to be displayed on the menu bar of the program
      */
     private void initMenuButton() {
-        ImageIcon icon = new ImageIcon(getFile("dashboard.png"));
-        ImageIcon iconP = new ImageIcon(getFile("dashboard_pressed.png"));
+        ImageIcon icon = new ImageIcon(file.getFile("dashboard.png"));
+        ImageIcon iconP = new ImageIcon(file.getFile("dashboard_pressed.png"));
         menuButton = new JToggleButton();
         menuButton.setToolTipText("Dashboard");
         menuButton.setBorderPainted(false);
@@ -191,29 +194,6 @@ public class Dashboard extends JPanel {
         floorsClimbedData.setText("" + fitbitInfo.getDay().floors);
         totalDistanceData.setText("" + fitbitInfo.getDay().distance);
         caloriesBurnedData.setText("" + fitbitInfo.getDay().caloriesOut);
-
-    }
-
-    /**
-     * Creates a buffered image using a filename in order to find it in the
-     * resources folder
-     *
-     * @param fileName the name of the file in the resources folder
-     * @return a BufferedImage of the file
-     */
-    private BufferedImage getFile(String fileName) {
-
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream(fileName);
-
-        BufferedImage image = null;
-
-        try {
-            image = ImageIO.read(is);
-        } catch (IOException e) {
-        }
-
-        return image;
 
     }
 
