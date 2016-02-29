@@ -89,154 +89,306 @@ public class Daily implements Serializable {
                 + "\nSteps Taken: " + steps + "\nDistance: " + distance + "\nElevation: " + elevation + "\nFloors: " + floors;
     }
 
+    /**
+     * getDate() method 
+     * @return returns string of date associated with this Daily object
+     */
     public String getDate() {
         return date;
     }
 
+    /**
+     * setDate method
+     * @param date sets the date of this daily object as the parameter String
+     */
     public void setDate(String date) {
         this.date = date;
     }
 
+    /**
+     * getActiveMinGoal() method: 
+     * @return long of this daily's active minute goal
+     */
     public long getActiveMinGoal() {
         return activeMinGoal;
     }
 
+    /**
+     * setActiveMinGoal() method
+     * @param activeMinGoal long to set as this Daily's active minute goal
+     */
     public void setActiveMinGoal(long activeMinGoal) {
         this.activeMinGoal = activeMinGoal;
     }
 
+    /**
+     * getActivityCalories() method
+     * @return long of this Daily's activity calories
+     */
     public long getActivityCalories() {
         return activityCalories;
     }
 
+    /**
+     * setActivityCalories() method
+     * @param activityCalories long value to set as this Daily's Activity Calories
+     */
     public void setActivityCalories(long activityCalories) {
         this.activityCalories = activityCalories;
     }
 
+    /**
+     * getCalOutGoal() method:
+     * @return a long of this Daily's calOutGoal
+     */
     public long getCalOutGoal() {
         return calOutGoal;
     }
 
+    /**
+     *setCalOutGoal() method:
+     * @param calOutGoal long value to set as this Daily's calorie out goal
+     */
     public void setCalOutGoal(long calOutGoal) {
         this.calOutGoal = calOutGoal;
     }
 
+    /**
+     * getStepsGoal() method:
+     * @return long of this Daily's steps goal
+     */
     public long getStepsGoal() {
         return stepsGoal;
     }
 
+    /**
+     * setStepsGoal() method:
+     * @param stepsGoal value to set as this Daily's steps goal
+     */
     public void setStepsGoal(long stepsGoal) {
         this.stepsGoal = stepsGoal;
     }
 
+    /**
+     * getCaloriesBMR() method:
+     * @return value of this Daily's calories BMR
+     */
     public long getCaloriesBMR() {
         return caloriesBMR;
     }
 
+    /**
+     * setCaloriesBMR() method:
+     * @param caloriesBMR value to set as the calories BMR for this Daily object
+     */
     public void setCaloriesBMR(long caloriesBMR) {
         this.caloriesBMR = caloriesBMR;
     }
 
+    /**
+     * getCaloriesOut() method:
+     * @return calue of this Daily object's Calories Out
+     */
     public long getCaloriesOut() {
         return caloriesOut;
     }
 
+    /**
+     * setCaloriesOut() method:
+     * @param caloriesOut value to set as this Daily's calories out
+     */
     public void setCaloriesOut(long caloriesOut) {
         this.caloriesOut = caloriesOut;
     }
 
+    /**
+     * getFairlyActiveMins() method:
+     * @return fairlyActiveMins, value of this Daily's fairly active mins
+     */
     public long getFairlyActiveMins() {
         return fairlyActiveMins;
     }
 
+    /**
+     * setFairlyActiveMins() method:
+     * @param fairlyActiveMins the value to set as this Daily's fairlyActiveMins
+     */
     public void setFairlyActiveMins(long fairlyActiveMins) {
         this.fairlyActiveMins = fairlyActiveMins;
     }
 
+    /**
+     * getLightlyActiveMins()
+     * @return number of lightly active minutes associated with this Daily object
+     */
     public long getLightlyActiveMins() {
         return lightlyActiveMins;
     }
 
+    /**
+     * setLightlyActiveMins() method
+     * @param lightlyActiveMins value to set as this Daily's lightly active minutes
+     */
     public void setLightlyActiveMins(long lightlyActiveMins) {
         this.lightlyActiveMins = lightlyActiveMins;
     }
 
+    /**
+     * getMarginalCalories() function
+     * @return marginalCalories, value of this Daily's marginal calories
+     */
     public long getMarginalCalories() {
         return marginalCalories;
     }
 
+    /**
+     * setMarginalCalories() method
+     * @param marginalCalories value to set as this Daily's marginal calories
+     */
     public void setMarginalCalories(long marginalCalories) {
         this.marginalCalories = marginalCalories;
     }
 
+    /**
+     * getSedentaryMins() function
+     * @return value of sedentary minutes associated with this Daily object
+     */
     public long getSedentaryMins() {
         return sedentaryMins;
     }
 
+    /**
+     * setSedentaryMins() function
+     * @param sedentaryMins long value to set as the sedentary minutes of this Daily object
+     */
     public void setSedentaryMins(long sedentaryMins) {
         this.sedentaryMins = sedentaryMins;
     }
 
+    /**
+     * getSteps() method
+     * @return number of steps associated with this Daily object
+     */
     public long getSteps() {
         return steps;
     }
 
+    /**
+     * setSteps() method
+     * @param steps value of steps to set
+     */
     public void setSteps(long steps) {
         this.steps = steps;
     }
 
+    /**
+     * getVeryActiveMins() method
+     * @return very active minutes associated with this Daily object
+     */
     public long getVeryActiveMins() {
         return veryActiveMins;
     }
 
+    /**
+     * setVeryActiveMins()
+     * @param veryActiveMins, value to set as the very active minutes for this Daily object
+     */
     public void setVeryActiveMins(long veryActiveMins) {
         this.veryActiveMins = veryActiveMins;
     }
 
+    /**
+     * getActiveMins() method:
+     * @return value of active minutes for this Daily object
+     */
     public long getActiveMins() {
         return activeMins;
     }
 
+    /**
+     * setActiveMins() method:
+     * @param activeMins, value to set as the number of active minutes for this Daily object
+     */
     public void setActiveMins(long activeMins) {
         this.activeMins = activeMins;
     }
 
+    /**
+     * getFloorGoal() method:
+     * @return floors climbed goal value associated with this Daily object
+     */
     public double getFloorGoal() {
         return floorGoal;
     }
 
+    /**
+     * setFloorGoal() method
+     * @param floorGoal value to set as the floor goal for this Daily object
+     */
     public void setFloorGoal(double floorGoal) {
         this.floorGoal = floorGoal;
     }
 
+    /**
+     * getDistanceGoal() method:
+     * @return distanceGoal associated with Daily Object
+     */
     public double getDistanceGoal() {
         return distanceGoal;
     }
 
+    /**
+     * setDistanceGoal() method:
+     * @param distanceGoal value to set as this Daily's distance goal
+     */
     public void setDistanceGoal(double distanceGoal) {
         this.distanceGoal = distanceGoal;
     }
 
+    /**
+     * getDistance() method:
+     * @return distance value associated with this Daily object
+     */
     public double getDistance() {
         return distance;
     }
 
+    /**
+     * setDistance() method: 
+     * @param distance to set as the Distance traveled for the current Daily object
+     */
     public void setDistance(double distance) {
         this.distance = distance;
     }
 
+    /**
+     * getElevation() method:
+     * @return value of elevation for this Daily object
+     */
     public double getElevation() {
         return elevation;
     }
 
+    /**
+     * setElevation() method:
+     * @param elevation value to set as the elevation for this Daily object
+     */
     public void setElevation(double elevation) {
         this.elevation = elevation;
     }
 
+    /**
+     * getFloors() method:
+     * @return value of floors climbed for this Daily object
+     */
     public double getFloors() {
         return floors;
     }
 
+    /**
+     * setFloors() method
+     * @param floors, value to set as the number of floors for this Daily object
+     */
     public void setFloors(double floors) {
         this.floors = floors;
     }

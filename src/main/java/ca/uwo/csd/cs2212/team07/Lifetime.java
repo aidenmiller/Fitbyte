@@ -34,26 +34,50 @@ public class Lifetime implements Serializable {
         return "Lifetime Distance: " + this.distance + "\nLifetime Floors: " + this.floors + "\nLifetime Steps: " + this.steps;
     }
 
+    /**
+     * getDistance() method:
+     * @return the distance that has been traveled in the lifetime of this Fitbit
+     */
     public double getDistance() {
         return distance;
     }
 
+    /**
+     * setDistance() method
+     * @param distance double to set as the distance that has been traveled in the lifetime of the fitbit
+     */
     public void setDistance(double distance) {
         this.distance = distance;
     }
 
+    /**
+     * getFloors() method:
+     * @return double of the number of floors climbed
+     */
     public double getFloors() {
         return floors;
     }
 
+    /**
+     * setFloors() method
+     * @param floors, value to set as number of floors climbed
+     */
     public void setFloors(double floors) {
         this.floors = floors;
     }
 
+    /**
+     * getSteps() method:
+     * @return value of steps that have been taken
+     */
     public long getSteps() {
         return steps;
     }
 
+    /**
+     * setSteps() method:
+     * @param steps long value of steps that have been taken
+     */
     public void setSteps(long steps) {
         this.steps = steps;
     }
