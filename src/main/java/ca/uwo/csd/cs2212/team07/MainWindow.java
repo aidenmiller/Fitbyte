@@ -85,7 +85,7 @@ public class MainWindow extends JFrame {
         this.setLayout(new BorderLayout());
 
         // Initialization of each of the panels
-        dashboard = new Dashboard(fitbitInfo);
+        dashboard = new Dashboard(fitbitInfo, mode);
         dailyGoals = new DailyGoals(fitbitInfo);
         accolades = new Accolades(fitbitInfo);
         heartRate = new HeartRate(fitbitInfo);

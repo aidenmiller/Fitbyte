@@ -33,15 +33,18 @@ public class Dashboard extends JPanel {
     private JLabel caloriesBurnedData;
     private Calendar currDayView;
     private int offset;
+    final private int mode;
 
     /**
      * Constructor for the Dashboard class
      *
-     * @param info FitBit data for the user to display
+     * @param fitbitInfo FitBit data for the user to display
+     * @param mode if the user is running in normal mode or test mode
      */
-    public Dashboard(FitbitInfo info) {
+    public Dashboard(FitbitInfo fitbitInfo, int mode) {
         super();
-        fitbitInfo = info;
+        this.fitbitInfo = fitbitInfo;
+        this.mode = mode;
         initPanel();
         initMenuButton();
     }
@@ -54,38 +57,40 @@ public class Dashboard extends JPanel {
 
         this.setBackground(Color.GREEN); //Color of the menu bar
 
-        currDayView = (Calendar) fitbitInfo.getLastRefreshTime().clone(); //create a copy of the current time
-
+        
         JButton prevDayButton = new JButton("Previous");
         JButton nextDayButton = new JButton("Next");
         offset = 0;
 
-        final Dashboard dash = this;
-        prevDayButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                currDayView.add(Calendar.DAY_OF_MONTH, -1);
-                offset++;
-                dash.showDay(currDayView);
-
-            }
-        });
-        nextDayButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (offset > 1) {
-                    currDayView.add(Calendar.DAY_OF_MONTH, 1);
-                    offset--;
+        if (mode == 0) {
+            currDayView = (Calendar) fitbitInfo.getLastRefreshTime().clone(); //create a copy of the current time
+            final Dashboard dash = this;
+            
+            prevDayButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    currDayView.add(Calendar.DAY_OF_MONTH, -1);
+                    offset++;
                     dash.showDay(currDayView);
-                }
-               else if (offset == 1) {
-                    currDayView.add(Calendar.DAY_OF_MONTH, 1);
-                    offset--;
-                    dash.update(fitbitInfo);
-                }
 
-            }
-        });
+                }
+            });
+            nextDayButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (offset > 1) {
+                        currDayView.add(Calendar.DAY_OF_MONTH, 1);
+                        offset--;
+                        dash.showDay(currDayView);
+                    } else if (offset == 1) {
+                        currDayView.add(Calendar.DAY_OF_MONTH, 1);
+                        offset--;
+                        dash.update(fitbitInfo);
+                    }
+
+                }
+            });
+        }
 
         date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
         JLabel caloriesBurned = new JLabel("Calories Burned: ");
@@ -248,7 +253,7 @@ public class Dashboard extends JPanel {
         } catch (RefreshTokenException ex) {
             System.err.println("Error Accessing API");
         }
-        
+
         date.setText(new SimpleDateFormat("dd MMM yyyy").format(newDayInfo.getLastRefreshTime().getTime()));
         sedentaryMinutesData.setText("" + newDayInfo.getDay().getSedentaryMins());
         activeMinutesData.setText("" + newDayInfo.getDay().getActiveMins());
@@ -256,7 +261,6 @@ public class Dashboard extends JPanel {
         floorsClimbedData.setText("" + newDayInfo.getDay().getFloors());
         totalDistanceData.setText("" + newDayInfo.getDay().getDistance());
         caloriesBurnedData.setText("" + newDayInfo.getDay().getCaloriesOut());
-
 
     }
 
