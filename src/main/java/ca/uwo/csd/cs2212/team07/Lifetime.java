@@ -1,3 +1,4 @@
+
 package ca.uwo.csd.cs2212.team07;
 
 import java.io.Serializable;
@@ -84,3 +85,4 @@ public class Lifetime implements Serializable {
 
     
 }
+

@@ -49,6 +49,7 @@ public class Dashboard extends JPanel {
      * information.
      */
     private void initPanel() {
+
         this.setBackground(Color.GREEN); //Color of the menu bar
 
         date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(new Date()));
@@ -142,8 +143,8 @@ public class Dashboard extends JPanel {
      * Creates a Menu Button to be displayed on the menu bar of the program
      */
     private void initMenuButton() {
-        ImageIcon icon = new ImageIcon(getFile("dashboard.png"));
-        ImageIcon iconP = new ImageIcon(getFile("dashboard_pressed.png"));
+        ImageIcon icon = new ImageIcon(FileReader.getImage("dashboard.png"));
+        ImageIcon iconP = new ImageIcon(FileReader.getImage("dashboard_pressed.png"));
         menuButton = new JToggleButton();
         menuButton.setToolTipText("Dashboard");
         menuButton.setBorderPainted(false);
@@ -214,6 +215,7 @@ public class Dashboard extends JPanel {
         }
 
         return image;
+
 
     }
 
