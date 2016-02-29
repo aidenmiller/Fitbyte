@@ -3,12 +3,8 @@ package ca.uwo.csd.cs2212.team07;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -49,21 +45,22 @@ public class Dashboard extends JPanel {
      * information.
      */
     private void initPanel() {
+
         this.setBackground(Color.GREEN); //Color of the menu bar
 
         date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(new Date()));
         JLabel caloriesBurned = new JLabel("Calories Burned: ");
-        caloriesBurnedData = new JLabel("" + fitbitInfo.getDay().caloriesOut);
+        caloriesBurnedData = new JLabel("" + fitbitInfo.getDay().getCaloriesOut());
         JLabel totalDistance = new JLabel("Total Distance: ");
-        totalDistanceData = new JLabel("" + fitbitInfo.getDay().distance);
+        totalDistanceData = new JLabel("" + fitbitInfo.getDay().getDistance());
         JLabel floorsClimbed = new JLabel("Floors Climbed: ");
-        floorsClimbedData = new JLabel("" + fitbitInfo.getDay().floors);
+        floorsClimbedData = new JLabel("" + fitbitInfo.getDay().getFloors());
         JLabel stepsTaken = new JLabel("Steps Taken: ");
-        stepsTakenData = new JLabel("" + fitbitInfo.getDay().steps);
+        stepsTakenData = new JLabel("" + fitbitInfo.getDay().getSteps());
         JLabel activeMinutes = new JLabel("Active Minutes: ");
-        activeMinutesData = new JLabel("" + fitbitInfo.getDay().activeMins);
+        activeMinutesData = new JLabel("" + fitbitInfo.getDay().getActiveMins());
         JLabel sedentaryMinutes = new JLabel("Sedentary Minutes: ");
-        sedentaryMinutesData = new JLabel("" + fitbitInfo.getDay().sedentaryMins);
+        sedentaryMinutesData = new JLabel("" + fitbitInfo.getDay().getSedentaryMins());
 
         GroupLayout layout;
         layout = new GroupLayout(this);
@@ -142,8 +139,8 @@ public class Dashboard extends JPanel {
      * Creates a Menu Button to be displayed on the menu bar of the program
      */
     private void initMenuButton() {
-        ImageIcon icon = new ImageIcon(getFile("dashboard.png"));
-        ImageIcon iconP = new ImageIcon(getFile("dashboard_pressed.png"));
+        ImageIcon icon = new ImageIcon(FileReader.getImage("dashboard.png"));
+        ImageIcon iconP = new ImageIcon(FileReader.getImage("dashboard_pressed.png"));
         menuButton = new JToggleButton();
         menuButton.setToolTipText("Dashboard");
         menuButton.setBorderPainted(false);
@@ -185,35 +182,12 @@ public class Dashboard extends JPanel {
         System.out.println("Dashboard Refreshing");
 
         date.setText(new SimpleDateFormat("dd MMM yyyy").format(new Date()));
-        sedentaryMinutesData.setText("" + fitbitInfo.getDay().sedentaryMins);
-        activeMinutesData.setText("" + fitbitInfo.getDay().activeMins);
-        stepsTakenData.setText("" + fitbitInfo.getDay().steps);
-        floorsClimbedData.setText("" + fitbitInfo.getDay().floors);
-        totalDistanceData.setText("" + fitbitInfo.getDay().distance);
-        caloriesBurnedData.setText("" + fitbitInfo.getDay().caloriesOut);
-
-    }
-
-    /**
-     * Creates a buffered image using a filename in order to find it in the
-     * resources folder
-     *
-     * @param fileName the name of the file in the resources folder
-     * @return a BufferedImage of the file
-     */
-    private BufferedImage getFile(String fileName) {
-
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream(fileName);
-
-        BufferedImage image = null;
-
-        try {
-            image = ImageIO.read(is);
-        } catch (IOException e) {
-        }
-
-        return image;
+        sedentaryMinutesData.setText("" + fitbitInfo.getDay().getSedentaryMins());
+        activeMinutesData.setText("" + fitbitInfo.getDay().getActiveMins());
+        stepsTakenData.setText("" + fitbitInfo.getDay().getSteps());
+        floorsClimbedData.setText("" + fitbitInfo.getDay().getFloors());
+        totalDistanceData.setText("" + fitbitInfo.getDay().getDistance());
+        caloriesBurnedData.setText("" + fitbitInfo.getDay().getCaloriesOut());
 
     }
 

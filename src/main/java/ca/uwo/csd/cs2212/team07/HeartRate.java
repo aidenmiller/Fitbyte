@@ -3,10 +3,6 @@ package ca.uwo.csd.cs2212.team07;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -43,8 +39,8 @@ public class HeartRate extends JPanel {
      * Creates a Menu Button to be displayed on the menu bar of the program
      */
     private void initMenuButton() {
-        ImageIcon icon = new ImageIcon(getFile("heartrate.png"));
-        ImageIcon iconP = new ImageIcon(getFile("heartrate_pressed.png"));
+        ImageIcon icon = new ImageIcon(FileReader.getImage("heartrate.png"));
+        ImageIcon iconP = new ImageIcon(FileReader.getImage("heartrate_pressed.png"));
         menuButton = new JToggleButton();
         menuButton.setToolTipText("Heart Rate Zones");
         menuButton.setBorderPainted(false);
@@ -85,26 +81,4 @@ public class HeartRate extends JPanel {
         System.out.println("Heart Rate Refreshing");
     }
 
-    /**
-     * Creates a buffered image using a filename in order to find it in the
-     * resources folder
-     *
-     * @param fileName the name of the file in the resources folder
-     * @return a BufferedImage of the file
-     */
-    private BufferedImage getFile(String fileName) {
-
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream(fileName);
-
-        BufferedImage image = null;
-
-        try {
-            image = ImageIO.read(is);
-        } catch (IOException e) {
-        }
-
-        return image;
-
-    }
 }
