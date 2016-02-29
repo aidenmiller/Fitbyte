@@ -3,10 +3,6 @@ package ca.uwo.csd.cs2212.team07;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,7 +12,6 @@ public class HeartRate extends JPanel {
 
     private JToggleButton menuButton;
     private FitbitInfo fitbitInfo;
-    private FileReader file;
 
     /**
      * Constructor for the HeartRate class
@@ -35,7 +30,6 @@ public class HeartRate extends JPanel {
      * information.
      */
     private void initPanel() {
-        file = new FileReader();
         this.setBackground(Color.MAGENTA); //Color of the menu bar
         JLabel text = new JLabel("This is a JLabel on the Heart Rate Zones panel");
         this.add(text);
@@ -45,8 +39,8 @@ public class HeartRate extends JPanel {
      * Creates a Menu Button to be displayed on the menu bar of the program
      */
     private void initMenuButton() {
-        ImageIcon icon = new ImageIcon(file.getFile("heartrate.png"));
-        ImageIcon iconP = new ImageIcon(file.getFile("heartrate_pressed.png"));
+        ImageIcon icon = new ImageIcon(FileReader.getImage("heartrate.png"));
+        ImageIcon iconP = new ImageIcon(FileReader.getImage("heartrate_pressed.png"));
         menuButton = new JToggleButton();
         menuButton.setToolTipText("Heart Rate Zones");
         menuButton.setBorderPainted(false);

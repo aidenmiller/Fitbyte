@@ -51,7 +51,6 @@ public class MainWindow extends JFrame {
     // Object that stores user FitBit data (such as calories burned, etc.) - should be Serialized class
     private FitbitInfo fitbitInfo;
     private JLabel lastSync;
-    private FileReader file;
 
     /**
      * Constructs a new MainWindow in either normal mode or test mode
@@ -77,9 +76,10 @@ public class MainWindow extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE); //change this at some point
 
         try {
-            fitbitInfo = file.loadInfo(mode); //try to load user info from stored file
+            fitbitInfo = FileReader.loadInfo(mode); //try to load user info from stored file
+            System.out.println("LOAD INFO SUCCESS");
         } catch (Exception e) { //thrown if no user data is found
-            System.out.println("No user info stored");
+            System.out.println("LOAD INFO FAIL");
             fitbitInfo = new FitbitInfo();
             System.out.println("REDIRECT TO USER LOGIN"); //user will need to authenticate
             //USER LOGIN HERE
@@ -143,7 +143,7 @@ public class MainWindow extends JFrame {
         refreshButton.setBorderPainted(false);
         refreshButton.setRolloverIcon(new ImageIcon(getFile("refresh_pressed.png")));
         // JLabel to display the last refreshed time, initially will be never but should pull from stored data...
-        lastSync = new JLabel("last synced: " + fitbitInfo.getRefreshTime());
+        lastSync = new JLabel("last synced: " + fitbitInfo.getLastRefreshTime());
         // Literally just to make the font smaller, but allows font change if we want to 
         lastSync.setFont(new Font(lastSync.getFont().getName(), Font.PLAIN, 10));
         //MouseListener for Refresh
@@ -158,7 +158,7 @@ public class MainWindow extends JFrame {
                     heartRate.refreshInfo(fitbitInfo);
 
                     // Sets the label to display the new last synced time
-                    lastSync.setText("last synced: " + fitbitInfo.getRefreshTime());
+                    lastSync.setText("last synced: " + fitbitInfo.getLastRefreshTime());
                 } catch (JSONException ex) {
                     System.err.println("Error Accessing API");
                 } catch (RefreshTokenException ex) {
@@ -176,9 +176,10 @@ public class MainWindow extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    file.storeInfo(mode);
+                    FileReader.storeInfo(fitbitInfo,mode);
+                    System.out.println("STORE FILE SUCCESS");
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "ERROR! Unable to store user data.");
+                  JOptionPane.showMessageDialog(new JFrame(), "ERROR! Unable to store user data.");
                 }
                 System.exit(0); //exit the program
             }

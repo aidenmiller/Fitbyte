@@ -1,20 +1,18 @@
 package ca.uwo.csd.cs2212.team07;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.json.JSONException;
 
-public class FitbitInfo /*implements Serializable*/ {
+public class FitbitInfo implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
     private Daily day; //holds daily data
     private BestDay[] bestDays; //holds best days data
     private Lifetime lifetime; //hold lifetime data
-    private Date lastRefreshTime;
+    private String lastRefreshTime; //hold last refresh time
 
     /**
      * Constructor for the FitbitInfo class.
@@ -35,8 +33,9 @@ public class FitbitInfo /*implements Serializable*/ {
     public void refreshInfo(int mode) throws JSONException, RefreshTokenException {
         if (mode == 0) {
             System.out.println("REFRESH INFO - NORMAL MODE"); //for testing
-            lastRefreshTime = new Date();
-            String date = new SimpleDateFormat("yyyy-MM-dd").format(lastRefreshTime);
+            Date now = new Date();
+            lastRefreshTime = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz").format(now);
+            String date = new SimpleDateFormat("yyyy-MM-dd").format(now);
             this.day = Api.getDailySummary(date);
             this.bestDays = Api.getBestDays();
             this.lifetime = Api.getLifetime();
@@ -74,8 +73,24 @@ public class FitbitInfo /*implements Serializable*/ {
         return this.lifetime;
     }
 
-    public String getRefreshTime() {
-        return new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz").format(lastRefreshTime);
+    public void setDay(Daily day) {
+        this.day = day;
+    }
+
+    public void setBestDays(BestDay[] bestDays) {
+        this.bestDays = bestDays;
+    }
+
+    public void setLifetime(Lifetime lifetime) {
+        this.lifetime = lifetime;
+    }
+
+    public void setLastRefreshTime(String lastRefreshTIme) {
+        this.lastRefreshTime = lastRefreshTIme;
+    }
+
+    public String getLastRefreshTime() {
+        return this.lastRefreshTime;
     }
 
 }

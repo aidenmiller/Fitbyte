@@ -6,59 +6,70 @@
 package ca.uwo.csd.cs2212.team07;
 
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import javax.imageio.ImageIO;
 
 /**
+ * Constructs a new FileReader to store and load info and create BufferedImages
+ * from Resource files
  *
  * @author team07
  */
 public class FileReader {
 
-    private FitbitInfo fitbitInfo;
-    
-    public FileReader() {
-
-    }
-
     /**
      * Loads the user info from a stored file. Throws an exception if no user
      * data is available
      *
-     * @param mode whether or not the user is on normal mode (0) or test mode
+     * @param mode whether or not the user is on normal mode (0), or test mode
      * (1)
      * @return FitbitInfo class with user data
      * @throws Exception Thrown if user data is not available
      */
-    public FitbitInfo loadInfo(int mode) throws Exception {
-        fitbitInfo = new FitbitInfo();
-        
+    public static FitbitInfo loadInfo(int mode) throws Exception {
+
+        ObjectInputStream in;
         if (mode == 0) {
-            System.out.println("LOAD INFO");
+            in = new ObjectInputStream(new FileInputStream("user.data"));
+            System.out.println("LOAD INFO SUCCESS");
         } else {
-            System.out.println("TEST MODE");
-            throw new Exception("test mode");
+            in = new ObjectInputStream(new FileInputStream("test.data"));
+            System.out.println("TEST MODE LOAD SUCCESS");
         }
-        
-        return fitbitInfo;
+
+        FitbitInfo userInfo = (FitbitInfo) in.readObject();
+
+        return userInfo;
     }
 
     /**
      * Stores the user info into a stored file. Throws and exception if an error
      * occurs while storing
      *
+     * @param fitbitInfo the fitbitInfo to store
      * @param mode whether or not the user is on normal mode (0) or test mode
      * (1)
      * @throws Exception Thrown is error occurs while storing
      */
-    public void storeInfo(int mode) throws Exception {
+    public static void storeInfo(FitbitInfo fitbitInfo, int mode) throws Exception {
+
+        ObjectOutputStream out;
+
         if (mode == 0) {
-            System.out.println("STORE INFO");
+            out = new ObjectOutputStream(new FileOutputStream("user.data"));
+            out.writeObject(fitbitInfo);
+            System.out.println("STORE INFO SUCCESS");
         } else {
-            System.out.println("TEST MODE");
-            throw new Exception("test mode");
+            out = new ObjectOutputStream(new FileOutputStream("test.data"));
+            out.writeObject(fitbitInfo);
+            System.out.println("TEST MODE STORE SUCCESS");
         }
+
     }
 
     /**
@@ -68,7 +79,7 @@ public class FileReader {
      * @param fileName the name of the file in the resources folder
      * @return a BufferedImage of the file
      */
-    public BufferedImage getFile(String fileName) {
+    public static BufferedImage getImage(String fileName) {
 
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream is = classloader.getResourceAsStream(fileName);
@@ -77,15 +88,12 @@ public class FileReader {
 
         try {
             image = ImageIO.read(is);
+            is.close();
         } catch (IOException e) {
         }
 
         return image;
 
-    }
-    
-    public FitbitInfo getFitbitInfo() {
-        return fitbitInfo;
     }
 
 }

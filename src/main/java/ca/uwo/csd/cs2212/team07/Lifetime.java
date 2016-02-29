@@ -1,16 +1,18 @@
 package ca.uwo.csd.cs2212.team07;
 
+import java.io.Serializable;
+
 /**
  * Lifetime class, this class stores data of the user's lifetime information. Total distance that they traveled,
  * total floors climbed and steps taken
  * @author Team07
  */
-public class Lifetime {
+public class Lifetime implements Serializable {
 
     //Instance Variables, declared as public final so that they can be accessed easily but not changed
-    public final double distance;
-    public final double floors;
-    public final long steps;
+    private double distance;
+    private double floors;
+    private long steps;
 
     /**
      * Constructor Method: makes a new Lifetime object
@@ -32,4 +34,29 @@ public class Lifetime {
         return "Lifetime Distance: " + this.distance + "\nLifetime Floors: " + this.floors + "\nLifetime Steps: " + this.steps;
     }
 
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public double getFloors() {
+        return floors;
+    }
+
+    public void setFloors(double floors) {
+        this.floors = floors;
+    }
+
+    public long getSteps() {
+        return steps;
+    }
+
+    public void setSteps(long steps) {
+        this.steps = steps;
+    }
+
+    
 }
