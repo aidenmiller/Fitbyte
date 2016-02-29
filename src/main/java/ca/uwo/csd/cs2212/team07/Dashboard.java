@@ -3,13 +3,17 @@ package ca.uwo.csd.cs2212.team07;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
+import org.json.JSONException;
 
 /**
  * Creates a Dashboard panel that displays the Dashboard to the user.
@@ -27,6 +31,8 @@ public class Dashboard extends JPanel {
     private JLabel floorsClimbedData;
     private JLabel totalDistanceData;
     private JLabel caloriesBurnedData;
+    private Calendar currDayView;
+    private int offset;
 
     /**
      * Constructor for the Dashboard class
@@ -48,7 +54,40 @@ public class Dashboard extends JPanel {
 
         this.setBackground(Color.GREEN); //Color of the menu bar
 
-        date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(new Date()));
+        currDayView = (Calendar) fitbitInfo.getLastRefreshTime().clone(); //create a copy of the current time
+
+        JButton prevDayButton = new JButton("Previous");
+        JButton nextDayButton = new JButton("Next");
+        offset = 0;
+
+        final Dashboard dash = this;
+        prevDayButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                currDayView.add(Calendar.DAY_OF_MONTH, -1);
+                offset++;
+                dash.showDay(currDayView);
+
+            }
+        });
+        nextDayButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (offset > 1) {
+                    currDayView.add(Calendar.DAY_OF_MONTH, 1);
+                    offset--;
+                    dash.showDay(currDayView);
+                }
+               else if (offset == 1) {
+                    currDayView.add(Calendar.DAY_OF_MONTH, 1);
+                    offset--;
+                    dash.update(fitbitInfo);
+                }
+
+            }
+        });
+
+        date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
         JLabel caloriesBurned = new JLabel("Calories Burned: ");
         caloriesBurnedData = new JLabel("" + fitbitInfo.getDay().getCaloriesOut());
         JLabel totalDistance = new JLabel("Total Distance: ");
@@ -68,9 +107,13 @@ public class Dashboard extends JPanel {
         layout.setAutoCreateContainerGaps(true);
 
         layout.setHorizontalGroup(layout.createSequentialGroup()
-                .addComponent(date)
-                .addGap(20)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(date)
+                                .addComponent(prevDayButton)
+                                .addComponent(nextDayButton)
+                        )
+                        .addGap(20)
                         .addGroup(layout.createSequentialGroup()
                                 .addComponent(caloriesBurned)
                                 .addComponent(caloriesBurnedData)
@@ -99,7 +142,11 @@ public class Dashboard extends JPanel {
         );
 
         layout.setVerticalGroup(layout.createSequentialGroup()
-                .addComponent(date)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addComponent(date)
+                        .addComponent(prevDayButton)
+                        .addComponent(nextDayButton)
+                )
                 .addGap(50)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                         .addComponent(caloriesBurned)
@@ -177,17 +224,39 @@ public class Dashboard extends JPanel {
      *
      * @param info the FitbitInfo provided with new data
      */
-    public void refreshInfo(FitbitInfo info) {
+    public void update(FitbitInfo info) {
         this.fitbitInfo = info;
         System.out.println("Dashboard Refreshing");
 
-        date.setText(new SimpleDateFormat("dd MMM yyyy").format(new Date()));
+        date.setText(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
         sedentaryMinutesData.setText("" + fitbitInfo.getDay().getSedentaryMins());
         activeMinutesData.setText("" + fitbitInfo.getDay().getActiveMins());
         stepsTakenData.setText("" + fitbitInfo.getDay().getSteps());
         floorsClimbedData.setText("" + fitbitInfo.getDay().getFloors());
         totalDistanceData.setText("" + fitbitInfo.getDay().getDistance());
         caloriesBurnedData.setText("" + fitbitInfo.getDay().getCaloriesOut());
+
+    }
+
+    public void showDay(Calendar day) {
+        FitbitInfo newDayInfo = new FitbitInfo();
+
+        try {
+            newDayInfo.refreshInfo(day);
+        } catch (JSONException ex) {
+            System.err.println("Error Accessing API");
+        } catch (RefreshTokenException ex) {
+            System.err.println("Error Accessing API");
+        }
+        
+        date.setText(new SimpleDateFormat("dd MMM yyyy").format(newDayInfo.getLastRefreshTime().getTime()));
+        sedentaryMinutesData.setText("" + newDayInfo.getDay().getSedentaryMins());
+        activeMinutesData.setText("" + newDayInfo.getDay().getActiveMins());
+        stepsTakenData.setText("" + newDayInfo.getDay().getSteps());
+        floorsClimbedData.setText("" + newDayInfo.getDay().getFloors());
+        totalDistanceData.setText("" + newDayInfo.getDay().getDistance());
+        caloriesBurnedData.setText("" + newDayInfo.getDay().getCaloriesOut());
+
 
     }
 

@@ -2,6 +2,7 @@ package ca.uwo.csd.cs2212.team07;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -9,12 +10,12 @@ import org.json.JSONException;
 
 public class FitbitInfo implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     private Daily day; //holds daily data
     private BestDay[] bestDays; //holds best days data
     private Lifetime lifetime; //hold lifetime data
-    private String lastRefreshTime; //hold last refresh time
+    private Calendar lastRefreshTime; //hold last refresh time
 
     /**
      * Constructor for the FitbitInfo class.
@@ -27,14 +28,14 @@ public class FitbitInfo implements Serializable {
      * Refreshes user data by getting the current date and calling the API for
      * the relevant data
      *
+     * @param day the day to refresh the info for
      * @throws JSONException Thrown from API calls
      * @throws RefreshTokenException Thrown if Token is out of date
      */
-    public void refreshInfo() throws JSONException, RefreshTokenException {
+    public void refreshInfo(Calendar day) throws JSONException, RefreshTokenException {
         System.out.println("REFRESH INFO - NORMAL MODE"); //for testing
-        Date now = new Date();
-        lastRefreshTime = new SimpleDateFormat("dd MMM yyyy hh:mm:ss aa zzz").format(now);
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(now);
+        lastRefreshTime = day;
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(lastRefreshTime.getTime());
         this.day = Api.getDailySummary(date);
         this.bestDays = Api.getBestDays();
         this.lifetime = Api.getLifetime();
@@ -80,11 +81,11 @@ public class FitbitInfo implements Serializable {
         this.lifetime = lifetime;
     }
 
-    public void setLastRefreshTime(String lastRefreshTIme) {
+    public void setLastRefreshTime(Calendar lastRefreshTIme) {
         this.lastRefreshTime = lastRefreshTIme;
     }
 
-    public String getLastRefreshTime() {
+    public Calendar getLastRefreshTime() {
         return this.lastRefreshTime;
     }
 
