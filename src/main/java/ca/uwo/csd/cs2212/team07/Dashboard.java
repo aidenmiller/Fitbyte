@@ -5,8 +5,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -261,6 +261,7 @@ public class Dashboard extends JPanel {
         floorsClimbedData.setText("" + newDayInfo.getDay().getFloors());
         totalDistanceData.setText("" + newDayInfo.getDay().getDistance());
         caloriesBurnedData.setText("" + newDayInfo.getDay().getCaloriesOut());
+
 
     }
 

@@ -81,15 +81,15 @@ public class MainWindow extends JFrame {
 
         }
 
-        // BorderLayout allows positions through NORTH, EAST, SOUTH, WEST, etc.*/
-        this.setLayout(new BorderLayout());
-
         // Initialization of each of the panels
         dashboard = new Dashboard(fitbitInfo, mode);
         dailyGoals = new DailyGoals(fitbitInfo);
         accolades = new Accolades(fitbitInfo);
         heartRate = new HeartRate(fitbitInfo);
         settings = new Settings();
+
+        // BorderLayout allows positions through NORTH, EAST, SOUTH, WEST, etc.*/
+        this.setLayout(new BorderLayout());
 
         // creates the top menu bar and adds it to the window
         this.add(this.createMenu(), BorderLayout.NORTH);
@@ -168,12 +168,11 @@ public class MainWindow extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    if(mode == 0) {
+                    if (mode == 0) {
                         FileReader.storeInfo(fitbitInfo);
                         System.out.println("STORE FILE SUCCESS");
-                    }
-                    else {
-                         JOptionPane.showMessageDialog(new JFrame(), "Thanks for trying Test Mode!");
+                    } else {
+                        JOptionPane.showMessageDialog(new JFrame(), "Thanks for trying Test Mode!");
                     }
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(new JFrame(), "ERROR! Unable to store user data.");
@@ -198,6 +197,5 @@ public class MainWindow extends JFrame {
 
         return panel;
     }
-
 
 }

@@ -146,6 +146,11 @@ public class Api {
         return bestDayArray;
      } 
     
+    /**
+     *
+     * @throws RefreshTokenException
+     * @throws JSONException
+     */
     public static void userProfile() throws RefreshTokenException, JSONException {
           String requestUrlPrefix = "https://api.fitbit.com/1/user/-/"; // url prefix for all api calls
         String requestUrl;
