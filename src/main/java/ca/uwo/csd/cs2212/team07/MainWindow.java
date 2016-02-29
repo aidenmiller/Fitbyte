@@ -30,7 +30,7 @@ import javax.swing.BoxLayout;
 import org.json.JSONException;
 
 /**
- * Creates a Main Window frame that displays the program
+ * Creates a Main Window frame that displays the program.
  * @author team07
  */
 public class MainWindow extends JFrame {

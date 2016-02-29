@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
 /**
- * Creates a Dashboard panel that displays the Dashboard to the user
+ * Creates a Dashboard panel that displays the Dashboard to the user.
  *
  * @author team07
  */

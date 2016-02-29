@@ -16,7 +16,7 @@ public class FitbitInfo /*implements Serializable*/ {
     private Lifetime lifetime; //hold lifetime data
 
     /**
-     * Constructor for the FitbitInfo class 
+     * Constructor for the FitbitInfo class. 
      */
     public FitbitInfo() {
 
