@@ -3,14 +3,12 @@ package ca.uwo.csd.cs2212.team07;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import java.util.Random;
 import org.json.JSONException;
 
 public class FitbitInfo implements Serializable {
 
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 3L;
 
     private Daily day; //holds daily data
     private BestDay[] bestDays; //holds best days data
@@ -33,7 +31,6 @@ public class FitbitInfo implements Serializable {
      * @throws RefreshTokenException Thrown if Token is out of date
      */
     public void refreshInfo(Calendar day) throws JSONException, RefreshTokenException {
-        System.out.println("REFRESH INFO - NORMAL MODE"); //for testing
         lastRefreshTime = day;
         String date = new SimpleDateFormat("yyyy-MM-dd").format(lastRefreshTime.getTime());
         this.day = Api.getDailySummary(date);
@@ -42,29 +39,14 @@ public class FitbitInfo implements Serializable {
 
     }
 
-    /**
-     * Gets the Daily object stored in the FitbitInfo class
-     *
-     * @return the Daily object stored.
-     */
     public Daily getDay() {
         return this.day;
     }
 
-    /**
-     * Gets the BestDays object stored in the FitbitInfo class
-     *
-     * @return the BestDays object stored.
-     */
     public BestDay[] getBestDays() {
         return this.bestDays;
     }
 
-    /**
-     * Gets the Lifetime object stored in the FitbitInfo class
-     *
-     * @return the Lifetime object stored.
-     */
     public Lifetime getLifetime() {
         return this.lifetime;
     }
@@ -87,6 +69,27 @@ public class FitbitInfo implements Serializable {
 
     public Calendar getLastRefreshTime() {
         return this.lastRefreshTime;
+    }
+
+    public void generateTestData() {
+       Random rand = new Random();
+       
+       Daily randDay = new Daily("yyyy-MM-dd",rand.nextLong(),rand.nextLong(),rand.nextDouble(),
+               rand.nextDouble(),rand.nextLong(),rand.nextLong(),rand.nextLong(),rand.nextLong(),
+               rand.nextDouble(),rand.nextDouble(),rand.nextLong(),rand.nextDouble(),rand.nextLong(),
+                rand.nextLong(),rand.nextLong(),rand.nextLong(),rand.nextLong());
+       
+       BestDay randDistanceBestDay = new BestDay("yyyy-MM-dd", "distance", rand.nextDouble());
+       BestDay randFloorsBestDay = new BestDay("yyyy-MM-dd", "floors", rand.nextDouble());
+       BestDay randStepsBestDay = new BestDay("yyyy-MM-dd", "steps", rand.nextDouble());
+       BestDay[] randBest = {randDistanceBestDay, randFloorsBestDay, randStepsBestDay};
+       
+       Lifetime randLifetime = new Lifetime(rand.nextDouble(), rand.nextDouble(), rand.nextLong());
+       
+       this.lastRefreshTime = Calendar.getInstance();
+       this.day = randDay;
+       this.bestDays = randBest;
+       this.lifetime = randLifetime;
     }
 
 }

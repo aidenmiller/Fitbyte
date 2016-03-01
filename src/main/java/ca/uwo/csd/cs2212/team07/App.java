@@ -1,8 +1,6 @@
 package ca.uwo.csd.cs2212.team07;
 
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * Main class for the FitBit Program
@@ -12,40 +10,35 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class App {
 
     /**
-     * Runs the MainWindow class with given arguments
+     * We expect that the args array will contain either no arguments or "test".
+     * Runs MainWindow in either test mode or normal mode
      *
-     * @param args checks to see if the command line argument given is "test" to
-     * enable test mode
+     * @param args
      */
     public static void main(String[] args) {
-        
-        try {
-            // Set cross-platform Java L&F (basic look and feel)
-            UIManager.setLookAndFeel("javax.swing.plaf.basic");
-        } catch (UnsupportedLookAndFeelException e) {
-            // handle exception
-        } catch (ClassNotFoundException e) {
-            // handle exception
-        } catch (InstantiationException e) {
-            // handle exception
-        } catch (IllegalAccessException e) {
-            // handle exception
-        }
 
-        final int mode;
+        //Runs test mode if specified by the command line argument
         if (args.length > 0 && args[0].equals("test")) {
-            mode = 1; //test mode
-        } else {
-            mode = 0; //normal mode
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    //Run the program in Normal Mode
+                    TestWindow window = new TestWindow();
+                    window.setVisible(true);
+                }
+            });
+        } 
+        //Runs normal mode if either no command line argument is provided or arguments are unrecognized
+        else {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    //Run the program in Test Mode
+                    MainWindow1 window = new MainWindow1();
+                    window.setVisible(true);
+                }
+            });
         }
-
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                MainWindow window = new MainWindow(mode);
-                window.setVisible(true);
-            }
-        });
 
     }
 }
