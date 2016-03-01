@@ -37,7 +37,6 @@ public class Dashboard extends JPanel {
     private void initPanel() {
 
         this.setBackground(Color.ORANGE);
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
        
@@ -61,24 +60,18 @@ public class Dashboard extends JPanel {
 
         //Layout Specifications
         this.add(date);
-        this.add(Box.createVerticalStrut(10));
         this.add(caloriesData);
-        this.add(Box.createVerticalStrut(10));
         this.add(distanceData);
-        this.add(Box.createVerticalStrut(10));
         this.add(floorsData);
-        this.add(Box.createVerticalStrut(10));
         this.add(stepsData);
-        this.add(Box.createVerticalStrut(10));
         this.add(activeData);
-        this.add(Box.createVerticalStrut(10));
         this.add(sedentaryData);
-        this.add(Box.createVerticalStrut(10));
         
     }
     
     private JPanel createDataBox(JLabel header, JLabel data, Color color) {
         JPanel panel = new JPanel();
+        
         
         panel.setBackground(color);
         panel.setBorder(BorderFactory.createLineBorder(Color.black));
