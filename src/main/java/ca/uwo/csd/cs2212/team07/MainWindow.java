@@ -75,7 +75,7 @@ public class MainWindow extends JFrame implements ActionListener {
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE); //
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
         // Creation of the Menu Bar
