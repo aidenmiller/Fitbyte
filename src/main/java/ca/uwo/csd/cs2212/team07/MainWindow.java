@@ -1,201 +1,190 @@
 package ca.uwo.csd.cs2212.team07;
 
-import javax.swing.JFrame;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.ImageIcon;
-import java.awt.Font;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.ButtonGroup;
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JToggleButton;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import org.json.JSONException;
 
 /**
- * Creates a Main Window frame that displays the program.
+ * Creates a Main Window that displays the program to the user.
  *
  * @author team07
  */
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements ActionListener {
 
-    private final int mode;
-    // Container used to store the different panels (dashboard, daily goals, etc)
-    private JPanel cards;
-    // Containers for each of the pages
+    private FitbitInfo fitbitInfo;
+
+    private JToggleButton dashboardButton;
+    private JToggleButton dailyGoalsButton;
+    private JButton refreshButton;
+    private JLabel lastRefresh;
+    private JButton exitButton;
+
     private Dashboard dashboard;
     private DailyGoals dailyGoals;
-    private Accolades accolades;
-    private HeartRate heartRate;
-    private Settings settings;
-    // Object that groups together buttons like Radio Buttons, allowing only one to be selected at a time
-    private ButtonGroup buttonGroup;
-    // Object that stores user FitBit data (such as calories burned, etc.) - should be Serialized class
-    private FitbitInfo fitbitInfo;
-    private JLabel lastSync;
 
-    /**
-     * Constructs a new MainWindow in either normal mode or test mode
-     *
-     * @param mode whether or not the user is on normal mode (0) or test mode
-     * (1)
-     */
-    public MainWindow(int mode) {
-        this.mode = mode;
-        /*calls initUI method below which does most of the work */
+    private ButtonGroup buttonGroup;
+    private JPanel cardPane;
+    private CardLayout cardLayout;
+
+    public MainWindow() {
+        this.getUserData();
+        this.getUserConfig();
         this.initUI();
     }
 
-    /**
-     * Constructs the UI to be displayed in the window
-     */
-    private void initUI() {
-        this.setTitle("FitBit Program - CS2212 Team07");
-        this.setSize(800, 600);
-        this.setLocationRelativeTo(null);
-        this.setResizable(false); //disables resizing
-
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE); //change this at some point
-
+    private void getUserData() {
         try {
-            fitbitInfo = FileReader.loadInfo(mode); //try to load user info from stored file
-            System.out.println("LOAD INFO SUCCESS");
-        } catch (Exception e) { //thrown if no user data is found
-            System.out.println("LOAD INFO FAIL");
+            fitbitInfo = loadInfo();
+        } catch (Exception e) {
             fitbitInfo = new FitbitInfo();
-            System.out.println("REDIRECT TO USER LOGIN"); //user will need to authenticate
-            //USER LOGIN HERE
             try {
-                fitbitInfo.refreshInfo(Calendar.getInstance()); //tries to refresh user data
+                fitbitInfo.refreshInfo(Calendar.getInstance());
             } catch (JSONException ex) {
-                System.err.println("Error Accessing API");
+                System.err.println("JSONException - Error Accessing API: " + ex.getMessage());
             } catch (RefreshTokenException ex) {
-                System.err.println("Error Accessing API");
+                System.err.println("RefreshTokenException - Error Accessing API: " + ex.getMessage());
             }
-
         }
+    }
 
-        // Initialization of each of the panels
-        dashboard = new Dashboard(fitbitInfo, mode);
-        dailyGoals = new DailyGoals(fitbitInfo);
-        accolades = new Accolades(fitbitInfo);
-        heartRate = new HeartRate(fitbitInfo);
-        settings = new Settings();
-
-        // BorderLayout allows positions through NORTH, EAST, SOUTH, WEST, etc.*/
-        this.setLayout(new BorderLayout());
-
-        // creates the top menu bar and adds it to the window
-        this.add(this.createMenu(), BorderLayout.NORTH);
-
-        // Adding the menu panels to the cards pane
-        cards = new JPanel(new CardLayout());
-        cards.add(dashboard, "");
-        cards.add(dailyGoals, "");
-        cards.add(accolades, "");
-        cards.add(heartRate, "");
-        cards.add(settings, "");
-
-        // adds cards pane to the window
-        this.add(cards, BorderLayout.CENTER);
+    private void getUserConfig() {
 
     }
 
-    /**
-     * Creates the top menu bar to allow user to switch between pages, exit, and
-     * refresh data
-     *
-     * @return the menu bar created
-     */
-    private JPanel createMenu() {
-        JPanel panel = new JPanel();
+    private void initUI() {
+        this.setTitle("CS2212 Team07");
+        this.setSize(800, 600);
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE); //
+        this.setLayout(new BorderLayout());
+
+        // Creation of the Menu Bar
+        JPanel menuBar = new JPanel();
+        menuBar.setBackground(Color.WHITE);
+        menuBar.setLayout(new BoxLayout(menuBar, BoxLayout.LINE_AXIS));
+
         buttonGroup = new ButtonGroup();
+        dashboardButton = makeMenuButton("Dashboard", "dashboard.png", "dashboard_pressed.png");
+        dailyGoalsButton = makeMenuButton("Daily Goals", "dailygoals.png", "dailygoals_pressed.png");
 
-        //adds the menu buttons to the button group
-        buttonGroup.add(dashboard.getMenuButton());
-        buttonGroup.add(dailyGoals.getMenuButton());
-        buttonGroup.add(accolades.getMenuButton());
-        buttonGroup.add(heartRate.getMenuButton());
-        buttonGroup.add(settings.getMenuButton());
-        //does a mouse click for dashboard to set it as the current page
-        dashboard.getMenuButton().doClick();
+        menuBar.add(dashboardButton);
+        menuBar.add(dailyGoalsButton);
+        menuBar.add(Box.createHorizontalGlue());
 
-        // REFRESHING - plan to make this it's own class hopefully
-        JButton refreshButton = new JButton(new ImageIcon(FileReader.getImage("refresh.png")));
+        lastRefresh = new JLabel("last synced: " + fitbitInfo.getLastRefreshTime().getTime());
+        lastRefresh.setFont(new Font(lastRefresh.getFont().getName(), Font.PLAIN, 10));
+
+        refreshButton = new JButton(new ImageIcon(FileReader.getImage("refresh.png")));
         refreshButton.setBorderPainted(false);
         refreshButton.setRolloverIcon(new ImageIcon(FileReader.getImage("refresh_pressed.png")));
-        // JLabel to display the last refreshed time, initially will be never but should pull from stored data...
-        lastSync = new JLabel("last synced: " + fitbitInfo.getLastRefreshTime().getTime());
-        // Literally just to make the font smaller, but allows font change if we want to 
-        lastSync.setFont(new Font(lastSync.getFont().getName(), Font.PLAIN, 10));
-        //MouseListener for Refresh
-        refreshButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                try {
-                    if (mode == 0) {
-                        fitbitInfo.refreshInfo(Calendar.getInstance());
-                        dashboard.update(fitbitInfo);
-                        dailyGoals.refreshInfo(fitbitInfo);
-                        accolades.refreshInfo(fitbitInfo);
-                        heartRate.refreshInfo(fitbitInfo);
+        refreshButton.addActionListener(this);
 
-                        // Sets the label to display the new last synced time
-                        lastSync.setText("last synced: " + fitbitInfo.getLastRefreshTime().getTime());
-                    } else {
-                        JOptionPane.showMessageDialog(new JFrame(), "ERROR! Unable to refresh in TEST MODE.");
-                    }
-                } catch (JSONException ex) {
-                    System.err.println("Error Accessing API");
-                } catch (RefreshTokenException ex) {
-                    System.err.println("Error Accessing API");
-                }
-            }
-        });
-
-        // EXITING PROGRAM 
-        JButton exitButton = new JButton(new ImageIcon(FileReader.getImage("exit.png")));
+        exitButton = new JButton(new ImageIcon(FileReader.getImage("exit.png")));
         exitButton.setBorderPainted(false);
         exitButton.setRolloverIcon(new ImageIcon(FileReader.getImage("exit_pressed.png")));
-        //MouseListener for Exit
-        exitButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                try {
-                    if (mode == 0) {
-                        FileReader.storeInfo(fitbitInfo);
-                        System.out.println("STORE FILE SUCCESS");
-                    } else {
-                        JOptionPane.showMessageDialog(new JFrame(), "Thanks for trying Test Mode!");
-                    }
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "ERROR! Unable to store user data.");
-                }
-                System.exit(0); //exit the program
+        exitButton.addActionListener(this);
+
+        menuBar.add(lastRefresh);
+        menuBar.add(refreshButton);
+        menuBar.add(exitButton);
+        // End of Menu Bar creation
+        this.add(menuBar, BorderLayout.NORTH);
+
+        // Creation of the CardLayout for displays
+        dashboard = new Dashboard(fitbitInfo);
+        dailyGoals = new DailyGoals(fitbitInfo);
+
+        cardPane = new JPanel(new CardLayout());
+        cardPane.add(dashboard, "Dashboard");
+        cardPane.add(dailyGoals, "Daily Goals");
+        cardLayout = (CardLayout) cardPane.getLayout();
+        // End of CardLayout creation
+        this.add(cardPane, BorderLayout.CENTER);
+
+        dashboardButton.doClick();
+    }
+
+    private JToggleButton makeMenuButton(String name, String iconFile, String iconSelectedFile) {
+        JToggleButton button = new JToggleButton();
+
+        button.addActionListener(this);
+
+        buttonGroup.add(button);
+        button.setToolTipText(name);
+        button.setBorderPainted(false);
+        ImageIcon icon = new ImageIcon(FileReader.getImage(iconFile));
+        ImageIcon iconSelected = new ImageIcon(FileReader.getImage(iconSelectedFile));
+        button.setIcon(icon);
+        button.setRolloverIcon(iconSelected);
+        button.setSelectedIcon(iconSelected);
+        button.setRolloverSelectedIcon(iconSelected);
+
+        return button;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == dashboardButton) {
+            cardLayout.show(cardPane, "Dashboard");
+        } else if (e.getSource() == dailyGoalsButton) {
+            cardLayout.show(cardPane, "Daily Goals");
+        } else if (e.getSource() == refreshButton) {
+            this.refreshInfo();
+        } else if (e.getSource() == exitButton) {
+            try {
+                this.storeInfo();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(new JFrame(), "ERROR! Unable to store user data.");
             }
-        });
+            System.exit(0); //exit the program
+        }
+    }
 
-        // Adding the buttons to the menu panel
-        panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
-        panel.add(dashboard.getMenuButton());
-        panel.add(dailyGoals.getMenuButton());
-        panel.add(accolades.getMenuButton());
-        panel.add(heartRate.getMenuButton());
-        panel.add(settings.getMenuButton());
-        panel.add(Box.createHorizontalGlue()); //puts space between the first few menu items and the rest
-        panel.add(lastSync);
-        panel.add(refreshButton);
-        panel.add(exitButton);
+    public FitbitInfo loadInfo() throws Exception {
 
-        panel.setBackground(Color.ORANGE); //color of menu bar
+        ObjectInputStream in;
+        in = new ObjectInputStream(new FileInputStream("user.info"));
 
-        return panel;
+        return (FitbitInfo) in.readObject();
+    }
+
+    public void storeInfo() throws Exception {
+
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("user.info"));
+        out.writeObject(fitbitInfo);
+
+    }
+
+    private void refreshInfo() {
+        try {
+            fitbitInfo.refreshInfo(Calendar.getInstance());
+            lastRefresh.setText("last synced: " + fitbitInfo.getLastRefreshTime().getTime());
+            dashboard.refresh();
+            dailyGoals.refresh();
+        } catch (JSONException ex) {
+            System.err.println("Error Accessing API");
+        } catch (RefreshTokenException ex) {
+            System.err.println("Error Accessing API");
+        }
     }
 
 }

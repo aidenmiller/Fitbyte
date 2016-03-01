@@ -11,17 +11,10 @@ import javax.swing.JToggleButton;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Calendar;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import org.json.JSONException;
 
 /**
  * Creates a Main Window that displays the program to the user.
@@ -38,8 +31,8 @@ public class TestWindow extends JFrame implements ActionListener {
     private JLabel lastRefresh;
     private JButton exitButton;
 
-    private Dashboard1 dashboard;
-    private DailyGoals1 dailyGoals;
+    private Dashboard dashboard;
+    private DailyGoals dailyGoals;
 
     private ButtonGroup buttonGroup;
     private JPanel cardPane;
@@ -101,8 +94,8 @@ public class TestWindow extends JFrame implements ActionListener {
         this.add(menuBar, BorderLayout.NORTH);
 
         // Creation of the CardLayout for displays
-        dashboard = new Dashboard1(fitbitInfo);
-        dailyGoals = new DailyGoals1(fitbitInfo);
+        dashboard = new Dashboard(fitbitInfo);
+        dailyGoals = new DailyGoals(fitbitInfo);
 
         cardPane = new JPanel(new CardLayout());
         cardPane.add(dashboard, "Dashboard");
@@ -137,43 +130,8 @@ public class TestWindow extends JFrame implements ActionListener {
             cardLayout.show(cardPane, "Dashboard");
         } else if (e.getSource() == dailyGoalsButton) {
             cardLayout.show(cardPane, "Daily Goals");
-        } else if (e.getSource() == refreshButton) {
-            this.refreshInfo();
         } else if (e.getSource() == exitButton) {
-            try {
-                this.storeInfo();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(new JFrame(), "ERROR! Unable to store user data.");
-            }
             System.exit(0); //exit the program
-        }
-    }
-
-    public FitbitInfo loadInfo() throws Exception {
-
-        ObjectInputStream in;
-        in = new ObjectInputStream(new FileInputStream("user.info"));
-
-        return (FitbitInfo) in.readObject();
-    }
-
-    public void storeInfo() throws Exception {
-
-        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("user.info"));
-        out.writeObject(fitbitInfo);
-
-    }
-
-    private void refreshInfo() {
-        try {
-            fitbitInfo.refreshInfo(Calendar.getInstance());
-            lastRefresh.setText("last synced: " + fitbitInfo.getLastRefreshTime().getTime());
-            dashboard.refresh();
-            dailyGoals.refresh();
-        } catch (JSONException ex) {
-            System.err.println("Error Accessing API");
-        } catch (RefreshTokenException ex) {
-            System.err.println("Error Accessing API");
         }
     }
 

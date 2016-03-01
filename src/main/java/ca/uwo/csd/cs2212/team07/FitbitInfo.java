@@ -74,17 +74,18 @@ public class FitbitInfo implements Serializable {
     public void generateTestData() {
        Random rand = new Random();
        
-       Daily randDay = new Daily("yyyy-MM-dd",rand.nextLong(),rand.nextLong(),rand.nextDouble(),
-               rand.nextDouble(),rand.nextLong(),rand.nextLong(),rand.nextLong(),rand.nextLong(),
-               rand.nextDouble(),rand.nextDouble(),rand.nextLong(),rand.nextDouble(),rand.nextLong(),
-                rand.nextLong(),rand.nextLong(),rand.nextLong(),rand.nextLong());
+       Daily randDay = new Daily("yyyy-MM-dd", (long) rand.nextInt(250), (long) rand.nextInt(250),
+               (double) rand.nextInt(250), (double) rand.nextInt(250),(long) rand.nextInt(250),(long) rand.nextInt(250),
+               (long) rand.nextInt(250),(long) rand.nextInt(250), (double) rand.nextInt(250),(double) rand.nextInt(250),
+               (long) rand.nextInt(250),(double) rand.nextInt(250),(long) rand.nextInt(250), (long) rand.nextInt(250),
+               (long) rand.nextInt(250),(long) rand.nextInt(250),(long) rand.nextInt(250));
        
-       BestDay randDistanceBestDay = new BestDay("yyyy-MM-dd", "distance", rand.nextDouble());
-       BestDay randFloorsBestDay = new BestDay("yyyy-MM-dd", "floors", rand.nextDouble());
-       BestDay randStepsBestDay = new BestDay("yyyy-MM-dd", "steps", rand.nextDouble());
+       BestDay randDistanceBestDay = new BestDay("yyyy-MM-dd", "distance", (double) rand.nextInt(250));
+       BestDay randFloorsBestDay = new BestDay("yyyy-MM-dd", "floors", (double) rand.nextInt(250));
+       BestDay randStepsBestDay = new BestDay("yyyy-MM-dd", "steps", (double) rand.nextInt(250));
        BestDay[] randBest = {randDistanceBestDay, randFloorsBestDay, randStepsBestDay};
        
-       Lifetime randLifetime = new Lifetime(rand.nextDouble(), rand.nextDouble(), rand.nextLong());
+       Lifetime randLifetime = new Lifetime((double) rand.nextInt(250), (double) rand.nextInt(250), (long) rand.nextInt(250));
        
        this.lastRefreshTime = Calendar.getInstance();
        this.day = randDay;

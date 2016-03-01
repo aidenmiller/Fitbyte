@@ -34,7 +34,7 @@ public class App {
                 @Override
                 public void run() {
                     //Run the program in Test Mode
-                    MainWindow1 window = new MainWindow1();
+                    MainWindow window = new MainWindow();
                     window.setVisible(true);
                 }
             });
