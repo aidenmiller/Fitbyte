@@ -36,120 +36,62 @@ public class Dashboard extends JPanel {
 
     private void initPanel() {
 
-        this.setBackground(Color.ORANGE); //Color of the menu bar
-        this.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        this.setBackground(Color.ORANGE);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
-
-        JPanel caloriesData = new JPanel();
-        caloriesData.setBackground(Color.CYAN);
-        caloriesData.setBorder(BorderFactory.createLineBorder(Color.black));
-        caloriesData.setLayout(new BoxLayout(caloriesData, BoxLayout.X_AXIS));
-        caloriesData.add(Box.createRigidArea(new Dimension(20,50)));
-        JLabel caloriesBurned = new JLabel("Calories Burned: ");
+       
         caloriesBurnedData = new JLabel("" + fitbitInfo.getDay().getCaloriesOut());
-        caloriesData.add(caloriesBurned);
-        caloriesData.add(Box.createRigidArea(new Dimension(10,0)));
-        caloriesData.add(caloriesBurnedData);
-        caloriesData.add(Box.createRigidArea(new Dimension(20,50)));
-
-        JPanel distanceData = new JPanel();
-        distanceData.setBackground(Color.PINK);
-        distanceData.setBorder(BorderFactory.createLineBorder(Color.black));
-        distanceData.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        JLabel totalDistance = new JLabel("Total Distance: ");
+        JPanel caloriesData = this.createDataBox(new JLabel("Calories Burned"), caloriesBurnedData, Color.cyan);
+        
         totalDistanceData = new JLabel("" + fitbitInfo.getDay().getDistance());
-        distanceData.add(totalDistance);
-        distanceData.add(totalDistanceData);
-
-        JPanel floorsData = new JPanel();
-        floorsData.setBackground(Color.WHITE);
-        floorsData.setBorder(BorderFactory.createLineBorder(Color.black));
-        floorsData.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        JLabel floorsClimbed = new JLabel("Floors Climbed: ");
+        JPanel distanceData = this.createDataBox(new JLabel("Total Distance"), totalDistanceData, Color.yellow);
+        
         floorsClimbedData = new JLabel("" + fitbitInfo.getDay().getFloors());
-        floorsData.add(floorsClimbed);
-        floorsData.add(floorsClimbedData);
-
-        JPanel stepsData = new JPanel();
-        stepsData.setBackground(Color.MAGENTA);
-        stepsData.setBorder(BorderFactory.createLineBorder(Color.black));
-        stepsData.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        JLabel stepsTaken = new JLabel("Steps Taken: ");
+        JPanel floorsData = this.createDataBox(new JLabel("Floors Climbed"), floorsClimbedData, Color.magenta);
+        
         stepsTakenData = new JLabel("" + fitbitInfo.getDay().getSteps());
-        stepsData.add(stepsTaken);
-        stepsData.add(stepsTakenData);
-
-        JPanel activeData = new JPanel();
-        activeData.setBackground(Color.YELLOW);
-        activeData.setBorder(BorderFactory.createLineBorder(Color.black));
-        activeData.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        JLabel activeMinutes = new JLabel("Active Minutes: ");
+        JPanel stepsData = this.createDataBox(new JLabel("Steps Taken"), stepsTakenData, Color.white);
+        
         activeMinutesData = new JLabel("" + fitbitInfo.getDay().getActiveMins());
-        activeData.add(activeMinutes);
-        activeData.add(activeMinutesData);
+        JPanel activeData = this.createDataBox(new JLabel("Active Minutes"), activeMinutesData, Color.green);
 
-        JPanel sedentaryData = new JPanel();
-        sedentaryData.setBackground(Color.green);
-        sedentaryData.setBorder(BorderFactory.createLineBorder(Color.black));
-        sedentaryData.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        JLabel sedentaryMinutes = new JLabel("Sedentary Minutes: ");
         sedentaryMinutesData = new JLabel("" + fitbitInfo.getDay().getSedentaryMins());
-        sedentaryData.add(sedentaryMinutes);
-        sedentaryData.add(sedentaryMinutesData);
+        JPanel sedentaryData = this.createDataBox(new JLabel("Sedentary Minutes"), sedentaryMinutesData, Color.pink);
 
         //Layout Specifications
-        GroupLayout layout;
-        layout = new GroupLayout(this);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-
-        layout.setHorizontalGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(date)
-                        )
-                        .addComponent(caloriesData)
-                        .addComponent(distanceData)
-                        .addComponent(floorsData)
-                        .addComponent(stepsData)
-                        .addComponent(activeData)
-                        .addComponent(sedentaryData)
-                )
-        );
-
-        layout.setVerticalGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(date)
-                )
-                .addGap(10)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(caloriesData)
-                )
-                .addGap(10)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(distanceData)
-                )
-                .addGap(10)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(floorsData)
-                )
-                .addGap(10)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(stepsData)
-                )
-                .addGap(10)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(activeData)
-                )
-                .addGap(10)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(sedentaryData)
-                )
-        );
-        //End of Layout Specifications
-
-        this.setLayout(layout);
+        this.add(date);
+        this.add(Box.createVerticalStrut(10));
+        this.add(caloriesData);
+        this.add(Box.createVerticalStrut(10));
+        this.add(distanceData);
+        this.add(Box.createVerticalStrut(10));
+        this.add(floorsData);
+        this.add(Box.createVerticalStrut(10));
+        this.add(stepsData);
+        this.add(Box.createVerticalStrut(10));
+        this.add(activeData);
+        this.add(Box.createVerticalStrut(10));
+        this.add(sedentaryData);
+        this.add(Box.createVerticalStrut(10));
+        
+    }
+    
+    private JPanel createDataBox(JLabel header, JLabel data, Color color) {
+        JPanel panel = new JPanel();
+        
+        panel.setBackground(color);
+        panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.add(Box.createRigidArea(new Dimension(20,50)));
+        panel.add(header);
+        panel.add(Box.createRigidArea(new Dimension(20,50)));
+        panel.add(data);
+        panel.add(Box.createHorizontalGlue());
+        panel.add(Box.createRigidArea(new Dimension(20,50)));
+        
+        
+        return panel;
     }
 
     public void refresh() {
