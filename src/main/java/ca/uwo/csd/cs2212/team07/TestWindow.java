@@ -54,7 +54,7 @@ public class TestWindow extends JFrame implements ActionListener {
     }
 
     private void initUI() {
-        this.setTitle("CS2212 Team07 - TEST MODE");
+        this.setTitle("CS2212 Team07");
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -74,7 +74,7 @@ public class TestWindow extends JFrame implements ActionListener {
         menuBar.add(dailyGoalsButton);
         menuBar.add(Box.createHorizontalGlue());
 
-        lastRefresh = new JLabel("last synced: " + fitbitInfo.getLastRefreshTime().getTime());
+        lastRefresh = new JLabel("TEST MODE");
         lastRefresh.setFont(new Font(lastRefresh.getFont().getName(), Font.PLAIN, 10));
 
         refreshButton = new JButton(new ImageIcon(FileReader.getImage("refresh.png")));
