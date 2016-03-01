@@ -103,13 +103,11 @@ public class Dashboard extends JPanel implements ActionListener {
 
         panel.setBackground(color);
         panel.setBorder(BorderFactory.createLineBorder(Color.black));
-        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-        panel.add(Box.createRigidArea(new Dimension(20, 50)));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(Box.createRigidArea(new Dimension(600,10)));
         panel.add(header);
-        panel.add(Box.createHorizontalGlue());
         panel.add(data);
-        panel.add(Box.createHorizontalGlue());
-        panel.add(Box.createRigidArea(new Dimension(20, 50)));
+        panel.add(Box.createRigidArea(new Dimension(600,10)));
 
         return panel;
     }
