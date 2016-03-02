@@ -193,16 +193,19 @@ public class Dashboard extends JPanel implements ActionListener {
         if (e.getSource() == prevButton) {
             currDayView.add(Calendar.DAY_OF_MONTH, -1);
             showDay(currDayView);
+            nextButton.setVisible(true);
         } else if (e.getSource() == nextButton) {
             currDayView.add(Calendar.DAY_OF_MONTH, 1);
             if (currDayView.equals(fitbitInfo.getLastRefreshTime())
                     || currDayView.after(fitbitInfo.getLastRefreshTime())) {
                 this.refresh(); //use refresh and not showDay so fitbitInfo is shown instead of newly pulled data
+                nextButton.setVisible(false);
             } else {
                 showDay(currDayView);
             }
         } else if (e.getSource() == todayButton) {
             timeData.setVisible(true);
+            nextButton.setVisible(false);
             this.refresh();
         } else if (e.getSource() == bestButton) {
             timeData.setVisible(false);
