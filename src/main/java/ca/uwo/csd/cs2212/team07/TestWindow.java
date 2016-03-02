@@ -11,24 +11,17 @@ import javax.swing.JToggleButton;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Calendar;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import org.json.JSONException;
 
 /**
  * Creates a Main Window that displays the program to the user.
  *
  * @author team07
  */
-public class MainWindow extends JFrame implements ActionListener {
+public class TestWindow extends JFrame implements ActionListener {
 
     private FitbitInfo fitbitInfo;
 
@@ -45,25 +38,15 @@ public class MainWindow extends JFrame implements ActionListener {
     private JPanel cardPane;
     private CardLayout cardLayout;
 
-    public MainWindow() {
+    public TestWindow() {
         this.getUserData();
         this.getUserConfig();
         this.initUI();
     }
 
     private void getUserData() {
-        try {
-            fitbitInfo = loadInfo();
-        } catch (Exception e) {
-            fitbitInfo = new FitbitInfo();
-            try {
-                fitbitInfo.refreshInfo(Calendar.getInstance());
-            } catch (JSONException ex) {
-                System.err.println("JSONException - Error Accessing API: " + ex.getMessage());
-            } catch (RefreshTokenException ex) {
-                System.err.println("RefreshTokenException - Error Accessing API: " + ex.getMessage());
-            }
-        }
+        fitbitInfo = new FitbitInfo();
+        fitbitInfo.generateTestData();
     }
 
     private void getUserConfig() {
@@ -75,7 +58,7 @@ public class MainWindow extends JFrame implements ActionListener {
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE); //
         this.setLayout(new BorderLayout());
 
         // Creation of the Menu Bar
@@ -91,7 +74,7 @@ public class MainWindow extends JFrame implements ActionListener {
         menuBar.add(dailyGoalsButton);
         menuBar.add(Box.createHorizontalGlue());
 
-        lastRefresh = new JLabel("last synced: " + fitbitInfo.getLastRefreshTime().getTime());
+        lastRefresh = new JLabel("TEST MODE");
         lastRefresh.setFont(new Font(lastRefresh.getFont().getName(), Font.PLAIN, 10));
 
         refreshButton = new JButton(new ImageIcon(FileReader.getImage("refresh.png")));
@@ -147,43 +130,8 @@ public class MainWindow extends JFrame implements ActionListener {
             cardLayout.show(cardPane, "Dashboard");
         } else if (e.getSource() == dailyGoalsButton) {
             cardLayout.show(cardPane, "Daily Goals");
-        } else if (e.getSource() == refreshButton) {
-            this.refreshInfo();
         } else if (e.getSource() == exitButton) {
-            try {
-                this.storeInfo();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(new JFrame(), "ERROR! Unable to store user data.");
-            }
             System.exit(0); //exit the program
-        }
-    }
-
-    public FitbitInfo loadInfo() throws Exception {
-
-        ObjectInputStream in;
-        in = new ObjectInputStream(new FileInputStream("user.info"));
-
-        return (FitbitInfo) in.readObject();
-    }
-
-    public void storeInfo() throws Exception {
-
-        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("user.info"));
-        out.writeObject(fitbitInfo);
-
-    }
-
-    private void refreshInfo() {
-        try {
-            fitbitInfo.refreshInfo(Calendar.getInstance());
-            lastRefresh.setText("last synced: " + fitbitInfo.getLastRefreshTime().getTime());
-            dashboard.refresh();
-            dailyGoals.refresh();
-        } catch (JSONException ex) {
-            System.err.println("Error Accessing API");
-        } catch (RefreshTokenException ex) {
-            System.err.println("Error Accessing API");
         }
     }
 

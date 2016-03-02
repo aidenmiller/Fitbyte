@@ -3,19 +3,19 @@ package ca.uwo.csd.cs2212.team07;
 import java.io.Serializable;
 
 /**
- * Daily class, contains information of all goals and statistics of any given day
+ * Daily class, contains information of all goals and statistics of any given
+ * day
+ *
  * @author Team07
  */
 public class Daily implements Serializable {
 
-    
     //INSTANCE VARIABLES:
-    
     // instance variables are declared as public final so that they can be accessed easily, but not changed
     private String date;
     private long activeMinGoal;
     private long activityCalories;
-  private long calOutGoal;
+    private long calOutGoal;
     private long stepsGoal;
     private long caloriesBMR;
     private long caloriesOut;
@@ -30,7 +30,8 @@ public class Daily implements Serializable {
 
     /**
      * Contructor Method, creates a new Daily object
-     * @param dailyDate 
+     *
+     * @param dailyDate
      * @param dailyActiveMinGoal
      * @param dailyCalOutGoal
      * @param dailyDistanceGoal
@@ -47,7 +48,7 @@ public class Daily implements Serializable {
      * @param dailyMargCals
      * @param dailySedMins
      * @param dailySteps
-     * @param dailyVeryActMins 
+     * @param dailyVeryActMins
      */
     public Daily(String dailyDate, long dailyActiveMinGoal, long dailyCalOutGoal, double dailyDistanceGoal, double dailyFloorGoal, long dailyStepsGoal, long dailyActivityCalories,
             long dailyCaloriesBMR, long dailyCaloriesOut, double dailyDistance, double dailyElevation, long dailyFairlyActiveMins, double dailyFloors, long dailyLightActMins,
@@ -77,6 +78,7 @@ public class Daily implements Serializable {
 
     /**
      * toString() method, used for testing api calls
+     *
      * @return String containing info of Daily object
      */
     @Override
@@ -90,7 +92,8 @@ public class Daily implements Serializable {
     }
 
     /**
-     * getDate() method 
+     * getDate() method
+     *
      * @return returns string of date associated with this Daily object
      */
     public String getDate() {
@@ -99,6 +102,7 @@ public class Daily implements Serializable {
 
     /**
      * setDate method
+     *
      * @param date sets the date of this daily object as the parameter String
      */
     public void setDate(String date) {
@@ -106,7 +110,8 @@ public class Daily implements Serializable {
     }
 
     /**
-     * getActiveMinGoal() method: 
+     * getActiveMinGoal() method:
+     *
      * @return long of this daily's active minute goal
      */
     public long getActiveMinGoal() {
@@ -115,6 +120,7 @@ public class Daily implements Serializable {
 
     /**
      * setActiveMinGoal() method
+     *
      * @param activeMinGoal long to set as this Daily's active minute goal
      */
     public void setActiveMinGoal(long activeMinGoal) {
@@ -123,6 +129,7 @@ public class Daily implements Serializable {
 
     /**
      * getActivityCalories() method
+     *
      * @return long of this Daily's activity calories
      */
     public long getActivityCalories() {
@@ -131,7 +138,9 @@ public class Daily implements Serializable {
 
     /**
      * setActivityCalories() method
-     * @param activityCalories long value to set as this Daily's Activity Calories
+     *
+     * @param activityCalories long value to set as this Daily's Activity
+     * Calories
      */
     public void setActivityCalories(long activityCalories) {
         this.activityCalories = activityCalories;
@@ -139,6 +148,7 @@ public class Daily implements Serializable {
 
     /**
      * getCalOutGoal() method:
+     *
      * @return a long of this Daily's calOutGoal
      */
     public long getCalOutGoal() {
@@ -146,7 +156,8 @@ public class Daily implements Serializable {
     }
 
     /**
-     *setCalOutGoal() method:
+     * setCalOutGoal() method:
+     *
      * @param calOutGoal long value to set as this Daily's calorie out goal
      */
     public void setCalOutGoal(long calOutGoal) {
@@ -155,6 +166,7 @@ public class Daily implements Serializable {
 
     /**
      * getStepsGoal() method:
+     *
      * @return long of this Daily's steps goal
      */
     public long getStepsGoal() {
@@ -163,6 +175,7 @@ public class Daily implements Serializable {
 
     /**
      * setStepsGoal() method:
+     *
      * @param stepsGoal value to set as this Daily's steps goal
      */
     public void setStepsGoal(long stepsGoal) {
@@ -171,6 +184,7 @@ public class Daily implements Serializable {
 
     /**
      * getCaloriesBMR() method:
+     *
      * @return value of this Daily's calories BMR
      */
     public long getCaloriesBMR() {
@@ -179,6 +193,7 @@ public class Daily implements Serializable {
 
     /**
      * setCaloriesBMR() method:
+     *
      * @param caloriesBMR value to set as the calories BMR for this Daily object
      */
     public void setCaloriesBMR(long caloriesBMR) {
@@ -187,6 +202,7 @@ public class Daily implements Serializable {
 
     /**
      * getCaloriesOut() method:
+     *
      * @return calue of this Daily object's Calories Out
      */
     public long getCaloriesOut() {
@@ -195,6 +211,7 @@ public class Daily implements Serializable {
 
     /**
      * setCaloriesOut() method:
+     *
      * @param caloriesOut value to set as this Daily's calories out
      */
     public void setCaloriesOut(long caloriesOut) {
@@ -203,6 +220,7 @@ public class Daily implements Serializable {
 
     /**
      * getFairlyActiveMins() method:
+     *
      * @return fairlyActiveMins, value of this Daily's fairly active mins
      */
     public long getFairlyActiveMins() {
@@ -211,6 +229,7 @@ public class Daily implements Serializable {
 
     /**
      * setFairlyActiveMins() method:
+     *
      * @param fairlyActiveMins the value to set as this Daily's fairlyActiveMins
      */
     public void setFairlyActiveMins(long fairlyActiveMins) {
@@ -219,7 +238,9 @@ public class Daily implements Serializable {
 
     /**
      * getLightlyActiveMins()
-     * @return number of lightly active minutes associated with this Daily object
+     *
+     * @return number of lightly active minutes associated with this Daily
+     * object
      */
     public long getLightlyActiveMins() {
         return lightlyActiveMins;
@@ -227,7 +248,9 @@ public class Daily implements Serializable {
 
     /**
      * setLightlyActiveMins() method
-     * @param lightlyActiveMins value to set as this Daily's lightly active minutes
+     *
+     * @param lightlyActiveMins value to set as this Daily's lightly active
+     * minutes
      */
     public void setLightlyActiveMins(long lightlyActiveMins) {
         this.lightlyActiveMins = lightlyActiveMins;
@@ -235,6 +258,7 @@ public class Daily implements Serializable {
 
     /**
      * getMarginalCalories() function
+     *
      * @return marginalCalories, value of this Daily's marginal calories
      */
     public long getMarginalCalories() {
@@ -243,6 +267,7 @@ public class Daily implements Serializable {
 
     /**
      * setMarginalCalories() method
+     *
      * @param marginalCalories value to set as this Daily's marginal calories
      */
     public void setMarginalCalories(long marginalCalories) {
@@ -251,6 +276,7 @@ public class Daily implements Serializable {
 
     /**
      * getSedentaryMins() function
+     *
      * @return value of sedentary minutes associated with this Daily object
      */
     public long getSedentaryMins() {
@@ -259,7 +285,9 @@ public class Daily implements Serializable {
 
     /**
      * setSedentaryMins() function
-     * @param sedentaryMins long value to set as the sedentary minutes of this Daily object
+     *
+     * @param sedentaryMins long value to set as the sedentary minutes of this
+     * Daily object
      */
     public void setSedentaryMins(long sedentaryMins) {
         this.sedentaryMins = sedentaryMins;
@@ -267,6 +295,7 @@ public class Daily implements Serializable {
 
     /**
      * getSteps() method
+     *
      * @return number of steps associated with this Daily object
      */
     public long getSteps() {
@@ -275,6 +304,7 @@ public class Daily implements Serializable {
 
     /**
      * setSteps() method
+     *
      * @param steps value of steps to set
      */
     public void setSteps(long steps) {
@@ -283,6 +313,7 @@ public class Daily implements Serializable {
 
     /**
      * getVeryActiveMins() method
+     *
      * @return very active minutes associated with this Daily object
      */
     public long getVeryActiveMins() {
@@ -291,7 +322,9 @@ public class Daily implements Serializable {
 
     /**
      * setVeryActiveMins()
-     * @param veryActiveMins, value to set as the very active minutes for this Daily object
+     *
+     * @param veryActiveMins, value to set as the very active minutes for this
+     * Daily object
      */
     public void setVeryActiveMins(long veryActiveMins) {
         this.veryActiveMins = veryActiveMins;
@@ -299,6 +332,7 @@ public class Daily implements Serializable {
 
     /**
      * getActiveMins() method:
+     *
      * @return value of active minutes for this Daily object
      */
     public long getActiveMins() {
@@ -307,7 +341,9 @@ public class Daily implements Serializable {
 
     /**
      * setActiveMins() method:
-     * @param activeMins, value to set as the number of active minutes for this Daily object
+     *
+     * @param activeMins, value to set as the number of active minutes for this
+     * Daily object
      */
     public void setActiveMins(long activeMins) {
         this.activeMins = activeMins;
@@ -315,6 +351,7 @@ public class Daily implements Serializable {
 
     /**
      * getFloorGoal() method:
+     *
      * @return floors climbed goal value associated with this Daily object
      */
     public double getFloorGoal() {
@@ -323,6 +360,7 @@ public class Daily implements Serializable {
 
     /**
      * setFloorGoal() method
+     *
      * @param floorGoal value to set as the floor goal for this Daily object
      */
     public void setFloorGoal(double floorGoal) {
@@ -331,6 +369,7 @@ public class Daily implements Serializable {
 
     /**
      * getDistanceGoal() method:
+     *
      * @return distanceGoal associated with Daily Object
      */
     public double getDistanceGoal() {
@@ -339,6 +378,7 @@ public class Daily implements Serializable {
 
     /**
      * setDistanceGoal() method:
+     *
      * @param distanceGoal value to set as this Daily's distance goal
      */
     public void setDistanceGoal(double distanceGoal) {
@@ -347,6 +387,7 @@ public class Daily implements Serializable {
 
     /**
      * getDistance() method:
+     *
      * @return distance value associated with this Daily object
      */
     public double getDistance() {
@@ -354,8 +395,10 @@ public class Daily implements Serializable {
     }
 
     /**
-     * setDistance() method: 
-     * @param distance to set as the Distance traveled for the current Daily object
+     * setDistance() method:
+     *
+     * @param distance to set as the Distance traveled for the current Daily
+     * object
      */
     public void setDistance(double distance) {
         this.distance = distance;
@@ -363,6 +406,7 @@ public class Daily implements Serializable {
 
     /**
      * getElevation() method:
+     *
      * @return value of elevation for this Daily object
      */
     public double getElevation() {
@@ -371,6 +415,7 @@ public class Daily implements Serializable {
 
     /**
      * setElevation() method:
+     *
      * @param elevation value to set as the elevation for this Daily object
      */
     public void setElevation(double elevation) {
@@ -379,6 +424,7 @@ public class Daily implements Serializable {
 
     /**
      * getFloors() method:
+     *
      * @return value of floors climbed for this Daily object
      */
     public double getFloors() {
@@ -387,11 +433,11 @@ public class Daily implements Serializable {
 
     /**
      * setFloors() method
+     *
      * @param floors, value to set as the number of floors for this Daily object
      */
     public void setFloors(double floors) {
         this.floors = floors;
     }
 
-    
 }

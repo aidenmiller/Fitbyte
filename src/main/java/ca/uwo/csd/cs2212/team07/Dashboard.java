@@ -1,18 +1,17 @@
 package ca.uwo.csd.cs2212.team07;
 
 import java.awt.Color;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Calendar;
+import java.awt.Dimension;
 import java.text.SimpleDateFormat;
-import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JToggleButton;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Calendar;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import org.json.JSONException;
 
 /**
@@ -20,219 +19,101 @@ import org.json.JSONException;
  *
  * @author team07
  */
-public class Dashboard extends JPanel {
+public class Dashboard extends JPanel implements ActionListener {
 
-    private JToggleButton menuButton;
-    private FitbitInfo fitbitInfo;
+    private final FitbitInfo fitbitInfo;
+
     private JLabel date;
-    private JLabel sedentaryMinutesData;
-    private JLabel activeMinutesData;
-    private JLabel stepsTakenData;
-    private JLabel floorsClimbedData;
-    private JLabel totalDistanceData;
     private JLabel caloriesBurnedData;
+    private JLabel totalDistanceData;
+    private JLabel floorsClimbedData;
+    private JLabel stepsTakenData;
+    private JLabel activeMinutesData;
+    private JLabel sedentaryMinutesData;
     private Calendar currDayView;
-    private int offset;
-    final private int mode;
 
-    /**
-     * Constructor for the Dashboard class
-     *
-     * @param fitbitInfo FitBit data for the user to display
-     * @param mode if the user is running in normal mode or test mode
-     */
-    public Dashboard(FitbitInfo fitbitInfo, int mode) {
+    private JButton prevButton, nextButton;
+
+    public Dashboard(FitbitInfo fitbitInfo) {
         super();
         this.fitbitInfo = fitbitInfo;
-        this.mode = mode;
         initPanel();
-        initMenuButton();
     }
 
-    /**
-     * Creates the panel to display the page to the user with the relevant
-     * information.
-     */
     private void initPanel() {
 
-        this.setBackground(Color.GREEN); //Color of the menu bar
+        this.setBackground(Color.ORANGE);
 
-        
-        JButton prevDayButton = new JButton("Previous");
-        JButton nextDayButton = new JButton("Next");
-        offset = 0;
-
-        if (mode == 0) {
-            currDayView = (Calendar) fitbitInfo.getLastRefreshTime().clone(); //create a copy of the current time
-            final Dashboard dash = this;
-            
-            prevDayButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    currDayView.add(Calendar.DAY_OF_MONTH, -1);
-                    offset++;
-                    dash.showDay(currDayView);
-
-                }
-            });
-            nextDayButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (offset > 1) {
-                        currDayView.add(Calendar.DAY_OF_MONTH, 1);
-                        offset--;
-                        dash.showDay(currDayView);
-                    } else if (offset == 1) {
-                        currDayView.add(Calendar.DAY_OF_MONTH, 1);
-                        offset--;
-                        dash.update(fitbitInfo);
-                    }
-
-                }
-            });
-        }
-
+        currDayView = (Calendar) fitbitInfo.getLastRefreshTime().clone();
         date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
-        JLabel caloriesBurned = new JLabel("Calories Burned: ");
+        prevButton = new JButton("Previous");
+        prevButton.addActionListener(this);
+        nextButton = new JButton("Next");
+        nextButton.addActionListener(this);
+
+        JPanel timeData = new JPanel();
+        timeData.setOpaque(false);
+        timeData.setLayout(new BoxLayout(timeData, BoxLayout.X_AXIS));
+        timeData.add(Box.createHorizontalGlue());
+        timeData.add(prevButton);
+        timeData.add(Box.createRigidArea(new Dimension(10, 40)));
+        timeData.add(date);
+        timeData.add(Box.createRigidArea(new Dimension(10, 40)));
+        timeData.add(nextButton);
+        timeData.add(Box.createHorizontalGlue());
+
         caloriesBurnedData = new JLabel("" + fitbitInfo.getDay().getCaloriesOut());
-        JLabel totalDistance = new JLabel("Total Distance: ");
+        JPanel caloriesData = this.createDataBox(new JLabel("Calories Burned"), caloriesBurnedData, Color.cyan);
+
         totalDistanceData = new JLabel("" + fitbitInfo.getDay().getDistance());
-        JLabel floorsClimbed = new JLabel("Floors Climbed: ");
+        JPanel distanceData = this.createDataBox(new JLabel("Total Distance"), totalDistanceData, Color.yellow);
+
         floorsClimbedData = new JLabel("" + fitbitInfo.getDay().getFloors());
-        JLabel stepsTaken = new JLabel("Steps Taken: ");
+        JPanel floorsData = this.createDataBox(new JLabel("Floors Climbed"), floorsClimbedData, Color.magenta);
+
         stepsTakenData = new JLabel("" + fitbitInfo.getDay().getSteps());
-        JLabel activeMinutes = new JLabel("Active Minutes: ");
+        JPanel stepsData = this.createDataBox(new JLabel("Steps Taken"), stepsTakenData, Color.white);
+
         activeMinutesData = new JLabel("" + fitbitInfo.getDay().getActiveMins());
-        JLabel sedentaryMinutes = new JLabel("Sedentary Minutes: ");
+        JPanel activeData = this.createDataBox(new JLabel("Active Minutes"), activeMinutesData, Color.green);
+
         sedentaryMinutesData = new JLabel("" + fitbitInfo.getDay().getSedentaryMins());
+        JPanel sedentaryData = this.createDataBox(new JLabel("Sedentary Minutes"), sedentaryMinutesData, Color.pink);
 
-        GroupLayout layout;
-        layout = new GroupLayout(this);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-
-        layout.setHorizontalGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(date)
-                                .addComponent(prevDayButton)
-                                .addComponent(nextDayButton)
-                        )
-                        .addGap(20)
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(caloriesBurned)
-                                .addComponent(caloriesBurnedData)
-                        )
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(totalDistance)
-                                .addComponent(totalDistanceData)
-                        )
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(floorsClimbed)
-                                .addComponent(floorsClimbedData)
-                        )
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(stepsTaken)
-                                .addComponent(stepsTakenData)
-                        )
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(activeMinutes)
-                                .addComponent(activeMinutesData)
-                        )
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(sedentaryMinutes)
-                                .addComponent(sedentaryMinutesData)
-                        )
-                )
-        );
-
-        layout.setVerticalGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(date)
-                        .addComponent(prevDayButton)
-                        .addComponent(nextDayButton)
-                )
-                .addGap(50)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(caloriesBurned)
-                        .addComponent(caloriesBurnedData)
-                )
-                .addGap(30)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(totalDistance)
-                        .addComponent(totalDistanceData)
-                )
-                .addGap(30)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(floorsClimbed)
-                        .addComponent(floorsClimbedData)
-                )
-                .addGap(30)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(stepsTaken)
-                        .addComponent(stepsTakenData)
-                )
-                .addGap(30)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(activeMinutes)
-                        .addComponent(activeMinutesData)
-                )
-                .addGap(30)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(sedentaryMinutes)
-                        .addComponent(sedentaryMinutesData)
-                )
-        );
-
-        this.setLayout(layout);
-    }
-
-    /**
-     * Creates a Menu Button to be displayed on the menu bar of the program
-     */
-    private void initMenuButton() {
-        ImageIcon icon = new ImageIcon(FileReader.getImage("dashboard.png"));
-        ImageIcon iconP = new ImageIcon(FileReader.getImage("dashboard_pressed.png"));
-        menuButton = new JToggleButton();
-        menuButton.setToolTipText("Dashboard");
-        menuButton.setBorderPainted(false);
-        menuButton.setIcon(icon);
-        menuButton.setRolloverIcon(iconP);
-        menuButton.setSelectedIcon(iconP);
-        menuButton.setRolloverSelectedIcon(iconP);
-
-        final JPanel panel = this;
-        menuButton.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent ev) {
-                if (ev.getStateChange() == ItemEvent.SELECTED) {
-                    panel.setVisible(true);
-                } else if (ev.getStateChange() == ItemEvent.DESELECTED) {
-                    panel.setVisible(false);
-                }
-            }
-        });
+        //Layout Specifications
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(timeData);
+        this.add(Box.createVerticalStrut(10));
+        this.add(caloriesData);
+        this.add(Box.createVerticalStrut(10));
+        this.add(distanceData);
+        this.add(Box.createVerticalStrut(10));
+        this.add(floorsData);
+        this.add(Box.createVerticalStrut(10));
+        this.add(stepsData);
+        this.add(Box.createVerticalStrut(10));
+        this.add(activeData);
+        this.add(Box.createVerticalStrut(10));
+        this.add(sedentaryData);
 
     }
 
-    /**
-     * Returns the Menu Button for this page
-     *
-     * @return a JToggleButton for this page
-     */
-    public JToggleButton getMenuButton() {
-        return this.menuButton;
+    private JPanel createDataBox(JLabel header, JLabel data, Color color) {
+        JPanel panel = new JPanel();
+
+        panel.setBackground(color);
+        panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(Box.createRigidArea(new Dimension(600,10)));
+        panel.add(header);
+        panel.add(data);
+        panel.add(Box.createRigidArea(new Dimension(600,10)));
+
+        return panel;
     }
 
-    /**
-     * Refreshes the info on this page with the info contained in the FitbitInfo
-     * provided
-     *
-     * @param info the FitbitInfo provided with new data
-     */
-    public void update(FitbitInfo info) {
-        this.fitbitInfo = info;
-        System.out.println("Dashboard Refreshing");
-
+    public void refresh() {
+        currDayView = (Calendar) fitbitInfo.getLastRefreshTime().clone();
         date.setText(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
         sedentaryMinutesData.setText("" + fitbitInfo.getDay().getSedentaryMins());
         activeMinutesData.setText("" + fitbitInfo.getDay().getActiveMins());
@@ -240,29 +121,43 @@ public class Dashboard extends JPanel {
         floorsClimbedData.setText("" + fitbitInfo.getDay().getFloors());
         totalDistanceData.setText("" + fitbitInfo.getDay().getDistance());
         caloriesBurnedData.setText("" + fitbitInfo.getDay().getCaloriesOut());
-
     }
 
-    public void showDay(Calendar day) {
-        FitbitInfo newDayInfo = new FitbitInfo();
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == prevButton) {
+            currDayView.add(Calendar.DAY_OF_MONTH, -1);
+            showDay(currDayView);
+        } else if (e.getSource() == nextButton) {
+            currDayView.add(Calendar.DAY_OF_MONTH, 1);
+            showDay(currDayView);
+        }
+    }
 
-        try {
-            newDayInfo.refreshInfo(day);
-        } catch (JSONException ex) {
-            System.err.println("Error Accessing API");
-        } catch (RefreshTokenException ex) {
-            System.err.println("Error Accessing API");
+    private void showDay(Calendar dayToShow) {
+        FitbitInfo dayInfo = new FitbitInfo();
+
+        if (fitbitInfo.getDay().getDate().equals("yyyy-MM-dd")) {
+            dayInfo.generateTestData(); //for Test Mode
+        } else {
+            try {
+                dayInfo.refreshInfo(dayToShow);
+
+            } catch (JSONException ex) {
+                System.err.println("Error Accessing API");
+            } catch (RefreshTokenException ex) {
+                System.err.println("Error Accessing API");
+            }
         }
 
-        date.setText(new SimpleDateFormat("dd MMM yyyy").format(newDayInfo.getLastRefreshTime().getTime()));
-        sedentaryMinutesData.setText("" + newDayInfo.getDay().getSedentaryMins());
-        activeMinutesData.setText("" + newDayInfo.getDay().getActiveMins());
-        stepsTakenData.setText("" + newDayInfo.getDay().getSteps());
-        floorsClimbedData.setText("" + newDayInfo.getDay().getFloors());
-        totalDistanceData.setText("" + newDayInfo.getDay().getDistance());
-        caloriesBurnedData.setText("" + newDayInfo.getDay().getCaloriesOut());
-
+        date.setText(new SimpleDateFormat("dd MMM yyyy").format(dayToShow.getTime()));
+        sedentaryMinutesData.setText("" + dayInfo.getDay().getSedentaryMins());
+        activeMinutesData.setText("" + dayInfo.getDay().getActiveMins());
+        stepsTakenData.setText("" + dayInfo.getDay().getSteps());
+        floorsClimbedData.setText("" + dayInfo.getDay().getFloors());
+        totalDistanceData.setText("" + dayInfo.getDay().getDistance());
+        caloriesBurnedData.setText("" + dayInfo.getDay().getCaloriesOut());
 
     }
+    
 
 }
