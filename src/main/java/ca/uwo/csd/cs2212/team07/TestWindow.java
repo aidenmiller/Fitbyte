@@ -15,6 +15,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  * Creates a Main Window that displays the program to the user.
@@ -130,6 +131,8 @@ public class TestWindow extends JFrame implements ActionListener {
             cardLayout.show(cardPane, "Dashboard");
         } else if (e.getSource() == dailyGoalsButton) {
             cardLayout.show(cardPane, "Daily Goals");
+        } else if (e.getSource() == refreshButton) {
+            JOptionPane.showMessageDialog(new JFrame(), "Nice try. Unable to refresh in Test Mode");
         } else if (e.getSource() == exitButton) {
             System.exit(0); //exit the program
         }
