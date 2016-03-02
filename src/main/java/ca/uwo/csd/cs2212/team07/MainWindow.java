@@ -65,9 +65,11 @@ public class MainWindow extends JFrame implements ActionListener {
             try {
                 fitbitInfo.refreshInfo(Calendar.getInstance());
             } catch (JSONException ex) {
-                System.err.println("JSONException - Error Accessing API: " + ex.getMessage());
+                JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
+                System.exit(0);
             } catch (RefreshTokenException ex) {
-                System.err.println("RefreshTokenException - Error Accessing API: " + ex.getMessage());
+                JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
+                System.exit(0);
             }
         }
     }
@@ -175,12 +177,8 @@ public class MainWindow extends JFrame implements ActionListener {
         } else if (e.getSource() == refreshButton) {
             this.refreshInfo();
         } else if (e.getSource() == exitButton) {
-            try {
-                this.storeInfo();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(new JFrame(), "ERROR! Unable to store user data.");
-            }
-            System.exit(0); //exit the program
+            this.storeInfo();
+            System.exit(0);
         }
     }
 
@@ -201,12 +199,15 @@ public class MainWindow extends JFrame implements ActionListener {
     /**
      * Stores the user info from the stored data file
      *
-     * @throws Exception thrown when the file is unable to be stored
      */
-    public void storeInfo() throws Exception {
+    public void storeInfo() {
 
-        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("user.info"));
-        out.writeObject(fitbitInfo);
+        try {
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("user.info"));
+            out.writeObject(fitbitInfo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(new JFrame(), "ERROR! Unable to store user data.");
+        }
 
     }
 
@@ -221,9 +222,9 @@ public class MainWindow extends JFrame implements ActionListener {
             dashboard.refresh();
             dailyGoals.refresh();
         } catch (JSONException ex) {
-            System.err.println("Error Accessing API");
+            JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
         } catch (RefreshTokenException ex) {
-            System.err.println("Error Accessing API");
+            JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
         }
     }
 

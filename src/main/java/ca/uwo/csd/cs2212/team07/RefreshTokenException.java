@@ -8,7 +8,7 @@ package ca.uwo.csd.cs2212.team07;
 public class RefreshTokenException extends Exception {
 
     /**
-     * Constructor method: creates refreshtokenexception object
+     * Constructor method: creates RefreshTokenException object
      * @param message 
      */
     public RefreshTokenException(String message) {
@@ -19,6 +19,6 @@ public class RefreshTokenException extends Exception {
      * Constructor method: creates RefreshTokenException object
      */
     public RefreshTokenException(){
-        super();
+        this("RefreshTokenException");
     }
 }

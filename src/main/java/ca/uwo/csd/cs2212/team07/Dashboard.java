@@ -13,6 +13,8 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 import org.json.JSONException;
 
@@ -184,6 +186,7 @@ public class Dashboard extends JPanel implements ActionListener {
 
     /**
      * Sets the results of clicking different buttons on the Dashboard
+     *
      * @param e event called when button is pressed
      */
     public void actionPerformed(ActionEvent e) {
@@ -212,21 +215,21 @@ public class Dashboard extends JPanel implements ActionListener {
 
     /**
      * Shows the day provided in the parameter to the user.
+     *
      * @param dayToShow the day to show to the user
      */
     private void showDay(Calendar dayToShow) {
         FitbitInfo dayInfo = new FitbitInfo();
 
-        if (fitbitInfo.getDay().getDate().equals("yyyy-MM-dd")) {
-            dayInfo.generateTestData(); //for Test Mode
+        if (fitbitInfo.getDay().getDate().equals("yyyy-MM-dd")) { //checks if in Test Mode
+            dayInfo.generateTestData();
         } else {
             try {
                 dayInfo.refreshInfo(dayToShow);
-
             } catch (JSONException ex) {
-                System.err.println("Error Accessing API");
+                JOptionPane.showMessageDialog(new JFrame(), "Unable to display data.");
             } catch (RefreshTokenException ex) {
-                System.err.println("Error Accessing API");
+                JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
             }
         }
 
