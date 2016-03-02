@@ -20,7 +20,6 @@ public class App {
         //Runs test mode if specified by the command line argument
         if (args.length > 0 && args[0].equals("test")) {
             SwingUtilities.invokeLater(new Runnable() {
-                @Override
                 public void run() {
                     //Run the program in Normal Mode
                     TestWindow window = new TestWindow();
@@ -31,7 +30,6 @@ public class App {
         //Runs normal mode if either no command line argument is provided or arguments are unrecognized
         else {
             SwingUtilities.invokeLater(new Runnable() {
-                @Override
                 public void run() {
                     //Run the program in Test Mode
                     MainWindow window = new MainWindow();

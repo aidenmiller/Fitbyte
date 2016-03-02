@@ -31,24 +31,24 @@ public class Daily implements Serializable {
     /**
      * Contructor Method, creates a new Daily object
      *
-     * @param dailyDate
-     * @param dailyActiveMinGoal
-     * @param dailyCalOutGoal
-     * @param dailyDistanceGoal
-     * @param dailyFloorGoal
-     * @param dailyStepsGoal
-     * @param dailyActivityCalories
-     * @param dailyCaloriesBMR
-     * @param dailyCaloriesOut
-     * @param dailyDistance
-     * @param dailyElevation
-     * @param dailyFairlyActiveMins
-     * @param dailyFloors
-     * @param dailyLightActMins
-     * @param dailyMargCals
-     * @param dailySedMins
-     * @param dailySteps
-     * @param dailyVeryActMins
+     * @param dailyDate the date
+     * @param dailyActiveMinGoal the active minimum goal
+     * @param dailyCalOutGoal the calories out goal
+     * @param dailyDistanceGoal the distance goal
+     * @param dailyFloorGoal the floor goal
+     * @param dailyStepsGoal the steps goal
+     * @param dailyActivityCalories the active calories
+     * @param dailyCaloriesBMR the BMR calories
+     * @param dailyCaloriesOut the calories out
+     * @param dailyDistance distance
+     * @param dailyElevation elevation
+     * @param dailyFairlyActiveMins fairly active minutes
+     * @param dailyFloors floors
+     * @param dailyLightActMins light active minutes
+     * @param dailyMargCals marginal calories
+     * @param dailySedMins sedentary minutes
+     * @param dailySteps steps
+     * @param dailyVeryActMins very active minutes
      */
     public Daily(String dailyDate, long dailyActiveMinGoal, long dailyCalOutGoal, double dailyDistanceGoal, double dailyFloorGoal, long dailyStepsGoal, long dailyActivityCalories,
             long dailyCaloriesBMR, long dailyCaloriesOut, double dailyDistance, double dailyElevation, long dailyFairlyActiveMins, double dailyFloors, long dailyLightActMins,
