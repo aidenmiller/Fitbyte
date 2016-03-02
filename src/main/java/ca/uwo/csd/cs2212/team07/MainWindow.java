@@ -45,12 +45,18 @@ public class MainWindow extends JFrame implements ActionListener {
     private JPanel cardPane;
     private CardLayout cardLayout;
 
+    /**
+     * Constructs a new Main Window
+     */
     public MainWindow() {
         this.getUserData();
         this.getUserConfig();
         this.initUI();
     }
 
+    /**
+     * Loads the serialized user data into a FitbitInfo object
+     */
     private void getUserData() {
         try {
             fitbitInfo = loadInfo();
@@ -66,10 +72,16 @@ public class MainWindow extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Loads the serialized user configuration into a UserConfig object
+     */
     private void getUserConfig() {
 
     }
 
+    /**
+     * Initializes the UI displayed in the Main Window
+     */
     private void initUI() {
         this.setTitle("CS2212 Team07");
         this.setSize(800, 600);
@@ -124,6 +136,14 @@ public class MainWindow extends JFrame implements ActionListener {
         dashboardButton.doClick();
     }
 
+    /**
+     * Creates a toggle button for a display such as Dashboard
+     *
+     * @param name name of display
+     * @param iconFile name of icon stored in resources folder
+     * @param iconSelectedFile name of selected icon stored in resources folder
+     * @return the created menu button
+     */
     private JToggleButton makeMenuButton(String name, String iconFile, String iconSelectedFile) {
         JToggleButton button = new JToggleButton();
 
@@ -142,6 +162,11 @@ public class MainWindow extends JFrame implements ActionListener {
         return button;
     }
 
+    /**
+     * Sets the results of clicking different buttons on the Dashboard
+     *
+     * @param e event called when button is pressed
+     */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == dashboardButton) {
             cardLayout.show(cardPane, "Dashboard");
@@ -159,6 +184,12 @@ public class MainWindow extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Loads the user info from a stored data file
+     *
+     * @return FitbitInfo object with stored user data
+     * @throws Exception thrown when file is not found
+     */
     public FitbitInfo loadInfo() throws Exception {
 
         ObjectInputStream in;
@@ -167,6 +198,11 @@ public class MainWindow extends JFrame implements ActionListener {
         return (FitbitInfo) in.readObject();
     }
 
+    /**
+     * Stores the user info from the stored data file
+     *
+     * @throws Exception thrown when the file is unable to be stored
+     */
     public void storeInfo() throws Exception {
 
         ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("user.info"));
@@ -174,6 +210,10 @@ public class MainWindow extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Refreshes the info in the FitbitInfo object and then refreshes each of
+     * the displays
+     */
     private void refreshInfo() {
         try {
             fitbitInfo.refreshInfo(Calendar.getInstance());

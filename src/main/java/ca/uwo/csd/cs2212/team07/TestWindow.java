@@ -18,7 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
- * Creates a Main Window that displays the program to the user.
+ * Creates a Test Window that displays the program in test mode to the user.
  *
  * @author team07
  */
@@ -39,21 +39,33 @@ public class TestWindow extends JFrame implements ActionListener {
     private JPanel cardPane;
     private CardLayout cardLayout;
 
+    /**
+     * Constructor for the TestWindow class
+     */
     public TestWindow() {
         this.getUserData();
         this.getUserConfig();
         this.initUI();
     }
 
+    /**
+     * Generates test data to display to the user
+     */
     private void getUserData() {
         fitbitInfo = new FitbitInfo();
         fitbitInfo.generateTestData();
     }
 
+    /**
+     * Generates test configurations to display
+     */
     private void getUserConfig() {
 
     }
 
+    /**
+     * Initializes the UI displayed in the Test Window
+     */
     private void initUI() {
         this.setTitle("CS2212 Team07");
         this.setSize(800, 600);
@@ -108,6 +120,14 @@ public class TestWindow extends JFrame implements ActionListener {
         dashboardButton.doClick();
     }
 
+    /**
+     * Creates a toggle button for a display such as Dashboard
+     *
+     * @param name name of display
+     * @param iconFile name of icon stored in resources folder
+     * @param iconSelectedFile name of selected icon stored in resources folder
+     * @return the created menu button
+     */
     private JToggleButton makeMenuButton(String name, String iconFile, String iconSelectedFile) {
         JToggleButton button = new JToggleButton();
 
@@ -126,6 +146,11 @@ public class TestWindow extends JFrame implements ActionListener {
         return button;
     }
 
+    /**
+     * Sets the results of clicking different buttons on the Dashboard
+     *
+     * @param e event called when button is pressed
+     */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == dashboardButton) {
             cardLayout.show(cardPane, "Dashboard");

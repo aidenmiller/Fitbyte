@@ -40,12 +40,20 @@ public class Dashboard extends JPanel implements ActionListener {
     private JToggleButton todayButton, bestButton, lifetimeButton;
     private JPanel timeData;
 
+    /**
+     * Constructor for the Dashboard class
+     *
+     * @param fitbitInfo container for user data
+     */
     public Dashboard(FitbitInfo fitbitInfo) {
         super();
         this.fitbitInfo = fitbitInfo;
         initPanel();
     }
 
+    /**
+     * Initializes the panel that displays the Dashboard
+     */
     private void initPanel() {
 
         this.setBackground(Color.ORANGE);
@@ -135,6 +143,14 @@ public class Dashboard extends JPanel implements ActionListener {
         todayButton.doClick();
     }
 
+    /**
+     * Create a data box for one of the data items displayed on the Dashboard
+     *
+     * @param header name of data item
+     * @param data the data to display
+     * @param color the color of the data box
+     * @return a JPanel containing the data box for the data item
+     */
     private JPanel createDataBox(JLabel header, JLabel data, Color color) {
         JPanel panel = new JPanel();
 
@@ -149,7 +165,13 @@ public class Dashboard extends JPanel implements ActionListener {
         return panel;
     }
 
+    /**
+     * Refreshes the Dashboard after refreshing the data in FitbitInfo or
+     * returning to Today's view
+     */
     public void refresh() {
+        todayButton.setSelected(true);
+        timeData.setVisible(true);
         currDayView = (Calendar) fitbitInfo.getLastRefreshTime().clone();
         date.setText(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
         sedentaryMinutesData.setText("" + fitbitInfo.getDay().getSedentaryMins());
@@ -160,13 +182,18 @@ public class Dashboard extends JPanel implements ActionListener {
         caloriesBurnedData.setText("" + fitbitInfo.getDay().getCaloriesOut());
     }
 
+    /**
+     * Sets the results of clicking different buttons on the Dashboard
+     * @param e event called when button is pressed
+     */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == prevButton) {
             currDayView.add(Calendar.DAY_OF_MONTH, -1);
             showDay(currDayView);
         } else if (e.getSource() == nextButton) {
             currDayView.add(Calendar.DAY_OF_MONTH, 1);
-            if (currDayView.after(fitbitInfo.getLastRefreshTime())) {
+            if (currDayView.equals(fitbitInfo.getLastRefreshTime())
+                    || currDayView.after(fitbitInfo.getLastRefreshTime())) {
                 this.refresh(); //use refresh and not showDay so fitbitInfo is shown instead of newly pulled data
             } else {
                 showDay(currDayView);
@@ -183,6 +210,10 @@ public class Dashboard extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Shows the day provided in the parameter to the user.
+     * @param dayToShow the day to show to the user
+     */
     private void showDay(Calendar dayToShow) {
         FitbitInfo dayInfo = new FitbitInfo();
 
@@ -209,6 +240,9 @@ public class Dashboard extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Displays the Best Days data to the user
+     */
     private void displayBest() {
         sedentaryMinutesData.setText("n/a");
         activeMinutesData.setText("n/a");
@@ -218,6 +252,9 @@ public class Dashboard extends JPanel implements ActionListener {
         caloriesBurnedData.setText("n/a");
     }
 
+    /**
+     * Displays the Lifetime data to the user
+     */
     private void displayLifetime() {
         sedentaryMinutesData.setText("n/a");
         activeMinutesData.setText("n/a");
