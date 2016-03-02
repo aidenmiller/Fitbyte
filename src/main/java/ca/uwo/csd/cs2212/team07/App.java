@@ -13,7 +13,7 @@ public class App {
      * We expect that the args array will contain either no arguments or "test".
      * Runs MainWindow in either test mode or normal mode
      *
-     * @param args
+     * @param args command line arguments supplied
      */
     public static void main(String[] args) {
 

@@ -16,12 +16,20 @@ public class DailyGoals extends JPanel {
 
     private JLabel date;
 
+    /**
+     * Constructor for the Daily Goals class
+     *
+     * @param fitbitInfo container for user data
+     */
     public DailyGoals(FitbitInfo fitbitInfo) {
         super();
         this.fitbitInfo = fitbitInfo;
         initPanel();
     }
 
+    /**
+     * Initializes the panel to display Daily Goals to the user
+     */
     private void initPanel() {
 
         this.setBackground(Color.CYAN); //Color of the menu bar
@@ -32,6 +40,9 @@ public class DailyGoals extends JPanel {
 
     }
 
+    /**
+     * Refresh the data displayed to the user
+     */
     public void refresh() {
         date.setText(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
     }
