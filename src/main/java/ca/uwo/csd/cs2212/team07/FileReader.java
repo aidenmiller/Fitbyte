@@ -36,6 +36,7 @@ public class FileReader {
             image = ImageIO.read(is);
             is.close();
         } catch (IOException e) {
+            System.err.println("Unable to load image " + fileName);
         }
 
         return image;

@@ -158,9 +158,6 @@ public class RefreshTokens {
             case 429:
                 System.out.println("Rate limit exceeded");
                 throw new RefreshTokenException("429-Rate Limit Exceeded");
-            default:
-               /* System.out.println("HTTP response code: " + response.getCode());
-                System.out.println("HTTP response body:\n" + response.getBody()); */
         }
 
         BufferedWriter bufferedWriter = null;
@@ -185,11 +182,9 @@ public class RefreshTokens {
             bufferedWriter.newLine();
             bufferedWriter.close();
         } catch (FileNotFoundException ex) {
-            System.out.println(
-                    "Unable to open file\n" + ex.getMessage());
+            throw new RefreshTokenException("Unable to open file\n" + ex.getMessage());
         } catch (IOException ex) {
-            System.out.println(
-                    "Error reading/write file\n" + ex.getMessage());
+             throw new RefreshTokenException("Unable to read/write file\n" + ex.getMessage());
         } finally {
             try {
                 if (bufferedWriter != null) {
