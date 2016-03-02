@@ -6,6 +6,7 @@ Clone the repository onto your local system:
 git clone ssh://git@repo.gaul.csd.uwo.ca:7999/cs2212_w2016/team07.git
 ```
 
+
 ## Compiling using Maven
 
 From the team07 working directory, enter the following command to package the program:
@@ -13,6 +14,7 @@ From the team07 working directory, enter the following command to package the pr
 ```
 mvn package
 ```
+
 
 ## Running the program
 
