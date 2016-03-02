@@ -158,5 +158,6 @@ public class Dashboard extends JPanel implements ActionListener {
         caloriesBurnedData.setText("" + dayInfo.getDay().getCaloriesOut());
 
     }
+    
 
 }
