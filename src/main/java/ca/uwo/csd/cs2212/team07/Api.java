@@ -61,6 +61,7 @@ public class Api {
         requestUrl = requestUrlPrefix + "activities/date/" + date + ".json";
 
         Response response = RefreshTokens.getResponse(requestUrl); // get Response JSON object from API
+       
 
         JSONObject obj = new JSONObject(response.getBody());
 
