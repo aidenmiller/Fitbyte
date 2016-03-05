@@ -193,6 +193,23 @@ public class Api {
                              cardioCalsOut, peakCalsOut, intraDayDataset);
 
     }
+    
+    public static void getSteps15Mins(String date) throws JSONException, RefreshTokenException {
+        
+        String requestUrlPrefix = "https://api.fitbit.com/1/user/-/"; // all api calls begin with this url prefix
+
+        String requestUrl;
+        //    The URL from this point is how you ask for different information
+        requestUrl = requestUrlPrefix + "activities/steps/date/" + date + "/" + date  + "/15min.json";
+
+        Response response = RefreshTokens.getResponse(requestUrl); // get Response JSON object from API
+    
+        JSONObject obj = new JSONObject(response.getBody());
+        System.out.println(response.getBody());        
+        
+        
+        
+    } 
 
 
 }
