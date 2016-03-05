@@ -156,24 +156,60 @@ public class Api {
 
         return bestDayArray;
     }
+    
+    public static HeartData getHeartSummary(String date) throws JSONException, RefreshTokenException {
 
-    /**
-     *
-     * @throws RefreshTokenException
-     * @throws JSONException
-     */
-    /*
-    public static void userProfile() throws RefreshTokenException, JSONException {
-          String requestUrlPrefix = "https://api.fitbit.com/1/user/-/"; // url prefix for all api calls
+        String requestUrlPrefix = "https://api.fitbit.com/1/user/-/"; // all api calls begin with this url prefix
+
         String requestUrl;
-        
         //    The URL from this point is how you ask for different information
-        requestUrl = requestUrlPrefix + "profile.json";
+        requestUrl = requestUrlPrefix + "activities/heart/date/" + date + "/1d.json";
+
+        Response response = RefreshTokens.getResponse(requestUrl); // get Response JSON object from API
        
-        Response response = RefreshTokens.getResponse(requestUrl); // get response from api
+
         JSONObject obj = new JSONObject(response.getBody());
+        JSONArray intraDayDataset = obj.getJSONObject("activities-heart-intraday").getJSONArray("dataset");
+        JSONObject outOfRange = 
+                obj.getJSONArray("activities-heart").getJSONObject(0).getJSONObject("value").getJSONArray("heartRateZones").getJSONObject(0);
+        JSONObject fatBurn = 
+                obj.getJSONArray("activities-heart").getJSONObject(0).getJSONObject("value").getJSONArray("heartRateZones").getJSONObject(1);
+        JSONObject cardio = 
+                obj.getJSONArray("activities-heart").getJSONObject(0).getJSONObject("value").getJSONArray("heartRateZones").getJSONObject(2);
+        JSONObject peak = 
+                obj.getJSONArray("activities-heart").getJSONObject(0).getJSONObject("value").getJSONArray("heartRateZones").getJSONObject(3);
         
-        System.out.println("HELLO! + " +response.getCode());
+        int restingHeartRate = obj.getJSONArray("activities-heart").getJSONObject(0).getJSONObject("value").getInt("restingHeartRate");
+        int outOfRangeMins = outOfRange.getInt("minutes");
+        int fatBurnMins = fatBurn.getInt("minutes");
+        int cardioMins = cardio.getInt("minutes");
+        int peakMins = peak.getInt("minutes");
+        double outOfRangeCalsOut = outOfRange.getDouble("caloriesOut");
+        double fatBurnCalsOut = fatBurn.getDouble("caloriesOut");
+        double cardioCalsOut = cardio.getDouble("caloriesOut");
+        double peakCalsOut = peak.getDouble("caloriesOut");
+        
+        return new HeartData(date, restingHeartRate, outOfRangeMins, fatBurnMins, cardioMins, peakMins, outOfRangeCalsOut, fatBurnCalsOut,
+                             cardioCalsOut, peakCalsOut, intraDayDataset);
+
     }
-     */
+    
+    public static void getSteps15Mins(String date) throws JSONException, RefreshTokenException {
+        
+        String requestUrlPrefix = "https://api.fitbit.com/1/user/-/"; // all api calls begin with this url prefix
+
+        String requestUrl;
+        //    The URL from this point is how you ask for different information
+        requestUrl = requestUrlPrefix + "activities/steps/date/" + date + "/" + date  + "/15min.json";
+
+        Response response = RefreshTokens.getResponse(requestUrl); // get Response JSON object from API
+    
+        JSONObject obj = new JSONObject(response.getBody());
+        System.out.println(response.getBody());        
+        
+        
+        
+    } 
+
+
 }
