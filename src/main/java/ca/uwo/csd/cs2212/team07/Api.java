@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import org.json.JSONException;
 
 /**
@@ -194,21 +195,42 @@ public class Api {
 
     }
     
-    public static void getSteps15Mins(String date) throws JSONException, RefreshTokenException {
+    public static void getTimeSeriesData(String date, String activity, int resolution) throws JSONException, RefreshTokenException {
         
         String requestUrlPrefix = "https://api.fitbit.com/1/user/-/"; // all api calls begin with this url prefix
 
         String requestUrl;
+        
+        
+        if (activity.equals("heartrate")) {
+            requestUrl = requestUrlPrefix + "activities/heart/date/" +date + "/1d/" + resolution + "min.json";
+        }
+        else {
         //    The URL from this point is how you ask for different information
-        requestUrl = requestUrlPrefix + "activities/steps/date/" + date + "/" + date  + "/15min.json";
+        requestUrl = requestUrlPrefix + "activities/" + activity + "/date/" + date + "/" + date  + "/" + resolution + "min.json";
+        }
 
         Response response = RefreshTokens.getResponse(requestUrl); // get Response JSON object from API
+        System.out.println(response.getBody());
     
+        ArrayList timeDataList = new ArrayList();
         JSONObject obj = new JSONObject(response.getBody());
-        System.out.println(response.getBody());        
+        JSONArray intradayData = obj.getJSONObject("activities-" + activity+ "-intraday").getJSONArray("dataset");
+        
+        for(int i = 0; i< intradayData.length() - 1; i++) {
+            if(activity.equals("steps"))
+                timeDataList.add(intradayData.getJSONObject(i).getDouble("value"));
+            else if (activity.equals("calories"))
+                timeDataList.add(intradayData.getJSONObject(i).getInt("value"));
+            else
+                timeDataList.add(intradayData.getJSONObject(i).getDouble("value"));
+                
+                
+                    
+        }
         
         
-        
+        //return timeDataList;
     } 
 
 
