@@ -15,7 +15,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -105,7 +107,9 @@ public class MainWindow extends JFrame implements ActionListener {
         menuBar.add(dailyGoalsButton);
         menuBar.add(Box.createHorizontalGlue());
 
-        lastRefresh = new JLabel("last synced: " + fitbitInfo.getLastRefreshTime().getTime());
+        Date date = fitbitInfo.getLastRefreshTime().getTime();
+        lastRefresh = new JLabel("last synced: " + new SimpleDateFormat("dd MMM yyyy").format(date)
+                + " at " + new SimpleDateFormat("h:mm:ss a z").format(date));
         lastRefresh.setFont(new Font(lastRefresh.getFont().getName(), Font.PLAIN, 10));
 
         refreshButton = new JButton(new ImageIcon(FileReader.getImage("refresh.png")));
@@ -218,7 +222,9 @@ public class MainWindow extends JFrame implements ActionListener {
     private void refreshInfo() {
         try {
             fitbitInfo.refreshInfo(Calendar.getInstance());
-            lastRefresh.setText("last synced: " + fitbitInfo.getLastRefreshTime().getTime());
+            Date date = fitbitInfo.getLastRefreshTime().getTime();
+            lastRefresh.setText("last synced: " + new SimpleDateFormat("dd MMM yyyy").format(date)
+                    + " at " + new SimpleDateFormat("h:mm:ss a z").format(date));
             dashboard.refresh();
             dailyGoals.refresh();
         } catch (JSONException ex) {

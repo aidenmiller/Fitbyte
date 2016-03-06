@@ -44,7 +44,15 @@ public class Dashboard extends JPanel implements ActionListener {
 
     private ButtonGroup buttonGroup;
     private JToggleButton todayButton, bestButton, lifetimeButton;
-    private JPanel timeData;
+
+    private JPanel displayPanel;
+    private JPanel timePanel;
+    private JPanel caloriesPanel;
+    private JPanel distancePanel;
+    private JPanel floorsPanel;
+    private JPanel stepsPanel;
+    private JPanel activePanel;
+    private JPanel sedentaryPanel;
 
     /**
      * Constructor for the Dashboard class
@@ -62,7 +70,7 @@ public class Dashboard extends JPanel implements ActionListener {
      */
     private void initPanel() {
         this.setBackground(new Color(255, 200, 200));
-        
+
         //Today, Best, Lifetime views
         todayButton = new JToggleButton("Today");
         todayButton.addActionListener(this);
@@ -75,7 +83,7 @@ public class Dashboard extends JPanel implements ActionListener {
         buttonGroup.add(bestButton);
         buttonGroup.add(lifetimeButton);
 
-        JPanel displayPanel = new JPanel();
+        displayPanel = new JPanel();
         displayPanel.setOpaque(false);
         displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.X_AXIS));
         displayPanel.add(Box.createHorizontalGlue());
@@ -97,36 +105,36 @@ public class Dashboard extends JPanel implements ActionListener {
         nextButton.addActionListener(this);
         nextButton.setBorderPainted(false);
 
-        timeData = new JPanel();
-        timeData.setOpaque(false);
-        timeData.setLayout(new BoxLayout(timeData, BoxLayout.X_AXIS));
-        timeData.add(Box.createHorizontalGlue());
-        timeData.add(prevButton);
-        timeData.add(Box.createHorizontalStrut(15));
-        timeData.add(date);
-        timeData.add(Box.createHorizontalStrut(15));
-        timeData.add(nextButton);
-        timeData.add(Box.createHorizontalGlue());
+        timePanel = new JPanel();
+        timePanel.setOpaque(false);
+        timePanel.setLayout(new BoxLayout(timePanel, BoxLayout.X_AXIS));
+        timePanel.add(Box.createHorizontalGlue());
+        timePanel.add(prevButton);
+        timePanel.add(Box.createHorizontalStrut(15));
+        timePanel.add(date);
+        timePanel.add(Box.createHorizontalStrut(15));
+        timePanel.add(nextButton);
+        timePanel.add(Box.createHorizontalGlue());
         //end of Time data
 
         //Panels for each data item
         caloriesBurnedData = new JLabel("" + fitbitInfo.getDay().getCaloriesOut());
-        JPanel caloriesData = this.createDataBox(new JLabel("Calories Burned"), caloriesBurnedData, "dataicons/calories.png");
+        caloriesPanel = this.createDataBox(new JLabel("Calories Burned"), caloriesBurnedData, "dataicons/calories.png");
 
         totalDistanceData = new JLabel("" + fitbitInfo.getDay().getDistance());
-        JPanel distanceData = this.createDataBox(new JLabel("Total Distance"), totalDistanceData, "dataicons/distance.png");
+        distancePanel = this.createDataBox(new JLabel("Total Distance"), totalDistanceData, "dataicons/distance.png");
 
         floorsClimbedData = new JLabel("" + fitbitInfo.getDay().getFloors());
-        JPanel floorsData = this.createDataBox(new JLabel("Floors Climbed"), floorsClimbedData, "dataicons/floors.png");
+        floorsPanel = this.createDataBox(new JLabel("Floors Climbed"), floorsClimbedData, "dataicons/floors.png");
 
         stepsTakenData = new JLabel("" + fitbitInfo.getDay().getSteps());
-        JPanel stepsData = this.createDataBox(new JLabel("Steps Taken"), stepsTakenData, "dataicons/steps.png");
+        stepsPanel = this.createDataBox(new JLabel("Steps Taken"), stepsTakenData, "dataicons/steps.png");
 
         activeMinutesData = new JLabel("" + fitbitInfo.getDay().getActiveMins());
-        JPanel activeData = this.createDataBox(new JLabel("Active Minutes"), activeMinutesData, "dataicons/active.png");
+        activePanel = this.createDataBox(new JLabel("Active Minutes"), activeMinutesData, "dataicons/active.png");
 
         sedentaryMinutesData = new JLabel("" + fitbitInfo.getDay().getSedentaryMins());
-        JPanel sedentaryData = this.createDataBox(new JLabel("Sedentary Minutes"), sedentaryMinutesData, "dataicons/sedentary.png");
+        sedentaryPanel = this.createDataBox(new JLabel("Sedentary Minutes"), sedentaryMinutesData, "dataicons/sedentary.png");
         //end of Panels for each data item
 
         this.setLayout(new BorderLayout());
@@ -135,7 +143,7 @@ public class Dashboard extends JPanel implements ActionListener {
         topPanel.setOpaque(false);
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         topPanel.add(displayPanel);
-        topPanel.add(timeData);
+        topPanel.add(timePanel);
         this.add(topPanel, BorderLayout.NORTH);
         //Layout Specifications - WEST and EAST
         JPanel westPanel = new JPanel();
@@ -148,18 +156,18 @@ public class Dashboard extends JPanel implements ActionListener {
         JPanel centerPanel = new JPanel();
         centerPanel.setOpaque(false);
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-       centerPanel.add(Box.createVerticalStrut(5));
-        centerPanel.add(caloriesData);
         centerPanel.add(Box.createVerticalStrut(5));
-        centerPanel.add(distanceData);
+        centerPanel.add(caloriesPanel);
         centerPanel.add(Box.createVerticalStrut(5));
-        centerPanel.add(floorsData);
+        centerPanel.add(distancePanel);
         centerPanel.add(Box.createVerticalStrut(5));
-        centerPanel.add(stepsData);
+        centerPanel.add(floorsPanel);
         centerPanel.add(Box.createVerticalStrut(5));
-        centerPanel.add(activeData);
+        centerPanel.add(stepsPanel);
         centerPanel.add(Box.createVerticalStrut(5));
-        centerPanel.add(sedentaryData);
+        centerPanel.add(activePanel);
+        centerPanel.add(Box.createVerticalStrut(5));
+        centerPanel.add(sedentaryPanel);
         centerPanel.add(Box.createVerticalStrut(5));
         this.add(centerPanel, BorderLayout.CENTER);
 
@@ -199,8 +207,9 @@ public class Dashboard extends JPanel implements ActionListener {
      */
     public void refresh() {
         todayButton.setSelected(true);
-        timeData.setVisible(true);
+        timePanel.setVisible(true);
         currDayView = (Calendar) fitbitInfo.getLastRefreshTime().clone();
+
         date.setText(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
         sedentaryMinutesData.setText("" + fitbitInfo.getDay().getSedentaryMins());
         activeMinutesData.setText("" + fitbitInfo.getDay().getActiveMins());
@@ -229,14 +238,21 @@ public class Dashboard extends JPanel implements ActionListener {
                 showDay(currDayView);
             }
         } else if (e.getSource() == todayButton) {
-            timeData.setVisible(true);
+            timePanel.setVisible(true);
             nextButton.setEnabled(false);
+
+            sedentaryPanel.setVisible(true);
+            activePanel.setVisible(true);
+            stepsPanel.setVisible(true);
+            floorsPanel.setVisible(true);
+            distancePanel.setVisible(true);
+            caloriesPanel.setVisible(true);
             this.refresh();
         } else if (e.getSource() == bestButton) {
-            timeData.setVisible(false);
+            timePanel.setVisible(false);
             this.displayBest();
         } else if (e.getSource() == lifetimeButton) {
-            timeData.setVisible(false);
+            timePanel.setVisible(false);
             this.displayLifetime();
         }
     }
@@ -280,24 +296,24 @@ public class Dashboard extends JPanel implements ActionListener {
      * Displays the Best Days data to the user
      */
     private void displayBest() {
-        sedentaryMinutesData.setText("n/a");
-        activeMinutesData.setText("n/a");
-        stepsTakenData.setText("" + fitbitInfo.getBestDays()[2].getValue() + "\ton\t" + fitbitInfo.getBestDays()[2].getDate());
-        floorsClimbedData.setText("" + fitbitInfo.getBestDays()[1].getValue() + "\ton\t" + fitbitInfo.getBestDays()[1].getDate());
-        totalDistanceData.setText("" + fitbitInfo.getBestDays()[0].getValue() + "\ton\t" + fitbitInfo.getBestDays()[0].getDate());
-        caloriesBurnedData.setText("n/a");
+        sedentaryPanel.setVisible(false);
+        activePanel.setVisible(false);
+        stepsTakenData.setText("" + fitbitInfo.getBestDays()[2].getValue() + "\t\ton\t\t" + fitbitInfo.getBestDays()[2].getDate());
+        floorsClimbedData.setText("" + fitbitInfo.getBestDays()[1].getValue() + "\t\ton\t\t" + fitbitInfo.getBestDays()[1].getDate());
+        totalDistanceData.setText("" + fitbitInfo.getBestDays()[0].getValue() + "\t\ton\t\t" + fitbitInfo.getBestDays()[0].getDate());
+        caloriesPanel.setVisible(false);
     }
 
     /**
      * Displays the Lifetime data to the user
      */
     private void displayLifetime() {
-        sedentaryMinutesData.setText("n/a");
-        activeMinutesData.setText("n/a");
+        sedentaryPanel.setVisible(false);
+        activePanel.setVisible(false);
         stepsTakenData.setText("" + fitbitInfo.getLifetime().getSteps());
         floorsClimbedData.setText("" + fitbitInfo.getLifetime().getFloors());
         totalDistanceData.setText("" + fitbitInfo.getLifetime().getDistance());
-        caloriesBurnedData.setText("n/a");
+        caloriesPanel.setVisible(false);
     }
 
 }
