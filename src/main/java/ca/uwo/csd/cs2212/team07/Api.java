@@ -195,7 +195,7 @@ public class Api {
 
     }
     
-    public static ArrayList getTimeSeriesData(String date, String activity, int resolution) throws JSONException, RefreshTokenException {
+    public static TimeSeriesData getTimeSeriesData(String date, String activity, int resolution) throws JSONException, RefreshTokenException {
         
         String requestUrlPrefix = "https://api.fitbit.com/1/user/-/"; // all api calls begin with this url prefix
 
@@ -221,7 +221,7 @@ public class Api {
         }
         
         
-        return timeDataList;
+        return new TimeSeriesData(timeDataList, date, resolution, activity);
     } 
 
 
