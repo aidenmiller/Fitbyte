@@ -17,8 +17,8 @@ public class testapi {
 public static void main(String[] args) {
     
     try {
-    Api.getTimeSeriesData("2016-02-11", "heartrate", 1);
-   
+   ArrayList dawg = Api.getTimeSeriesData("2016-02-11", "heart", 1);
+   System.out.println(dawg.toString());
 }
     catch (Exception ex) {
         System.err.println("error");

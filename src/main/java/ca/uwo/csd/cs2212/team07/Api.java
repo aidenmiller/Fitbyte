@@ -195,14 +195,14 @@ public class Api {
 
     }
     
-    public static void getTimeSeriesData(String date, String activity, int resolution) throws JSONException, RefreshTokenException {
+    public static ArrayList getTimeSeriesData(String date, String activity, int resolution) throws JSONException, RefreshTokenException {
         
         String requestUrlPrefix = "https://api.fitbit.com/1/user/-/"; // all api calls begin with this url prefix
 
         String requestUrl;
         
         
-        if (activity.equals("heartrate")) {
+        if (activity.equals("heart")) {
             requestUrl = requestUrlPrefix + "activities/heart/date/" +date + "/1d/" + resolution + "min.json";
         }
         else {
@@ -211,26 +211,17 @@ public class Api {
         }
 
         Response response = RefreshTokens.getResponse(requestUrl); // get Response JSON object from API
-        System.out.println(response.getBody());
     
         ArrayList timeDataList = new ArrayList();
         JSONObject obj = new JSONObject(response.getBody());
         JSONArray intradayData = obj.getJSONObject("activities-" + activity+ "-intraday").getJSONArray("dataset");
         
         for(int i = 0; i< intradayData.length() - 1; i++) {
-            if(activity.equals("steps"))
-                timeDataList.add(intradayData.getJSONObject(i).getDouble("value"));
-            else if (activity.equals("calories"))
-                timeDataList.add(intradayData.getJSONObject(i).getInt("value"));
-            else
-                timeDataList.add(intradayData.getJSONObject(i).getDouble("value"));
-                
-                
-                    
+                timeDataList.add( new TimePoint(intradayData.getJSONObject(i).getString("time") ,intradayData.getJSONObject(i).getDouble("value")));               
         }
         
         
-        //return timeDataList;
+        return timeDataList;
     } 
 
 
