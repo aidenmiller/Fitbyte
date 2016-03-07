@@ -36,6 +36,8 @@ public class MainWindow extends JFrame implements ActionListener {
 
     private JToggleButton dashboardButton;
     private JToggleButton dailyGoalsButton;
+    private JToggleButton heartRateButton;
+    private JToggleButton accoladesButton;
     private JButton refreshButton;
     private JButton settingsButton;
     private JButton exitButton;
@@ -44,11 +46,13 @@ public class MainWindow extends JFrame implements ActionListener {
     private Dashboard dashboard;
     private DailyGoals dailyGoals;
 
+    
     private ButtonGroup buttonGroup;
     private JPanel cardPane;
     private CardLayout cardLayout;
 
     private Color panelColor;
+    
 
     /**
      * Constructs a new Main Window
@@ -106,9 +110,13 @@ public class MainWindow extends JFrame implements ActionListener {
         buttonGroup = new ButtonGroup();
         dashboardButton = makeMenuButton("Dashboard", "menubuttons/dashboard.png", "menubuttons/dashboard_pressed.png");
         dailyGoalsButton = makeMenuButton("Daily Goals", "menubuttons/dailygoals.png", "menubuttons/dailygoals_pressed.png");
+        heartRateButton = makeMenuButton("Heart Rate", "menubuttons/heartrate.png", "menubuttons/heartrate_pressed.png");
+        accoladesButton = makeMenuButton("Accolades", "menubuttons/accolades.png", "menubuttons/accolades_pressed.png");
 
         menuBar.add(dashboardButton);
         menuBar.add(dailyGoalsButton);
+        menuBar.add(heartRateButton);
+        menuBar.add(accoladesButton);
         menuBar.add(Box.createHorizontalGlue());
 
         refreshButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/refresh.png")));
@@ -199,6 +207,10 @@ public class MainWindow extends JFrame implements ActionListener {
             cardLayout.show(cardPane, "Dashboard");
         } else if (e.getSource() == dailyGoalsButton) {
             cardLayout.show(cardPane, "Daily Goals");
+        } else if (e.getSource() == heartRateButton) {
+            //cardLayout.show(cardPane, "Heart Rate");
+        } else if (e.getSource() == accoladesButton) {
+            //cardLayout.show(cardPane, "Accolades");
         } else if (e.getSource() == refreshButton) {
             this.refreshInfo();
         } else if (e.getSource() == settingsButton) {
