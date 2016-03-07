@@ -263,32 +263,31 @@ public class Dashboard extends JPanel implements ActionListener {
      * @param dayToShow the day to show to the user
      */
     private void showDay(Calendar dayToShow) {
+        Daily dayInfo;
+
         if (fitbitInfo.getDay().getDate().equals("yyyy-MM-dd")) { //checks if in Test Mode
-            FitbitInfo dayInfo = new FitbitInfo();
-            dayInfo.generateTestData();
-            date.setText(new SimpleDateFormat("dd MMM yyyy").format(dayToShow.getTime()));
-            sedentaryMinutesData.setText("" + dayInfo.getDay().getSedentaryMins());
-            activeMinutesData.setText("" + dayInfo.getDay().getActiveMins());
-            stepsTakenData.setText("" + dayInfo.getDay().getSteps());
-            floorsClimbedData.setText("" + dayInfo.getDay().getFloors());
-            totalDistanceData.setText("" + dayInfo.getDay().getDistance());
-            caloriesBurnedData.setText("" + dayInfo.getDay().getCaloriesOut());
+            FitbitInfo info = new FitbitInfo();
+            info.generateTestData();
+            dayInfo = info.getDay();
         } else {
             try {
-                Daily dayInfo = Api.getDailySummary(new SimpleDateFormat("yyyy-MM-dd").format(dayToShow.getTime()));
-                date.setText(new SimpleDateFormat("dd MMM yyyy").format(dayToShow.getTime()));
-                sedentaryMinutesData.setText("" + dayInfo.getSedentaryMins());
-                activeMinutesData.setText("" + dayInfo.getActiveMins());
-                stepsTakenData.setText("" + dayInfo.getSteps());
-                floorsClimbedData.setText("" + dayInfo.getFloors());
-                totalDistanceData.setText("" + dayInfo.getDistance());
-                caloriesBurnedData.setText("" + dayInfo.getCaloriesOut());
+                dayInfo = Api.getDailySummary(new SimpleDateFormat("yyyy-MM-dd").format(dayToShow.getTime()));
             } catch (JSONException ex) {
                 JOptionPane.showMessageDialog(new JFrame(), "Unable to display data.");
+                return; //so that the data does not update
             } catch (RefreshTokenException ex) {
                 JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
+                return; //so that the data does not update
             }
         }
+
+        date.setText(new SimpleDateFormat("dd MMM yyyy").format(dayToShow.getTime()));
+        sedentaryMinutesData.setText("" + dayInfo.getSedentaryMins());
+        activeMinutesData.setText("" + dayInfo.getActiveMins());
+        stepsTakenData.setText("" + dayInfo.getSteps());
+        floorsClimbedData.setText("" + dayInfo.getFloors());
+        totalDistanceData.setText("" + dayInfo.getDistance());
+        caloriesBurnedData.setText("" + dayInfo.getCaloriesOut());
 
     }
 
@@ -296,24 +295,33 @@ public class Dashboard extends JPanel implements ActionListener {
      * Displays the Best Days data to the user
      */
     private void displayBest() {
-        sedentaryPanel.setVisible(false);
-        activePanel.setVisible(false);
-        stepsTakenData.setText("" + fitbitInfo.getBestDays()[2].getValue() + "\t\ton\t\t" + fitbitInfo.getBestDays()[2].getDate());
-        floorsClimbedData.setText("" + fitbitInfo.getBestDays()[1].getValue() + "\t\ton\t\t" + fitbitInfo.getBestDays()[1].getDate());
-        totalDistanceData.setText("" + fitbitInfo.getBestDays()[0].getValue() + "\t\ton\t\t" + fitbitInfo.getBestDays()[0].getDate());
+        double roundedBestDistance = Math.round(fitbitInfo.getBestDays()[0].getValue() * 100.0) / 100.0;
+        double roundedBestFloors = Math.round(fitbitInfo.getBestDays()[1].getValue() * 100.0) / 100.0;
+        int roundedBestSteps = (int) fitbitInfo.getBestDays()[2].getValue();
+
         caloriesPanel.setVisible(false);
+        totalDistanceData.setText(roundedBestDistance + "\t\ton\t\t" + fitbitInfo.getBestDays()[0].getDate());
+        floorsClimbedData.setText(roundedBestFloors + "\t\ton\t\t" + fitbitInfo.getBestDays()[1].getDate());
+        stepsTakenData.setText(roundedBestSteps + "\t\ton\t\t" + fitbitInfo.getBestDays()[2].getDate());
+        activePanel.setVisible(false);
+        sedentaryPanel.setVisible(false);
+
     }
 
     /**
      * Displays the Lifetime data to the user
      */
     private void displayLifetime() {
-        sedentaryPanel.setVisible(false);
-        activePanel.setVisible(false);
-        stepsTakenData.setText("" + fitbitInfo.getLifetime().getSteps());
-        floorsClimbedData.setText("" + fitbitInfo.getLifetime().getFloors());
-        totalDistanceData.setText("" + fitbitInfo.getLifetime().getDistance());
+        double roundedBestDistance = Math.round(fitbitInfo.getLifetime().getDistance() * 100.0) / 100.0;
+        double roundedBestFloors = Math.round(fitbitInfo.getLifetime().getFloors() * 100.0) / 100.0;
+        int roundedBestSteps = (int) fitbitInfo.getLifetime().getSteps();
+
         caloriesPanel.setVisible(false);
+        totalDistanceData.setText("" + roundedBestDistance);
+        floorsClimbedData.setText("" + roundedBestFloors);
+        stepsTakenData.setText("" + roundedBestSteps);
+        activePanel.setVisible(false);
+        sedentaryPanel.setVisible(false);
     }
 
 }
