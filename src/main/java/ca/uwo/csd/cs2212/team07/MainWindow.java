@@ -47,6 +47,8 @@ public class MainWindow extends JFrame implements ActionListener {
     private JPanel cardPane;
     private CardLayout cardLayout;
 
+    private Color panelColor;
+
     /**
      * Constructs a new Main Window
      */
@@ -93,15 +95,16 @@ public class MainWindow extends JFrame implements ActionListener {
         this.setResizable(false);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setLayout(new BorderLayout());
+        panelColor = new Color(0, 80, 105);
 
         // Creation of the Menu Bar
         JPanel menuBar = new JPanel();
-        menuBar.setBackground(Color.WHITE);
+        menuBar.setBackground(panelColor);
         menuBar.setLayout(new BoxLayout(menuBar, BoxLayout.LINE_AXIS));
 
         buttonGroup = new ButtonGroup();
-        dashboardButton = makeMenuButton("Dashboard", "dashboard.png", "dashboard_pressed.png");
-        dailyGoalsButton = makeMenuButton("Daily Goals", "dailygoals.png", "dailygoals_pressed.png");
+        dashboardButton = makeMenuButton("Dashboard", "menubuttons/dashboard.png", "menubuttons/dashboard_pressed.png");
+        dailyGoalsButton = makeMenuButton("Daily Goals", "menubuttons/dailygoals.png", "menubuttons/dailygoals_pressed.png");
 
         menuBar.add(dashboardButton);
         menuBar.add(dailyGoalsButton);
@@ -111,15 +114,16 @@ public class MainWindow extends JFrame implements ActionListener {
         lastRefresh = new JLabel("last synced: " + new SimpleDateFormat("dd MMM yyyy").format(date)
                 + " at " + new SimpleDateFormat("h:mm:ss a z").format(date));
         lastRefresh.setFont(new Font(lastRefresh.getFont().getName(), Font.PLAIN, 10));
+        lastRefresh.setForeground(Color.white);
 
-        refreshButton = new JButton(new ImageIcon(FileReader.getImage("refresh.png")));
+        refreshButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/refresh.png")));
         refreshButton.setBorderPainted(false);
-        refreshButton.setRolloverIcon(new ImageIcon(FileReader.getImage("refresh_pressed.png")));
+        refreshButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/refresh_pressed.png")));
         refreshButton.addActionListener(this);
 
-        exitButton = new JButton(new ImageIcon(FileReader.getImage("exit.png")));
+        exitButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/exit.png")));
         exitButton.setBorderPainted(false);
-        exitButton.setRolloverIcon(new ImageIcon(FileReader.getImage("exit_pressed.png")));
+        exitButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/exit_pressed.png")));
         exitButton.addActionListener(this);
 
         menuBar.add(lastRefresh);

@@ -1,6 +1,5 @@
 package ca.uwo.csd.cs2212.team07;
 
-
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,6 +40,8 @@ public class TestWindow extends JFrame implements ActionListener {
     private JPanel cardPane;
     private CardLayout cardLayout;
 
+    private Color panelColor;
+
     /**
      * Constructor for the TestWindow class
      */
@@ -76,9 +77,11 @@ public class TestWindow extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE); //
         this.setLayout(new BorderLayout());
 
+        panelColor = new Color(0, 80, 105);
+
         // Creation of the Menu Bar
         JPanel menuBar = new JPanel();
-        menuBar.setBackground(Color.WHITE);
+        menuBar.setBackground(panelColor);
         menuBar.setLayout(new BoxLayout(menuBar, BoxLayout.LINE_AXIS));
 
         buttonGroup = new ButtonGroup();
@@ -91,6 +94,7 @@ public class TestWindow extends JFrame implements ActionListener {
 
         lastRefresh = new JLabel("TEST MODE");
         lastRefresh.setFont(new Font(lastRefresh.getFont().getName(), Font.PLAIN, 10));
+        lastRefresh.setForeground(Color.white);
 
         refreshButton = new JButton(new ImageIcon(FileReader.getImage("refresh.png")));
         refreshButton.setBorderPainted(false);
