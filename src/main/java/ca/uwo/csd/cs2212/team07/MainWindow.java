@@ -141,7 +141,7 @@ public class MainWindow extends JFrame implements ActionListener {
         //options bar
         JPanel optionsBar = new JPanel();
         optionsBar.setOpaque(false);
-        optionsBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        optionsBar.setLayout(new BoxLayout(optionsBar, BoxLayout.LINE_AXIS));
         refreshButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/refresh.png")));
         refreshButton.setToolTipText("Refresh");
         refreshButton.setBorderPainted(false);
@@ -160,6 +160,7 @@ public class MainWindow extends JFrame implements ActionListener {
         exitButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/exit_pressed.png")));
         exitButton.addActionListener(this);
 
+        optionsBar.add(Box.createHorizontalGlue());
         optionsBar.add(refreshButton);
         optionsBar.add(settingsButton);
         optionsBar.add(exitButton);
