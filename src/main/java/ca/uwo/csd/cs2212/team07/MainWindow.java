@@ -37,8 +37,9 @@ public class MainWindow extends JFrame implements ActionListener {
     private JToggleButton dashboardButton;
     private JToggleButton dailyGoalsButton;
     private JButton refreshButton;
-    private JLabel lastRefresh;
+    private JButton settingsButton;
     private JButton exitButton;
+    private JLabel lastRefresh;
 
     private Dashboard dashboard;
     private DailyGoals dailyGoals;
@@ -111,16 +112,25 @@ public class MainWindow extends JFrame implements ActionListener {
         menuBar.add(Box.createHorizontalGlue());
 
         refreshButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/refresh.png")));
+        refreshButton.setToolTipText("Refresh");
         refreshButton.setBorderPainted(false);
         refreshButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/refresh_pressed.png")));
         refreshButton.addActionListener(this);
 
+        settingsButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/settings.png")));
+        settingsButton.setToolTipText("Settings");
+        settingsButton.setBorderPainted(false);
+        settingsButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/settings_pressed.png")));
+        settingsButton.addActionListener(this);
+
         exitButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/exit.png")));
+        exitButton.setToolTipText("Exit");
         exitButton.setBorderPainted(false);
         exitButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/exit_pressed.png")));
         exitButton.addActionListener(this);
 
         menuBar.add(refreshButton);
+        menuBar.add(settingsButton);
         menuBar.add(exitButton);
         // End of Menu Bar creation
         this.add(menuBar, BorderLayout.NORTH);
@@ -191,7 +201,10 @@ public class MainWindow extends JFrame implements ActionListener {
             cardLayout.show(cardPane, "Daily Goals");
         } else if (e.getSource() == refreshButton) {
             this.refreshInfo();
-        } else if (e.getSource() == exitButton) {
+        } else if (e.getSource() == settingsButton) {
+            System.out.println("Settings");
+        }
+        else if (e.getSource() == exitButton) {
             this.storeInfo();
             System.exit(0);
         }
