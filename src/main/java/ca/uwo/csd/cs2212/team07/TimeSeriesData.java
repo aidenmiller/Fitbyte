@@ -29,4 +29,12 @@ public class TimeSeriesData {
         this.resolution = resolution;
         this.activity = activity;
     }
+    
+    public int getDatasetLength() {
+        return data.size();
+    }
+    
+    public TimePoint getTimePoint(int index) {
+        return data.get(index);
+    }
 }
