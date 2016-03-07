@@ -10,7 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -103,22 +105,43 @@ public class MainWindow extends JFrame implements ActionListener {
         panelColor = new Color(0, 80, 105);
 
         // Creation of the Menu Bar
+        JPanel topBar = new JPanel();
+        topBar.setBackground(panelColor);
+        //topBar.setLayout(new BoxLayout(topBar, BoxLayout.LINE_AXIS));
+        topBar.setLayout(new GridLayout(0, 3));
+        
+        //menu bar
         JPanel menuBar = new JPanel();
-        menuBar.setBackground(panelColor);
+        menuBar.setOpaque(false);
         menuBar.setLayout(new BoxLayout(menuBar, BoxLayout.LINE_AXIS));
-
         buttonGroup = new ButtonGroup();
         dashboardButton = makeMenuButton("Dashboard", "menubuttons/dashboard.png", "menubuttons/dashboard_pressed.png");
         dailyGoalsButton = makeMenuButton("Daily Goals", "menubuttons/dailygoals.png", "menubuttons/dailygoals_pressed.png");
         heartRateButton = makeMenuButton("Heart Rate", "menubuttons/heartrate.png", "menubuttons/heartrate_pressed.png");
         accoladesButton = makeMenuButton("Accolades", "menubuttons/accolades.png", "menubuttons/accolades_pressed.png");
-
         menuBar.add(dashboardButton);
         menuBar.add(dailyGoalsButton);
         menuBar.add(heartRateButton);
         menuBar.add(accoladesButton);
-        menuBar.add(Box.createHorizontalGlue());
+        topBar.add(menuBar);
+        //end of menu bar
 
+        //logo panel
+        JPanel logoBar = new JPanel();
+        logoBar.setOpaque(false);
+        logoBar.setLayout(new BoxLayout(logoBar, BoxLayout.LINE_AXIS));
+        JLabel logo = new JLabel(new ImageIcon(FileReader.getImage("fitbyte.png")));
+        logo.setToolTipText("FitByte");
+        logoBar.add(Box.createHorizontalGlue());
+        logoBar.add(logo);
+        logoBar.add(Box.createHorizontalGlue());
+        topBar.add(logoBar);
+        //end of logo
+        
+        //options bar
+        JPanel optionsBar = new JPanel();
+        optionsBar.setOpaque(false);
+        optionsBar.setLayout(new FlowLayout(FlowLayout.RIGHT));
         refreshButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/refresh.png")));
         refreshButton.setToolTipText("Refresh");
         refreshButton.setBorderPainted(false);
@@ -137,11 +160,14 @@ public class MainWindow extends JFrame implements ActionListener {
         exitButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/exit_pressed.png")));
         exitButton.addActionListener(this);
 
-        menuBar.add(refreshButton);
-        menuBar.add(settingsButton);
-        menuBar.add(exitButton);
+        optionsBar.add(refreshButton);
+        optionsBar.add(settingsButton);
+        optionsBar.add(exitButton);
+        topBar.add(optionsBar);
+        //end of options bar
+        
         // End of Menu Bar creation
-        this.add(menuBar, BorderLayout.NORTH);
+        this.add(topBar, BorderLayout.NORTH);
 
         //South Bar creation - for refresh info
         JPanel bottomBar = new JPanel();
