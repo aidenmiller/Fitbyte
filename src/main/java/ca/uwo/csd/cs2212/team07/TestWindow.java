@@ -12,6 +12,8 @@ import javax.swing.JToggleButton;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -85,33 +87,40 @@ public class TestWindow extends JFrame implements ActionListener {
         menuBar.setLayout(new BoxLayout(menuBar, BoxLayout.LINE_AXIS));
 
         buttonGroup = new ButtonGroup();
-        dashboardButton = makeMenuButton("Dashboard", "dashboard.png", "dashboard_pressed.png");
-        dailyGoalsButton = makeMenuButton("Daily Goals", "dailygoals.png", "dailygoals_pressed.png");
+        dashboardButton = makeMenuButton("Dashboard", "menubuttons/dashboard.png", "menubuttons/dashboard_pressed.png");
+        dailyGoalsButton = makeMenuButton("Daily Goals", "menubuttons/dailygoals.png", "menubuttons/dailygoals_pressed.png");
 
         menuBar.add(dashboardButton);
         menuBar.add(dailyGoalsButton);
         menuBar.add(Box.createHorizontalGlue());
 
-        lastRefresh = new JLabel("TEST MODE");
-        lastRefresh.setFont(new Font(lastRefresh.getFont().getName(), Font.PLAIN, 10));
-        lastRefresh.setForeground(Color.white);
-
-        refreshButton = new JButton(new ImageIcon(FileReader.getImage("refresh.png")));
+        refreshButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/refresh.png")));
         refreshButton.setBorderPainted(false);
-        refreshButton.setRolloverIcon(new ImageIcon(FileReader.getImage("refresh_pressed.png")));
+        refreshButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/refresh_pressed.png")));
         refreshButton.addActionListener(this);
 
-        exitButton = new JButton(new ImageIcon(FileReader.getImage("exit.png")));
+        exitButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/exit.png")));
         exitButton.setBorderPainted(false);
-        exitButton.setRolloverIcon(new ImageIcon(FileReader.getImage("exit_pressed.png")));
+        exitButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/exit_pressed.png")));
         exitButton.addActionListener(this);
 
-        menuBar.add(lastRefresh);
         menuBar.add(refreshButton);
         menuBar.add(exitButton);
         // End of Menu Bar creation
         this.add(menuBar, BorderLayout.NORTH);
 
+        //South Bar creation - for refresh info
+        JPanel bottomBar = new JPanel();
+        bottomBar.setBackground(panelColor);
+
+        lastRefresh = new JLabel("TEST MODE");
+        lastRefresh.setFont(new Font(lastRefresh.getFont().getName(), Font.PLAIN, 10));
+        lastRefresh.setForeground(Color.white);
+
+        bottomBar.add(lastRefresh);
+        //End of South Bar creation
+        this.add(bottomBar, BorderLayout.SOUTH);
+        
         // Creation of the CardLayout for displays
         dashboard = new Dashboard(fitbitInfo);
         dailyGoals = new DailyGoals(fitbitInfo);

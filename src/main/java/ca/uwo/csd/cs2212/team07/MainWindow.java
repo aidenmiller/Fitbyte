@@ -110,12 +110,6 @@ public class MainWindow extends JFrame implements ActionListener {
         menuBar.add(dailyGoalsButton);
         menuBar.add(Box.createHorizontalGlue());
 
-        Date date = fitbitInfo.getLastRefreshTime().getTime();
-        lastRefresh = new JLabel("last synced: " + new SimpleDateFormat("dd MMM yyyy").format(date)
-                + " at " + new SimpleDateFormat("h:mm:ss a z").format(date));
-        lastRefresh.setFont(new Font(lastRefresh.getFont().getName(), Font.PLAIN, 10));
-        lastRefresh.setForeground(Color.white);
-
         refreshButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/refresh.png")));
         refreshButton.setBorderPainted(false);
         refreshButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/refresh_pressed.png")));
@@ -126,11 +120,24 @@ public class MainWindow extends JFrame implements ActionListener {
         exitButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/exit_pressed.png")));
         exitButton.addActionListener(this);
 
-        menuBar.add(lastRefresh);
         menuBar.add(refreshButton);
         menuBar.add(exitButton);
         // End of Menu Bar creation
         this.add(menuBar, BorderLayout.NORTH);
+
+        //South Bar creation - for refresh info
+        JPanel bottomBar = new JPanel();
+        bottomBar.setBackground(panelColor);
+
+        Date date = fitbitInfo.getLastRefreshTime().getTime();
+        lastRefresh = new JLabel("last synced: " + new SimpleDateFormat("dd MMM yyyy").format(date)
+                + " at " + new SimpleDateFormat("h:mm:ss a z").format(date));
+        lastRefresh.setFont(new Font(lastRefresh.getFont().getName(), Font.PLAIN, 10));
+        lastRefresh.setForeground(Color.white);
+
+        bottomBar.add(lastRefresh);
+        //End of South Bar creation
+        this.add(bottomBar, BorderLayout.SOUTH);
 
         // Creation of the CardLayout for displays
         dashboard = new Dashboard(fitbitInfo);
