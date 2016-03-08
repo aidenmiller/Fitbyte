@@ -20,6 +20,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
+import org.jdatepicker.JDatePanel;
+import org.jdatepicker.JDatePicker;
 import org.json.JSONException;
 
 /**
@@ -72,6 +74,7 @@ public class Dashboard extends JPanel implements ActionListener {
         this.setBackground(Color.white);
 
         //Today, Best, Lifetime views
+        
         todayButton = new JToggleButton("Today");
         todayButton.addActionListener(this);
         bestButton = new JToggleButton("Best");
@@ -267,7 +270,7 @@ public class Dashboard extends JPanel implements ActionListener {
 
         if (fitbitInfo.getDay().getDate().equals("yyyy-MM-dd")) { //checks if in Test Mode
             FitbitInfo info = new FitbitInfo();
-            info.generateTestData();
+            info.testModeData();
             dayInfo = info.getDay();
         } else {
             try {

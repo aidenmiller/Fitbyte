@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.FileInputStream;
@@ -48,40 +47,49 @@ public class MainWindow extends JFrame implements ActionListener {
     private Dashboard dashboard;
     private DailyGoals dailyGoals;
 
-    
     private ButtonGroup buttonGroup;
     private JPanel cardPane;
     private CardLayout cardLayout;
 
     private Color panelColor;
-    
 
     /**
      * Constructs a new Main Window
+     *
+     * @param testMode which mode to run the program in
      */
-    public MainWindow() {
-        this.getUserData();
+    public MainWindow(boolean testMode) {
+        this.getUserData(testMode);
         this.getUserConfig();
         this.initUI();
     }
 
     /**
-     * Loads the serialized user data into a FitbitInfo object
+     * Loads the serialized user data into a FitbitInfo object, or generates
+     * test data if in test mode
+     *
+     * @param testMode whether or not the program is run in test mode
      */
-    private void getUserData() {
-        try {
-            fitbitInfo = loadInfo();
-        } catch (Exception e) {
-            fitbitInfo = new FitbitInfo();
+    private void getUserData(boolean testMode) {
+        if (!testMode) {
             try {
-                fitbitInfo.refreshInfo(Calendar.getInstance());
-            } catch (JSONException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
-                System.exit(0);
-            } catch (RefreshTokenException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
-                System.exit(0);
+                fitbitInfo = loadInfo();
+            } catch (Exception e) {
+                fitbitInfo = new FitbitInfo();
+                try {
+                    fitbitInfo.refreshInfo(Calendar.getInstance());
+                } catch (JSONException ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
+                    System.exit(0);
+                } catch (RefreshTokenException ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
+                    System.exit(0);
+                }
             }
+
+        } else {
+            fitbitInfo = new FitbitInfo();
+            fitbitInfo.testModeData();
         }
     }
 
@@ -109,7 +117,7 @@ public class MainWindow extends JFrame implements ActionListener {
         topBar.setBackground(panelColor);
         //topBar.setLayout(new BoxLayout(topBar, BoxLayout.LINE_AXIS));
         topBar.setLayout(new GridLayout(0, 3));
-        
+
         //menu bar
         JPanel menuBar = new JPanel();
         menuBar.setOpaque(false);
@@ -137,7 +145,7 @@ public class MainWindow extends JFrame implements ActionListener {
         logoBar.add(Box.createHorizontalGlue());
         topBar.add(logoBar);
         //end of logo
-        
+
         //options bar
         JPanel optionsBar = new JPanel();
         optionsBar.setOpaque(false);
@@ -166,7 +174,7 @@ public class MainWindow extends JFrame implements ActionListener {
         optionsBar.add(exitButton);
         topBar.add(optionsBar);
         //end of options bar
-        
+
         // End of Menu Bar creation
         this.add(topBar, BorderLayout.NORTH);
 
@@ -242,9 +250,10 @@ public class MainWindow extends JFrame implements ActionListener {
             this.refreshInfo();
         } else if (e.getSource() == settingsButton) {
             System.out.println("Settings");
-        }
-        else if (e.getSource() == exitButton) {
-            this.storeInfo();
+        } else if (e.getSource() == exitButton) {
+            if (!fitbitInfo.isTestMode()) {
+                this.storeInfo();
+            }
             System.exit(0);
         }
     }
@@ -283,18 +292,24 @@ public class MainWindow extends JFrame implements ActionListener {
      * the displays
      */
     private void refreshInfo() {
-        try {
-            fitbitInfo.refreshInfo(Calendar.getInstance());
-            Date date = fitbitInfo.getLastRefreshTime().getTime();
-            lastRefresh.setText("last synced: " + new SimpleDateFormat("dd MMM yyyy").format(date)
-                    + " at " + new SimpleDateFormat("h:mm:ss a z").format(date));
-            dashboard.refresh();
-            dailyGoals.refresh();
-        } catch (JSONException ex) {
-            JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
-        } catch (RefreshTokenException ex) {
-            JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
+        if (fitbitInfo.isTestMode()) {
+            fitbitInfo.testModeData();
+        } else {
+            try {
+                fitbitInfo.refreshInfo(Calendar.getInstance());
+            } catch (JSONException ex) {
+                JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
+                return;
+            } catch (RefreshTokenException ex) {
+                JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
+                return;
+            }
         }
-    }
 
+        Date date = fitbitInfo.getLastRefreshTime().getTime();
+        lastRefresh.setText("last synced: " + new SimpleDateFormat("dd MMM yyyy").format(date)
+                + " at " + new SimpleDateFormat("h:mm:ss a z").format(date));
+        dashboard.refresh();
+        dailyGoals.refresh();
+    }
 }

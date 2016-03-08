@@ -8,8 +8,9 @@ import org.json.JSONException;
 
 public class FitbitInfo implements Serializable {
 
-    private static final long serialVersionUID = 4L;
+    private static final long serialVersionUID = 5L;
 
+    private boolean testMode;
     private Daily day; //holds daily data
     private BestDay[] bestDays; //holds best days data
     private Lifetime lifetime; //hold lifetime data
@@ -19,7 +20,7 @@ public class FitbitInfo implements Serializable {
      * Constructor for the FitbitInfo class.
      */
     public FitbitInfo() {
-
+       
     }
 
     /**
@@ -74,6 +75,14 @@ public class FitbitInfo implements Serializable {
     public Calendar getLastRefreshTime() {
         return this.lastRefreshTime;
     }
+    
+    /**
+     * Returns true if FitbitInfo is running in test mode
+     * @return true if FitbitInfo is running in test mode
+     */
+    public boolean isTestMode() {
+        return this.testMode;
+    }
 
     /**
      * Sets the Daily information of the user
@@ -110,11 +119,21 @@ public class FitbitInfo implements Serializable {
     public void setLastRefreshTime(Calendar lastRefreshTIme) {
         this.lastRefreshTime = lastRefreshTIme;
     }
+    
+    /**
+     * Sets whether or not the program is running in Test Mode
+     * @param mode whether or not the program is running in test mode
+     */
+    public void setTestMode(boolean mode) {
+        this.testMode = mode;
+    }
 
     /**
-     * Generates random figured for the user data to use in test mode
+     * Generates randomly generated user data and sets test mode to true
      */
-    public void generateTestData() {
+    public void testModeData() {
+        this.testMode = true; //set test mode to true
+        
         Random rand = new Random();
 
         Daily randDay = new Daily("yyyy-MM-dd", (long) rand.nextInt(250), (long) rand.nextInt(250),
