@@ -1,10 +1,20 @@
 package ca.uwo.csd.cs2212.team07;
 
-import java.awt.Color;
 import java.text.SimpleDateFormat;
-import javax.swing.GroupLayout;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
+
+import java.awt.Color;
+import java.awt.Dimension;
+import javax.swing.JComboBox;
+
+
 
 /**
  * Creates a Daily Goals panel that displays the Daily Goals to the user.
@@ -15,27 +25,16 @@ public class DailyGoals extends JPanel {
 
     private final FitbitInfo fitbitInfo;
 
-    private int cal=100, dist=10, floors=10, steps=10;
+    private JLabel date;
     
+    private JLabel caloriesBurnedGoal= new JLabel("You haven't set up your daily goal yet!");
+    private JLabel totalDistanceGoal = new JLabel("You haven't set up your daily goal yet!");
+    private JLabel floorsClimbedGoal = new JLabel("You haven't set up your daily goal yet!");
+    private JLabel stepsTakenGoal = new JLabel("You haven't set up your daily goal yet!");
     
-    private JLabel caloriesBurnedData; 
-    private JLabel totalDistanceData;
-    private JLabel floorsClimbedData;
-    private JLabel stepsTakenData;
-            
-    private void setCalGoal (int i){
-        cal = i;
-    }
-    private void setDistGoal (int i){
-        dist = i;
-    }
-    private void setFloorsGoal (int i){
-        floors = i;
-    }
-    private void setStepsGoal (int i){
-        steps = i;
-    }
 
+    private JComboBox calBox, distBox, floorBox, stepBox;  
+    private JLabel calLabel, distLabel, floorLabel, stepLabel;
     /**
      * Constructor for the Daily Goals class
      *
@@ -52,127 +51,174 @@ public class DailyGoals extends JPanel {
      */
     private void initPanel() {
 
-        this.setBackground(Color.RED); //Color of the menu bar
         
-        JLabel caloriesBurned = new JLabel("Calories Burned Daily Goal: ");
-        JLabel caloriesBurnedGoal = new JLabel("" + cal);
-        JLabel message_cal;
-        caloriesBurnedData = new JLabel("" + fitbitInfo.getDay().getCaloriesOut());
-        if(fitbitInfo.getDay().getCaloriesOut() >= cal){
-            message_cal = new JLabel ("You've already achieved your calories burned daily goal. Congratulations! ");
-        }
-        else{
-            message_cal = new JLabel ("You've not achieved your calories burned daily goal yet. Keep going! ");
-        }
-        
-        JLabel totalDistance = new JLabel("Total Distance Daily Goal: ");
-        JLabel totalDistanceGoal = new JLabel("" + dist);
-        JLabel message_dist;
-        totalDistanceData = new JLabel("" + fitbitInfo.getDay().getDistance());
-        if(fitbitInfo.getDay().getDistance() >= dist){
-            message_dist = new JLabel ("You've already achieved your distance daily daily goal. Congratulations! ");
-        }
-        else{
-            message_dist = new JLabel ("You've not achieved your total distance daily goal yet. Keep going! ");
-        }
-        
-        
-        JLabel floorsClimbed = new JLabel("Floors Climbed Daily Goal: ");
-        JLabel floorsClimbedGoal = new JLabel("" + floors);
-        JLabel message_floors;
-        floorsClimbedData = new JLabel("" + fitbitInfo.getDay().getFloors());
-        if(fitbitInfo.getDay().getFloors() >= floors){
-            message_floors = new JLabel ("You've already achieved your floors climbed daily goal. Congratulations! ");
-        }
-        else{
-            message_floors = new JLabel ("You've not achieved your floors climbed daily goal yet. Keep going! ");
-        }
-        
-        
-        JLabel stepsTaken = new JLabel("Steps Taken Daily Goal: ");
-        JLabel stepsTakenGoal = new JLabel("" + steps);
-        JLabel message_steps;
-        stepsTakenData = new JLabel("" + fitbitInfo.getDay().getFloors());
-        if(fitbitInfo.getDay().getFloors() >= cal){
-            message_steps = new JLabel ("You've already achieved your steps taken daily goal. Congratulations! ");
-        }
-        else{
-            message_steps = new JLabel ("You've not achieved your calories steps taken goal yet. Keep going! ");
-        }
-        
-        
-    
-    GroupLayout layout;
-        layout = new GroupLayout(this);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
+        this.setBackground(Color.CYAN); //Color of the menu bar
 
-        layout.setHorizontalGroup(layout.createSequentialGroup()
-                .addGap(20)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(caloriesBurned)
-                                .addComponent(caloriesBurnedGoal)
-                                .addGap(50)
-                                .addComponent(message_cal)
-                        )
-                       .addGroup(layout.createSequentialGroup()
-                                .addComponent(totalDistance)
-                                .addComponent(totalDistanceGoal)
-                                .addGap(55)
-                                .addComponent(message_dist)
-                        )
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(floorsClimbed)
-                                .addComponent(floorsClimbedGoal)
-                                .addGap(60)
-                                .addComponent(message_floors)
-                        )
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(stepsTaken)
-                                .addComponent(stepsTakenGoal)
-                                .addGap(65)
-                                .addComponent(message_steps)
-                        )                      
-                )
-        );
+        date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
 
-        layout.setVerticalGroup(layout.createSequentialGroup()
-                .addGap(50)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(caloriesBurned)
-                        .addComponent(caloriesBurnedGoal)
-                        .addComponent(message_cal)
-                )
-                .addGap(30)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(totalDistance)
-                        .addComponent(totalDistanceGoal)
-                        .addComponent(message_dist)
-                )
-                .addGap(30)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(floorsClimbed)
-                        .addComponent(floorsClimbedGoal)
-                        .addComponent(message_floors)
-                )
-                .addGap(30)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(stepsTaken)
-                        .addComponent(stepsTakenGoal)
-                        .addComponent(message_steps)
-                )
-        );
 
-        this.setLayout(layout);
-
+        
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(Box.createVerticalStrut(10));
+        this.add(date);
+        this.add(Box.createVerticalStrut(20));
+        
+        JPanel caloriesGoal = this.createDataBox(new JLabel("Calories Burned Daily Goal"), caloriesBurnedGoal, Color.red);
+        this.add(caloriesGoal);
+        this.add(Box.createVerticalStrut(20));
+        
+        JPanel distanceGoal = this.createDataBox(new JLabel("Total Distance Daily Goal"), totalDistanceGoal, Color.green);
+        this.add(distanceGoal);
+        this.add(Box.createVerticalStrut(20));
+        
+        JPanel floorsGoal = this.createDataBox(new JLabel("Floors Climbed Daily Goal"), floorsClimbedGoal, Color.yellow);
+        this.add(floorsGoal);
+        this.add(Box.createVerticalStrut(20));
+           
+        JPanel stepsGoal = this.createDataBox(new JLabel("Steps Taken Daily Goal"), stepsTakenGoal, Color.white);
+        this.add(stepsGoal);
+        this.add(Box.createVerticalStrut(20));
+                   
+        JPanel panCal = new JPanel();
+        panCal.setBackground(Color.CYAN);
+        calBox = new JComboBox();
+        calBox.addItem("");
+        calBox.addItem("250");
+        calBox.addItem("500");
+        calBox.addItem("750");
+        calBox.addItem("1000");        
+        calBox.addItem("1250");
+        calBox.addItem("1500");
+        calBox.addItem("1750");
+        calBox.addItem("2000");
+        calBox.addItem("2250");
+        calBox.addItem("2500");
+        calLabel = new JLabel("Edit you calories burned daily goal: ");
+        panCal.add(calLabel);
+        panCal.add(calBox);
+        calBox.addItemListener(new ItemStateCal());
+        this.add(panCal);
+        
+        JPanel panDist = new JPanel();
+        panDist.setBackground(Color.CYAN);
+        distBox = new JComboBox();
+        distBox.addItem("");
+        distBox.addItem("1000");
+        distBox.addItem("1500");
+        distBox.addItem("2000");
+        distBox.addItem("2500");        
+        distBox.addItem("3000");
+        distBox.addItem("3500");
+        distBox.addItem("4000");
+        distBox.addItem("4500");
+        distBox.addItem("5000");
+        distBox.addItem("10000");
+        distBox.addItem("20000");
+        distLabel = new JLabel("Edit you distance daily goal (meters): ");
+        panDist.add(distLabel);
+        panDist.add(distBox);
+        distBox.addItemListener(new ItemStateDist());
+        this.add(panDist);
+        
+        JPanel panFloor = new JPanel();
+        panFloor.setBackground(Color.CYAN);
+        floorBox = new JComboBox();
+        floorBox.addItem("");
+        floorBox.addItem("1");
+        floorBox.addItem("2");
+        floorBox.addItem("3");
+        floorBox.addItem("4");        
+        floorBox.addItem("5");
+        floorBox.addItem("6");
+        floorBox.addItem("7");
+        floorBox.addItem("8");
+        floorBox.addItem("9");
+        floorBox.addItem("10");
+        floorBox.addItem("15");
+        floorBox.addItem("20");
+        floorBox.addItem("25");
+        floorBox.addItem("30");
+        floorBox.addItem("50");
+        floorBox.addItem("10000");
+        floorLabel = new JLabel("Edit you floors climbed daily goal: ");
+        panCal.add(floorLabel);
+        panCal.add(floorBox);
+        floorBox.addItemListener(new ItemStateFloor());
+        this.add(panFloor);
+        
+        JPanel panStep = new JPanel();
+        panStep.setBackground(Color.CYAN);
+        stepBox = new JComboBox();
+        stepBox.addItem("");
+        stepBox.addItem("100");
+        stepBox.addItem("150");
+        stepBox.addItem("200");
+        stepBox.addItem("250");        
+        stepBox.addItem("300");
+        stepBox.addItem("350");
+        stepBox.addItem("400");
+        stepBox.addItem("450");
+        stepBox.addItem("500");
+        stepBox.addItem("1000");
+        stepBox.addItem("2000");
+        stepBox.addItem("3000");
+        stepBox.addItem("5000");
+        stepBox.addItem("10000");
+        stepLabel = new JLabel("Edit you taken steps daiy goal: ");
+        panStep.add(stepLabel);
+        panStep.add(stepBox);
+        stepBox.addItemListener(new ItemStateStep());
+        this.add(panStep);
     }
+    
+    class ItemStateCal implements ItemListener{
+           public void itemStateChanged(ItemEvent e) {
+           String a = (String) e.getItem();
+           caloriesBurnedGoal.setText(a);     
+        }     
+    }
+    class ItemStateDist implements ItemListener{
+           public void itemStateChanged(ItemEvent e) {
+           String a = (String) e.getItem();
+           totalDistanceGoal.setText(a);                   
+        }      
+    }
+    class ItemStateFloor implements ItemListener{
+           public void itemStateChanged(ItemEvent e) {
+           String a = (String) e.getItem();
+           floorsClimbedGoal.setText(a);                   
+        }      
+    }
+    class ItemStateStep implements ItemListener{
+           public void itemStateChanged(ItemEvent e) {
+           String a = (String) e.getItem();
+           stepsTakenGoal.setText(a);                   
+        }      
+    }
+    
+    private JPanel createDataBox(JLabel header, JLabel data, Color color) {
+        JPanel panel = new JPanel();
+
+        panel.setBackground(color);
+        panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(Box.createRigidArea(new Dimension(600, 10)));
+        
+        panel.add(header);
+        panel.add(data);
+        panel.add(Box.createRigidArea(new Dimension(600, 10)));
+        
+       
+        return panel;
+    }
+    
+   
 
     /**
      * Refresh the data displayed to the user
      */
     public void refresh() {
-        
+        date.setText(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
     }
 
 }
