@@ -85,7 +85,7 @@ public class TimeGraph extends ApplicationFrame {
     }
 
     
-    public static void main(final String[] args) {
+   /* public static void main(final String[] args) {
         try {
             TimeGraph graph = new TimeGraph("Heart Rate Data", "Heart Rate", Api.getTimeSeriesData("2016-02-11", "heart", 1));
             graph.showGraph();
@@ -95,5 +95,5 @@ public class TimeGraph extends ApplicationFrame {
             Logger.getLogger(TimeGraph.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    }
+    } */
 }
