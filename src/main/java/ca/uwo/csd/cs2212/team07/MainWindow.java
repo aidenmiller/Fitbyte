@@ -11,11 +11,14 @@ import javax.swing.JToggleButton;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -34,9 +37,12 @@ public class MainWindow extends JFrame implements ActionListener {
 
     private JToggleButton dashboardButton;
     private JToggleButton dailyGoalsButton;
+    private JToggleButton heartRateButton;
+    private JToggleButton accoladesButton;
     private JButton refreshButton;
-    private JLabel lastRefresh;
+    private JButton settingsButton;
     private JButton exitButton;
+    private JLabel lastRefresh;
 
     private Dashboard dashboard;
     private DailyGoals dailyGoals;
@@ -45,32 +51,45 @@ public class MainWindow extends JFrame implements ActionListener {
     private JPanel cardPane;
     private CardLayout cardLayout;
 
+    private Color panelColor;
+
     /**
      * Constructs a new Main Window
+     *
+     * @param testMode which mode to run the program in
      */
-    public MainWindow() {
-        this.getUserData();
+    public MainWindow(boolean testMode) {
+        this.getUserData(testMode);
         this.getUserConfig();
         this.initUI();
     }
 
     /**
-     * Loads the serialized user data into a FitbitInfo object
+     * Loads the serialized user data into a FitbitInfo object, or generates
+     * test data if in test mode
+     *
+     * @param testMode whether or not the program is run in test mode
      */
-    private void getUserData() {
-        try {
-            fitbitInfo = loadInfo();
-        } catch (Exception e) {
-            fitbitInfo = new FitbitInfo();
+    private void getUserData(boolean testMode) {
+        if (!testMode) {
             try {
-                fitbitInfo.refreshInfo(Calendar.getInstance());
-            } catch (JSONException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
-                System.exit(0);
-            } catch (RefreshTokenException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
-                System.exit(0);
+                fitbitInfo = loadInfo();
+            } catch (Exception e) {
+                fitbitInfo = new FitbitInfo();
+                try {
+                    fitbitInfo.refreshInfo(Calendar.getInstance());
+                } catch (JSONException ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
+                    System.exit(0);
+                } catch (RefreshTokenException ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
+                    System.exit(0);
+                }
             }
+
+        } else {
+            fitbitInfo = new FitbitInfo();
+            fitbitInfo.testModeData();
         }
     }
 
@@ -91,38 +110,87 @@ public class MainWindow extends JFrame implements ActionListener {
         this.setResizable(false);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setLayout(new BorderLayout());
+        panelColor = new Color(0, 80, 105);
 
         // Creation of the Menu Bar
+        JPanel topBar = new JPanel();
+        topBar.setBackground(panelColor);
+        //topBar.setLayout(new BoxLayout(topBar, BoxLayout.LINE_AXIS));
+        topBar.setLayout(new GridLayout(0, 3));
+
+        //menu bar
         JPanel menuBar = new JPanel();
-        menuBar.setBackground(Color.WHITE);
+        menuBar.setOpaque(false);
         menuBar.setLayout(new BoxLayout(menuBar, BoxLayout.LINE_AXIS));
-
         buttonGroup = new ButtonGroup();
-        dashboardButton = makeMenuButton("Dashboard", "dashboard.png", "dashboard_pressed.png");
-        dailyGoalsButton = makeMenuButton("Daily Goals", "dailygoals.png", "dailygoals_pressed.png");
-
+        dashboardButton = makeMenuButton("Dashboard", "menubuttons/dashboard.png", "menubuttons/dashboard_pressed.png");
+        dailyGoalsButton = makeMenuButton("Daily Goals", "menubuttons/dailygoals.png", "menubuttons/dailygoals_pressed.png");
+        heartRateButton = makeMenuButton("Heart Rate", "menubuttons/heartrate.png", "menubuttons/heartrate_pressed.png");
+        accoladesButton = makeMenuButton("Accolades", "menubuttons/accolades.png", "menubuttons/accolades_pressed.png");
         menuBar.add(dashboardButton);
         menuBar.add(dailyGoalsButton);
-        menuBar.add(Box.createHorizontalGlue());
+        menuBar.add(heartRateButton);
+        menuBar.add(accoladesButton);
+        topBar.add(menuBar);
+        //end of menu bar
 
-        lastRefresh = new JLabel("last synced: " + fitbitInfo.getLastRefreshTime().getTime());
-        lastRefresh.setFont(new Font(lastRefresh.getFont().getName(), Font.PLAIN, 10));
+        //logo panel
+        JPanel logoBar = new JPanel();
+        logoBar.setOpaque(false);
+        logoBar.setLayout(new BoxLayout(logoBar, BoxLayout.LINE_AXIS));
+        JLabel logo = new JLabel(new ImageIcon(FileReader.getImage("fitbyte.png")));
+        logo.setToolTipText("FitByte");
+        logoBar.add(Box.createHorizontalGlue());
+        logoBar.add(logo);
+        logoBar.add(Box.createHorizontalGlue());
+        topBar.add(logoBar);
+        //end of logo
 
-        refreshButton = new JButton(new ImageIcon(FileReader.getImage("refresh.png")));
+        //options bar
+        JPanel optionsBar = new JPanel();
+        optionsBar.setOpaque(false);
+        optionsBar.setLayout(new BoxLayout(optionsBar, BoxLayout.LINE_AXIS));
+        refreshButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/refresh.png")));
+        refreshButton.setToolTipText("Refresh");
         refreshButton.setBorderPainted(false);
-        refreshButton.setRolloverIcon(new ImageIcon(FileReader.getImage("refresh_pressed.png")));
+        refreshButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/refresh_pressed.png")));
         refreshButton.addActionListener(this);
 
-        exitButton = new JButton(new ImageIcon(FileReader.getImage("exit.png")));
+        settingsButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/settings.png")));
+        settingsButton.setToolTipText("Settings");
+        settingsButton.setBorderPainted(false);
+        settingsButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/settings_pressed.png")));
+        settingsButton.addActionListener(this);
+
+        exitButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/exit.png")));
+        exitButton.setToolTipText("Exit");
         exitButton.setBorderPainted(false);
-        exitButton.setRolloverIcon(new ImageIcon(FileReader.getImage("exit_pressed.png")));
+        exitButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/exit_pressed.png")));
         exitButton.addActionListener(this);
 
-        menuBar.add(lastRefresh);
-        menuBar.add(refreshButton);
-        menuBar.add(exitButton);
+        optionsBar.add(Box.createHorizontalGlue());
+        optionsBar.add(refreshButton);
+        optionsBar.add(settingsButton);
+        optionsBar.add(exitButton);
+        topBar.add(optionsBar);
+        //end of options bar
+
         // End of Menu Bar creation
-        this.add(menuBar, BorderLayout.NORTH);
+        this.add(topBar, BorderLayout.NORTH);
+
+        //South Bar creation - for refresh info
+        JPanel bottomBar = new JPanel();
+        bottomBar.setBackground(panelColor);
+
+        Date date = fitbitInfo.getLastRefreshTime().getTime();
+        lastRefresh = new JLabel("last synced: " + new SimpleDateFormat("dd MMM yyyy").format(date)
+                + " at " + new SimpleDateFormat("h:mm:ss a z").format(date));
+        lastRefresh.setFont(new Font(lastRefresh.getFont().getName(), Font.PLAIN, 10));
+        lastRefresh.setForeground(Color.white);
+
+        bottomBar.add(lastRefresh);
+        //End of South Bar creation
+        this.add(bottomBar, BorderLayout.SOUTH);
 
         // Creation of the CardLayout for displays
         dashboard = new Dashboard(fitbitInfo);
@@ -174,10 +242,18 @@ public class MainWindow extends JFrame implements ActionListener {
             cardLayout.show(cardPane, "Dashboard");
         } else if (e.getSource() == dailyGoalsButton) {
             cardLayout.show(cardPane, "Daily Goals");
+        } else if (e.getSource() == heartRateButton) {
+            //cardLayout.show(cardPane, "Heart Rate");
+        } else if (e.getSource() == accoladesButton) {
+            //cardLayout.show(cardPane, "Accolades");
         } else if (e.getSource() == refreshButton) {
             this.refreshInfo();
+        } else if (e.getSource() == settingsButton) {
+            System.out.println("Settings");
         } else if (e.getSource() == exitButton) {
-            this.storeInfo();
+            if (!fitbitInfo.isTestMode()) {
+                this.storeInfo();
+            }
             System.exit(0);
         }
     }
@@ -216,16 +292,24 @@ public class MainWindow extends JFrame implements ActionListener {
      * the displays
      */
     private void refreshInfo() {
-        try {
-            fitbitInfo.refreshInfo(Calendar.getInstance());
-            lastRefresh.setText("last synced: " + fitbitInfo.getLastRefreshTime().getTime());
-            dashboard.refresh();
-            dailyGoals.refresh();
-        } catch (JSONException ex) {
-            JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
-        } catch (RefreshTokenException ex) {
-            JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
+        if (fitbitInfo.isTestMode()) {
+            fitbitInfo.testModeData();
+        } else {
+            try {
+                fitbitInfo.refreshInfo(Calendar.getInstance());
+            } catch (JSONException ex) {
+                JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
+                return;
+            } catch (RefreshTokenException ex) {
+                JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
+                return;
+            }
         }
-    }
 
+        Date date = fitbitInfo.getLastRefreshTime().getTime();
+        lastRefresh.setText("last synced: " + new SimpleDateFormat("dd MMM yyyy").format(date)
+                + " at " + new SimpleDateFormat("h:mm:ss a z").format(date));
+        dashboard.refresh();
+        dailyGoals.refresh();
+    }
 }

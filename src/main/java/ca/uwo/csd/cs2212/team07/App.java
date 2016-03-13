@@ -21,8 +21,8 @@ public class App {
         if (args.length > 0 && args[0].equals("test")) {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    //Run the program in Normal Mode
-                    TestWindow window = new TestWindow();
+                    //Run the program in Test Mode
+                    MainWindow window = new MainWindow(true);
                     window.setVisible(true);
                 }
             });
@@ -31,8 +31,8 @@ public class App {
         else {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    //Run the program in Test Mode
-                    MainWindow window = new MainWindow();
+                    //Run the program in Normal Mode
+                    MainWindow window = new MainWindow(false);
                     window.setVisible(true);
                 }
             });
