@@ -303,9 +303,9 @@ public class Dashboard extends JPanel implements ActionListener {
         int roundedBestSteps = (int) fitbitInfo.getBestDays()[2].getValue();
 
         caloriesPanel.setVisible(false);
-        totalDistanceData.setText(roundedBestDistance + "\t\ton\t\t" + fitbitInfo.getBestDays()[0].getDate());
-        floorsClimbedData.setText(roundedBestFloors + "\t\ton\t\t" + fitbitInfo.getBestDays()[1].getDate());
-        stepsTakenData.setText(roundedBestSteps + "\t\ton\t\t" + fitbitInfo.getBestDays()[2].getDate());
+        totalDistanceData.setText(roundedBestDistance + "\t\t  on  \t\t" + fitbitInfo.getBestDays()[0].getDate());
+        floorsClimbedData.setText(roundedBestFloors + "\t\t  on  \t\t" + fitbitInfo.getBestDays()[1].getDate());
+        stepsTakenData.setText(roundedBestSteps + "\t\t  on  \t\t" + fitbitInfo.getBestDays()[2].getDate());
         activePanel.setVisible(false);
         sedentaryPanel.setVisible(false);
 
