@@ -10,7 +10,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -74,7 +79,6 @@ public class Dashboard extends JPanel implements ActionListener {
         this.setBackground(Color.white);
 
         //Today, Best, Lifetime views
-        
         todayButton = new JToggleButton("Today");
         todayButton.addActionListener(this);
         bestButton = new JToggleButton("Best");
@@ -298,16 +302,28 @@ public class Dashboard extends JPanel implements ActionListener {
      * Displays the Best Days data to the user
      */
     private void displayBest() {
-        double roundedBestDistance = Math.round(fitbitInfo.getBestDays()[0].getValue() * 100.0) / 100.0;
-        double roundedBestFloors = Math.round(fitbitInfo.getBestDays()[1].getValue() * 100.0) / 100.0;
-        int roundedBestSteps = (int) fitbitInfo.getBestDays()[2].getValue();
-
-        caloriesPanel.setVisible(false);
-        totalDistanceData.setText(roundedBestDistance + "\t\ton\t\t" + fitbitInfo.getBestDays()[0].getDate());
-        floorsClimbedData.setText(roundedBestFloors + "\t\ton\t\t" + fitbitInfo.getBestDays()[1].getDate());
-        stepsTakenData.setText(roundedBestSteps + "\t\ton\t\t" + fitbitInfo.getBestDays()[2].getDate());
-        activePanel.setVisible(false);
-        sedentaryPanel.setVisible(false);
+        try {
+            double roundedBestDistance = Math.round(fitbitInfo.getBestDays()[0].getValue() * 100.0) / 100.0;
+            double roundedBestFloors = Math.round(fitbitInfo.getBestDays()[1].getValue() * 100.0) / 100.0;
+            int roundedBestSteps = (int) fitbitInfo.getBestDays()[2].getValue();
+            DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd");
+            fromFormat.setLenient(false);
+            DateFormat toFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy");
+            toFormat.setLenient(false);
+            
+            caloriesPanel.setVisible(false);
+            totalDistanceData.setText(roundedBestDistance + "\t\t  on \t\t" + 
+                    toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[0].getDate())));
+            
+            floorsClimbedData.setText(roundedBestFloors + "\t\t  on \t\t" + 
+                    toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[1].getDate())));
+            stepsTakenData.setText(roundedBestSteps + "\t\t  on \t\t" + 
+                    toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[2].getDate())));
+            activePanel.setVisible(false);
+            sedentaryPanel.setVisible(false);
+        } catch (ParseException ex) {
+            System.err.println("ERROR PARSING DATE");
+        }
 
     }
 
