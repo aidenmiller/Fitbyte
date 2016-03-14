@@ -24,6 +24,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import org.json.JSONException;
 
 /**
@@ -34,6 +35,8 @@ import org.json.JSONException;
 public class MainWindow extends JFrame implements ActionListener {
 
     private FitbitInfo fitbitInfo;
+    private UserConfig userConfig;
+    private final boolean testMode;
 
     private JToggleButton dashboardButton;
     private JToggleButton dailyGoalsButton;
@@ -59,7 +62,8 @@ public class MainWindow extends JFrame implements ActionListener {
      * @param testMode which mode to run the program in
      */
     public MainWindow(boolean testMode) {
-        this.getUserData(testMode);
+        this.testMode = testMode;
+        this.getUserData();
         this.getUserConfig();
         this.initUI();
     }
@@ -70,7 +74,7 @@ public class MainWindow extends JFrame implements ActionListener {
      *
      * @param testMode whether or not the program is run in test mode
      */
-    private void getUserData(boolean testMode) {
+    private void getUserData() {
         if (!testMode) {
             try {
                 fitbitInfo = loadInfo();
@@ -97,14 +101,24 @@ public class MainWindow extends JFrame implements ActionListener {
      * Loads the serialized user configuration into a UserConfig object
      */
     private void getUserConfig() {
+        if (!testMode) {
+            try {
+                userConfig = loadConfig();
+            } catch (Exception e) {
+                userConfig = new UserConfig();
+            }
 
+        } else {
+            userConfig = new UserConfig();
+            userConfig.testModeConfig();
+        }
     }
 
     /**
      * Initializes the UI displayed in the Main Window
      */
     private void initUI() {
-        this.setTitle("CS2212 Team07");
+        this.setTitle("FitByte");
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -233,32 +247,6 @@ public class MainWindow extends JFrame implements ActionListener {
     }
 
     /**
-     * Sets the results of clicking different buttons on the Dashboard
-     *
-     * @param e event called when button is pressed
-     */
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == dashboardButton) {
-            cardLayout.show(cardPane, "Dashboard");
-        } else if (e.getSource() == dailyGoalsButton) {
-            cardLayout.show(cardPane, "Daily Goals");
-        } else if (e.getSource() == heartRateButton) {
-            //cardLayout.show(cardPane, "Heart Rate");
-        } else if (e.getSource() == accoladesButton) {
-            //cardLayout.show(cardPane, "Accolades");
-        } else if (e.getSource() == refreshButton) {
-            this.refreshInfo();
-        } else if (e.getSource() == settingsButton) {
-            System.out.println("Settings");
-        } else if (e.getSource() == exitButton) {
-            if (!fitbitInfo.isTestMode()) {
-                this.storeInfo();
-            }
-            System.exit(0);
-        }
-    }
-
-    /**
      * Loads the user info from a stored data file
      *
      * @return FitbitInfo object with stored user data
@@ -288,6 +276,35 @@ public class MainWindow extends JFrame implements ActionListener {
     }
 
     /**
+     * Loads the user info from a stored data file
+     *
+     * @return FitbitInfo object with stored user data
+     * @throws Exception thrown when file is not found
+     */
+    public UserConfig loadConfig() throws Exception {
+
+        ObjectInputStream in;
+        in = new ObjectInputStream(new FileInputStream("user.config"));
+
+        return (UserConfig) in.readObject();
+    }
+
+    /**
+     * Stores the user info from the stored data file
+     *
+     */
+    public void storeConfig() {
+
+        try {
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("user.config"));
+            out.writeObject(userConfig);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(new JFrame(), "ERROR! Unable to store user configuration.");
+        }
+
+    }
+
+    /**
      * Refreshes the info in the FitbitInfo object and then refreshes each of
      * the displays
      */
@@ -311,5 +328,34 @@ public class MainWindow extends JFrame implements ActionListener {
                 + " at " + new SimpleDateFormat("h:mm:ss a z").format(date));
         dashboard.refresh();
         dailyGoals.refresh();
+    }
+
+    /**
+     * Sets the results of clicking different buttons on the Dashboard
+     *
+     * @param e event called when button is pressed
+     */
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == dashboardButton) {
+            cardLayout.show(cardPane, "Dashboard");
+        } else if (e.getSource() == dailyGoalsButton) {
+            cardLayout.show(cardPane, "Daily Goals");
+        } else if (e.getSource() == heartRateButton) {
+            //cardLayout.show(cardPane, "Heart Rate");
+        } else if (e.getSource() == accoladesButton) {
+            //cardLayout.show(cardPane, "Accolades");
+        } else if (e.getSource() == refreshButton) {
+            this.refreshInfo();
+        } else if (e.getSource() == settingsButton) {
+            SettingsWindow settingsWindow = new SettingsWindow(userConfig);
+            settingsWindow.setVisible(true);
+        } else if (e.getSource() == exitButton) {
+            if (!testMode) {
+                this.storeInfo();
+                this.storeConfig();
+            }
+            this.dispose();
+            System.exit(0);
+        }
     }
 }
