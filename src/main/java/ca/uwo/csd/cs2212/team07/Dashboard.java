@@ -2,16 +2,12 @@ package ca.uwo.csd.cs2212.team07;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.text.SimpleDateFormat;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -20,8 +16,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
-import org.jdatepicker.JDatePanel;
-import org.jdatepicker.JDatePicker;
 import org.json.JSONException;
 
 /**
@@ -32,6 +26,7 @@ import org.json.JSONException;
 public class Dashboard extends JPanel implements ActionListener {
 
     private final FitbitInfo fitbitInfo;
+    private final UserConfig userConfig;
 
     private JLabel date;
     private JLabel caloriesBurnedData;
@@ -61,9 +56,10 @@ public class Dashboard extends JPanel implements ActionListener {
      *
      * @param fitbitInfo container for user data
      */
-    public Dashboard(FitbitInfo fitbitInfo) {
+    public Dashboard(FitbitInfo fitbitInfo, UserConfig userConfig) {
         super();
         this.fitbitInfo = fitbitInfo;
+        this.userConfig = userConfig;
         initPanel();
     }
 
@@ -74,7 +70,6 @@ public class Dashboard extends JPanel implements ActionListener {
         this.setBackground(Color.white);
 
         //Today, Best, Lifetime views
-        
         todayButton = new JToggleButton("Today");
         todayButton.addActionListener(this);
         bestButton = new JToggleButton("Best");
@@ -244,12 +239,7 @@ public class Dashboard extends JPanel implements ActionListener {
             timePanel.setVisible(true);
             nextButton.setEnabled(false);
 
-            sedentaryPanel.setVisible(true);
-            activePanel.setVisible(true);
-            stepsPanel.setVisible(true);
-            floorsPanel.setVisible(true);
-            distancePanel.setVisible(true);
-            caloriesPanel.setVisible(true);
+            this.refreshConfig();
             this.refresh();
         } else if (e.getSource() == bestButton) {
             timePanel.setVisible(false);
@@ -325,6 +315,15 @@ public class Dashboard extends JPanel implements ActionListener {
         stepsTakenData.setText("" + roundedBestSteps);
         activePanel.setVisible(false);
         sedentaryPanel.setVisible(false);
+    }
+
+    public void refreshConfig() {
+        caloriesPanel.setVisible(userConfig.isCaloriesData());
+        distancePanel.setVisible(userConfig.isDistanceData());
+        floorsPanel.setVisible(userConfig.isFloorsData());
+        stepsPanel.setVisible(userConfig.isStepsData());
+        activePanel.setVisible(userConfig.isActiveData());
+        sedentaryPanel.setVisible(userConfig.isSedentaryData());
     }
 
 }

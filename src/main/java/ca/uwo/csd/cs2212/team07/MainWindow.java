@@ -25,6 +25,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import org.json.JSONException;
 
 /**
@@ -110,7 +111,6 @@ public class MainWindow extends JFrame implements ActionListener {
 
         } else {
             userConfig = new UserConfig();
-            userConfig.testModeConfig();
         }
     }
 
@@ -207,7 +207,7 @@ public class MainWindow extends JFrame implements ActionListener {
         this.add(bottomBar, BorderLayout.SOUTH);
 
         // Creation of the CardLayout for displays
-        dashboard = new Dashboard(fitbitInfo);
+        dashboard = new Dashboard(fitbitInfo, userConfig);
         dailyGoals = new DailyGoals(fitbitInfo);
 
         cardPane = new JPanel(new CardLayout());
@@ -330,6 +330,26 @@ public class MainWindow extends JFrame implements ActionListener {
         dailyGoals.refresh();
     }
 
+    private void refreshConfig() {
+        dashboard.refreshConfig();
+        dailyGoals.refreshConfig();
+    }
+
+    
+    private void openSettings() {
+        SettingsPanel settingsPan = new SettingsPanel(userConfig);
+
+        int n = JOptionPane.showOptionDialog(this, settingsPan,
+                "User Settings", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE, null, null, null);
+
+        if (n == JOptionPane.OK_OPTION) {
+            settingsPan.confirmSettings();
+            this.refreshConfig();
+        }
+
+    }
+
     /**
      * Sets the results of clicking different buttons on the Dashboard
      *
@@ -347,8 +367,7 @@ public class MainWindow extends JFrame implements ActionListener {
         } else if (e.getSource() == refreshButton) {
             this.refreshInfo();
         } else if (e.getSource() == settingsButton) {
-            SettingsWindow settingsWindow = new SettingsWindow(userConfig);
-            settingsWindow.setVisible(true);
+            this.openSettings();
         } else if (e.getSource() == exitButton) {
             if (!testMode) {
                 this.storeInfo();
@@ -358,4 +377,5 @@ public class MainWindow extends JFrame implements ActionListener {
             System.exit(0);
         }
     }
+
 }

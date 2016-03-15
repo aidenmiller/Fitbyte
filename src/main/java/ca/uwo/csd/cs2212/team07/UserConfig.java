@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class UserConfig implements Serializable {
 
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 3L;
 
     private boolean testMode;
 
@@ -149,18 +149,6 @@ public class UserConfig implements Serializable {
 
     public void setSedentaryData(boolean sedentaryData) {
         this.sedentaryData = sedentaryData;
-    }
-
-    public void testModeConfig() {
-        this.testMode = true;
-        this.caloriesAccolade[0] = true;
-        this.distanceAccolade[0] = true;
-        this.distanceAccolade[1] = true;
-        this.activeAccolade[0] = true;
-        this.floorsAccolade[0] = true;
-        this.floorsAccolade[1] = true;
-        this.floorsAccolade[2] = true;
-        this.goalsAccolade[1] = true;
     }
 
 }
