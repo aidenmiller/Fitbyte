@@ -2,6 +2,8 @@ package ca.uwo.csd.cs2212.team07;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.text.SimpleDateFormat;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,6 +18,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.JToggleButton;
 import org.json.JSONException;
 
@@ -30,25 +33,15 @@ public class Dashboard extends JPanel implements ActionListener {
     private final UserConfig userConfig;
 
     private JLabel date;
-    private JLabel caloriesBurnedData;
-    private JLabel totalDistanceData;
-    private JLabel floorsClimbedData;
-    private JLabel stepsTakenData;
-    private JLabel activeMinutesData;
-    private JLabel sedentaryMinutesData;
+    private JLabel caloriesBurnedData, totalDistanceData, floorsClimbedData, stepsTakenData, activeMinutesData, sedentaryMinutesData;
+    private JProgressBar caloriesBurnedProg, totalDistanceProg, floorsClimbedProg, stepsTakenProg, activeMinutesProg, sedentaryMinutesProg;
 
+    private JToggleButton calendarButton;
+    private DateChooserPanel dateChooser;
     private ButtonGroup buttonGroup;
     private JToggleButton todayButton, bestButton, lifetimeButton;
 
-    private JPanel displayPanel;
-    private JPanel caloriesPanel;
-    private JPanel distancePanel;
-    private JPanel floorsPanel;
-    private JPanel stepsPanel;
-    private JPanel activePanel;
-    private JPanel sedentaryPanel;
-    private JToggleButton calendarButton;
-    private DateChooserPanel dateChooser;
+    private JPanel displayPanel, caloriesPanel, distancePanel, floorsPanel, stepsPanel, activePanel, sedentaryPanel;
 
     /**
      * Constructor for the Dashboard class
@@ -92,7 +85,7 @@ public class Dashboard extends JPanel implements ActionListener {
         buttonGroup.add(todayButton);
         buttonGroup.add(bestButton);
         buttonGroup.add(lifetimeButton);
-        
+
         displayPanel = new JPanel();
         displayPanel.setOpaque(false);
         displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.X_AXIS));
@@ -111,17 +104,24 @@ public class Dashboard extends JPanel implements ActionListener {
 
         //Panels for each data item
         caloriesBurnedData = new JLabel("");
-        caloriesPanel = this.createDataBox(new JLabel("Calories Burned"), caloriesBurnedData, "dataicons/calories.png", new Color(255, 175, 175));
+        caloriesBurnedProg = new JProgressBar();
+        caloriesPanel = this.createDataBox(new JLabel("Calories Burned"), caloriesBurnedData, caloriesBurnedProg, "dataicons/calories.png", new Color(255, 175, 175));
         totalDistanceData = new JLabel("");
-        distancePanel = this.createDataBox(new JLabel("Total Distance"), totalDistanceData, "dataicons/distance.png", new Color(180, 255, 190));
+        totalDistanceProg = new JProgressBar();
+        distancePanel = this.createDataBox(new JLabel("Total Distance"), totalDistanceData, totalDistanceProg, "dataicons/distance.png", new Color(180, 255, 190));
         floorsClimbedData = new JLabel("");
-        floorsPanel = this.createDataBox(new JLabel("Floors Climbed"), floorsClimbedData, "dataicons/floors.png", new Color(255, 180, 245));
+        floorsClimbedProg = new JProgressBar();
+        floorsPanel = this.createDataBox(new JLabel("Floors Climbed"), floorsClimbedData, floorsClimbedProg, "dataicons/floors.png", new Color(255, 180, 245));
         stepsTakenData = new JLabel("");
-        stepsPanel = this.createDataBox(new JLabel("Steps Taken"), stepsTakenData, "dataicons/steps.png", new Color(255, 220, 180));
+        stepsTakenProg = new JProgressBar();
+        stepsPanel = this.createDataBox(new JLabel("Steps Taken"), stepsTakenData, stepsTakenProg, "dataicons/steps.png", new Color(255, 220, 180));
         activeMinutesData = new JLabel("");
-        activePanel = this.createDataBox(new JLabel("Active Minutes"), activeMinutesData, "dataicons/active.png", new Color(250, 255, 180));
+        activeMinutesProg = new JProgressBar();
+        activePanel = this.createDataBox(new JLabel("Active Minutes"), activeMinutesData, activeMinutesProg, "dataicons/active.png", new Color(250, 255, 180));
         sedentaryMinutesData = new JLabel("");
-        sedentaryPanel = this.createDataBox(new JLabel("Sedentary Minutes"), sedentaryMinutesData, "dataicons/sedentary.png", new Color(180, 250, 255));
+        sedentaryMinutesProg = new JProgressBar();
+        sedentaryMinutesProg.setVisible(false);
+        sedentaryPanel = this.createDataBox(new JLabel("Sedentary Minutes"), sedentaryMinutesData, sedentaryMinutesProg, "dataicons/sedentary.png", new Color(180, 250, 255));
         //end of Panels for each data item
 
         this.setLayout(new BorderLayout());
@@ -164,7 +164,7 @@ public class Dashboard extends JPanel implements ActionListener {
      * @param color the color of the data box
      * @return a JPanel containing the data box for the data item
      */
-    private JPanel createDataBox(JLabel header, JLabel data, String iconFile, Color color) {
+    private JPanel createDataBox(JLabel header, JLabel data, JProgressBar prog, String iconFile, Color color) {
         JPanel panel = new JPanel();
 
         panel.setBackground(color);
@@ -174,10 +174,18 @@ public class Dashboard extends JPanel implements ActionListener {
         panel.add(Box.createHorizontalStrut(50));
         panel.add(iconLabel);
         panel.add(Box.createHorizontalStrut(150));
+
+        header.setFont(new Font(header.getFont().getName(), Font.PLAIN, 14));
         panel.add(header);
         panel.add(Box.createHorizontalGlue());
+
+        prog.setStringPainted(true);
+        panel.add(prog);
+        panel.add(Box.createHorizontalStrut(50));
+
+        data.setFont(new Font(data.getFont().getName(), Font.PLAIN, 14));
         panel.add(data);
-        panel.add(Box.createHorizontalStrut(150));
+        panel.add(Box.createHorizontalStrut(50));
 
         return panel;
     }
@@ -187,15 +195,35 @@ public class Dashboard extends JPanel implements ActionListener {
      * returning to Today's view
      */
     public void refresh() {
+        this.refreshConfig();
         todayButton.setSelected(true);
 
         date.setText(new SimpleDateFormat("EEEE, MMMM d, yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
-        sedentaryMinutesData.setText("" + fitbitInfo.getDay().getSedentaryMins());
-        activeMinutesData.setText("" + fitbitInfo.getDay().getActiveMins());
-        stepsTakenData.setText("" + fitbitInfo.getDay().getSteps());
-        floorsClimbedData.setText("" + fitbitInfo.getDay().getFloors());
-        totalDistanceData.setText("" + fitbitInfo.getDay().getDistance());
-        caloriesBurnedData.setText("" + fitbitInfo.getDay().getCaloriesOut());
+
+        Daily day = fitbitInfo.getDay();
+        caloriesBurnedData.setText("" + day.getCaloriesOut());
+        totalDistanceData.setText("" + day.getDistance());
+        stepsTakenData.setText("" + day.getSteps());
+        floorsClimbedData.setText("" + day.getFloors());
+        activeMinutesData.setText("" + day.getActiveMins());
+        sedentaryMinutesData.setText("" + day.getSedentaryMins());
+
+        this.goalRefresh(caloriesBurnedProg, (int) day.getCaloriesOut(), (int) day.getCalOutGoal());
+        this.goalRefresh(totalDistanceProg, (int) day.getDistance(), (int) day.getDistanceGoal());
+        this.goalRefresh(stepsTakenProg, (int) day.getSteps(), (int) day.getStepsGoal());
+        this.goalRefresh(floorsClimbedProg, (int) day.getFloors(), (int) day.getFloorGoal());
+        this.goalRefresh(activeMinutesProg, (int) day.getActiveMins(), (int) day.getActiveMinGoal());
+
+    }
+
+    private void goalRefresh(JProgressBar prog, int value, int goal) {
+        if (goal <= 0) {
+            prog.setVisible(false);
+        } else {
+            prog.setVisible(true);
+            prog.setMaximum(goal);
+            prog.setValue(value);
+        }
     }
 
     /**
@@ -247,6 +275,12 @@ public class Dashboard extends JPanel implements ActionListener {
             floorsClimbedData.setText("" + dayInfo.getFloors());
             totalDistanceData.setText("" + dayInfo.getDistance());
             caloriesBurnedData.setText("" + dayInfo.getCaloriesOut());
+
+            this.goalRefresh(caloriesBurnedProg, (int) dayInfo.getCaloriesOut(), (int) dayInfo.getCalOutGoal());
+            this.goalRefresh(totalDistanceProg, (int) dayInfo.getDistance(), (int) dayInfo.getDistanceGoal());
+            this.goalRefresh(stepsTakenProg, (int) dayInfo.getSteps(), (int) dayInfo.getStepsGoal());
+            this.goalRefresh(floorsClimbedProg, (int) dayInfo.getFloors(), (int) dayInfo.getFloorGoal());
+            this.goalRefresh(activeMinutesProg, (int) dayInfo.getActiveMins(), (int) dayInfo.getActiveMinGoal());
         }
     }
 
@@ -263,17 +297,23 @@ public class Dashboard extends JPanel implements ActionListener {
             DateFormat toFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy");
             toFormat.setLenient(false);
 
+            date.setText("Best Days");
             caloriesPanel.setVisible(false);
-            totalDistanceData.setText(roundedBestDistance + "\t\t  on \t\t"
-                    + toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[0].getDate())));
+            totalDistanceData.setText(toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[0].getDate()))
+                    + "\t\t - \t\t" + roundedBestDistance);
+            floorsClimbedData.setText(toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[1].getDate()))
+                    + "\t\t - \t\t" + roundedBestFloors);
+            stepsTakenData.setText(toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[2].getDate()))
+                    + "\t\t - \t\t" + roundedBestSteps);
 
-            floorsClimbedData.setText(roundedBestFloors + "\t\t  on \t\t"
-                    + toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[1].getDate())));
-            stepsTakenData.setText(roundedBestSteps + "\t\t  on \t\t"
-                    + toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[2].getDate())));
             activePanel.setVisible(false);
             sedentaryPanel.setVisible(false);
-            date.setText("Best Days");
+
+            caloriesBurnedProg.setVisible(false);
+            totalDistanceProg.setVisible(false);
+            stepsTakenProg.setVisible(false);
+            floorsClimbedProg.setVisible(false);
+            activeMinutesProg.setVisible(false);
         } catch (ParseException ex) {
             System.err.println("ERROR PARSING DATE");
         }
@@ -288,13 +328,19 @@ public class Dashboard extends JPanel implements ActionListener {
         double roundedBestFloors = Math.round(fitbitInfo.getLifetime().getFloors() * 100.0) / 100.0;
         int roundedBestSteps = (int) fitbitInfo.getLifetime().getSteps();
 
+        date.setText("Lifetime Totals");
         caloriesPanel.setVisible(false);
         totalDistanceData.setText("" + roundedBestDistance);
         floorsClimbedData.setText("" + roundedBestFloors);
         stepsTakenData.setText("" + roundedBestSteps);
         activePanel.setVisible(false);
         sedentaryPanel.setVisible(false);
-        date.setText("Lifetime Totals");
+
+        caloriesBurnedProg.setVisible(false);
+        totalDistanceProg.setVisible(false);
+        stepsTakenProg.setVisible(false);
+        floorsClimbedProg.setVisible(false);
+        activeMinutesProg.setVisible(false);
     }
 
     public void refreshConfig() {

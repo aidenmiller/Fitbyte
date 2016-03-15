@@ -135,16 +135,17 @@ public class FitbitInfo implements Serializable {
         this.testMode = true; //set test mode to true
         
         Random rand = new Random();
-
-        Daily randDay = new Daily("yyyy-MM-dd", (long) rand.nextInt(250), (long) rand.nextInt(250),
+        
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+        Daily randDay = new Daily(date, (long) rand.nextInt(250), (long) rand.nextInt(250),
                 (double) rand.nextInt(250), (double) rand.nextInt(250), (long) rand.nextInt(250), (long) rand.nextInt(250),
                 (long) rand.nextInt(250), (long) rand.nextInt(250), (double) rand.nextInt(250), (double) rand.nextInt(250),
                 (long) rand.nextInt(250), (double) rand.nextInt(250), (long) rand.nextInt(250), (long) rand.nextInt(250),
                 (long) rand.nextInt(250), (long) rand.nextInt(250), (long) rand.nextInt(250));
 
-        BestDay randDistanceBestDay = new BestDay("yyyy-MM-dd", "distance", (double) rand.nextInt(250));
-        BestDay randFloorsBestDay = new BestDay("yyyy-MM-dd", "floors", (double) rand.nextInt(250));
-        BestDay randStepsBestDay = new BestDay("yyyy-MM-dd", "steps", (double) rand.nextInt(250));
+        BestDay randDistanceBestDay = new BestDay(date, "distance", (double) rand.nextInt(250));
+        BestDay randFloorsBestDay = new BestDay(date, "floors", (double) rand.nextInt(250));
+        BestDay randStepsBestDay = new BestDay(date, "steps", (double) rand.nextInt(250));
         BestDay[] randBest = {randDistanceBestDay, randFloorsBestDay, randStepsBestDay};
 
         Lifetime randLifetime = new Lifetime((double) rand.nextInt(250), (double) rand.nextInt(250), (long) rand.nextInt(250));
