@@ -2,6 +2,10 @@ package ca.uwo.csd.cs2212.team07;
 
 import java.io.Serializable;
 
+/**
+ * Stores User Configuration as it relates to personal customization options.
+ * @author team07
+ */
 public class UserConfig implements Serializable {
 
     private static final long serialVersionUID = 3L;

@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 /**
- * Creates a Main Window that displays the program to the user.
+ * Creates a Settings Panel to be displayed in the JOptionPane.
  *
  * @author team07
  */

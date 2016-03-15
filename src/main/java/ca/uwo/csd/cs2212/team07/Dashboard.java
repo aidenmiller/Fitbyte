@@ -117,22 +117,22 @@ public class Dashboard extends JPanel implements ActionListener {
 
         //Panels for each data item
         caloriesBurnedData = new JLabel("" + fitbitInfo.getDay().getCaloriesOut());
-        caloriesPanel = this.createDataBox(new JLabel("Calories Burned"), caloriesBurnedData, "dataicons/calories.png", new Color(255, 150, 150));
+        caloriesPanel = this.createDataBox(new JLabel("Calories Burned"), caloriesBurnedData, "dataicons/calories.png", new Color(255, 175, 175));
 
         totalDistanceData = new JLabel("" + fitbitInfo.getDay().getDistance());
-        distancePanel = this.createDataBox(new JLabel("Total Distance"), totalDistanceData, "dataicons/distance.png", new Color(200, 255, 200));
+        distancePanel = this.createDataBox(new JLabel("Total Distance"), totalDistanceData, "dataicons/distance.png", new Color(180, 255, 190));
 
         floorsClimbedData = new JLabel("" + fitbitInfo.getDay().getFloors());
-        floorsPanel = this.createDataBox(new JLabel("Floors Climbed"), floorsClimbedData, "dataicons/floors.png", new Color(255, 160, 255));
+        floorsPanel = this.createDataBox(new JLabel("Floors Climbed"), floorsClimbedData, "dataicons/floors.png", new Color(255, 180, 245));
 
         stepsTakenData = new JLabel("" + fitbitInfo.getDay().getSteps());
-        stepsPanel = this.createDataBox(new JLabel("Steps Taken"), stepsTakenData, "dataicons/steps.png", new Color(250, 200, 160));
+        stepsPanel = this.createDataBox(new JLabel("Steps Taken"), stepsTakenData, "dataicons/steps.png", new Color(255, 220, 180));
 
         activeMinutesData = new JLabel("" + fitbitInfo.getDay().getActiveMins());
-        activePanel = this.createDataBox(new JLabel("Active Minutes"), activeMinutesData, "dataicons/active.png", new Color(250, 255, 150));
+        activePanel = this.createDataBox(new JLabel("Active Minutes"), activeMinutesData, "dataicons/active.png", new Color(250, 255, 180));
 
         sedentaryMinutesData = new JLabel("" + fitbitInfo.getDay().getSedentaryMins());
-        sedentaryPanel = this.createDataBox(new JLabel("Sedentary Minutes"), sedentaryMinutesData, "dataicons/sedentary.png", new Color(100, 255, 255));
+        sedentaryPanel = this.createDataBox(new JLabel("Sedentary Minutes"), sedentaryMinutesData, "dataicons/sedentary.png", new Color(180, 250, 255));
         //end of Panels for each data item
 
         this.setLayout(new BorderLayout());
@@ -156,17 +156,12 @@ public class Dashboard extends JPanel implements ActionListener {
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
         centerPanel.add(Box.createVerticalStrut(5));
         centerPanel.add(caloriesPanel);
-        centerPanel.add(Box.createVerticalStrut(5));
         centerPanel.add(distancePanel);
-        centerPanel.add(Box.createVerticalStrut(5));
         centerPanel.add(floorsPanel);
-        centerPanel.add(Box.createVerticalStrut(5));
         centerPanel.add(stepsPanel);
-        centerPanel.add(Box.createVerticalStrut(5));
         centerPanel.add(activePanel);
-        centerPanel.add(Box.createVerticalStrut(5));
         centerPanel.add(sedentaryPanel);
-        centerPanel.add(Box.createVerticalStrut(5));
+        centerPanel.add(Box.createVerticalStrut(20));
         this.add(centerPanel, BorderLayout.CENTER);
 
         //sets the view to Today
