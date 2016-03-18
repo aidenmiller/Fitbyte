@@ -26,18 +26,18 @@ import org.json.JSONException;
  * @author team07
  */
 public class DailyGoals extends JPanel implements ActionListener {
-
+    
     private final FitbitInfo fitbitInfo;
     private final UserConfig userConfig;
-
+    
     private JLabel date;
     private JProgressBar caloriesBurnedBar, totalDistanceBar, floorsClimbedBar, stepsTakenBar, activeMinutesBar;
-
+    
     private JToggleButton calendarButton;
     private DateChooserPanel dateChooser;
     private ButtonGroup buttonGroup;
     private JToggleButton todayButton;
-
+    
     private JPanel displayPanel, caloriesPanel, distancePanel, floorsPanel, stepsPanel, activePanel;
     private JButton caloriesEdit;
     private JButton distanceEdit;
@@ -63,7 +63,7 @@ public class DailyGoals extends JPanel implements ActionListener {
      */
     private void initPanel() {
         this.setBackground(Color.white);
-
+        
         date = new JLabel("");
         dateChooser = new DateChooserPanel((Calendar) fitbitInfo.getLastRefreshTime().clone(), false);
         //Today, Best, Lifetime views
@@ -72,14 +72,14 @@ public class DailyGoals extends JPanel implements ActionListener {
         calendarButton.setToolTipText("View Previous Day");
         ImageIcon icon = new ImageIcon(FileReader.getImage("calendar.png"));
         calendarButton.setIcon(icon);
-
+        
         todayButton = new JToggleButton("Today");
         todayButton.setToolTipText("Today's Activity");
         todayButton.addActionListener(this);
         buttonGroup = new ButtonGroup();
         buttonGroup.add(calendarButton);
         buttonGroup.add(todayButton);
-
+        
         displayPanel = new JPanel();
         displayPanel.setOpaque(false);
         displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.X_AXIS));
@@ -97,7 +97,7 @@ public class DailyGoals extends JPanel implements ActionListener {
         caloriesEdit = new JButton("Edit");
         caloriesEdit.addActionListener(this);
         caloriesPanel = this.createDataBox(new JLabel("Calories Burned"), caloriesBurnedBar, caloriesEdit, "dataicons/calories.png", new Color(255, 175, 175));
-
+        
         totalDistanceBar = new JProgressBar();
         distanceEdit = new JButton("Edit");
         distanceEdit.addActionListener(this);
@@ -157,7 +157,7 @@ public class DailyGoals extends JPanel implements ActionListener {
      */
     private JPanel createDataBox(JLabel header, JProgressBar progBar, JButton edit, String iconFile, Color color) {
         JPanel panel = new JPanel();
-
+        
         panel.setBackground(color);
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         ImageIcon iconImage = new ImageIcon(FileReader.getImage(iconFile));
@@ -165,19 +165,19 @@ public class DailyGoals extends JPanel implements ActionListener {
         panel.add(Box.createHorizontalStrut(50));
         panel.add(iconLabel);
         panel.add(Box.createHorizontalStrut(70));
-
+        
         header.setFont(new Font(header.getFont().getName(), Font.PLAIN, 14));
         panel.add(header);
         panel.add(Box.createHorizontalGlue());
-
+        
         progBar.setStringPainted(true);
         panel.add(progBar);
         panel.add(Box.createHorizontalStrut(50));
         edit.setName(header.getText());
         panel.add(edit);
-
+        
         panel.add(Box.createHorizontalStrut(20));
-
+        
         return panel;
     }
 
@@ -188,11 +188,12 @@ public class DailyGoals extends JPanel implements ActionListener {
     public void refresh() {
         this.refreshConfig();
         todayButton.setSelected(true);
-
+        
         date.setText(new SimpleDateFormat("EEEE, MMMM d, yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
-
+        
         Daily day = fitbitInfo.getDay();
         int percent;
+        int numComplete = 0;
 
         //CALORIES
         if (userConfig.getCalGoal() < 0) {
@@ -203,6 +204,9 @@ public class DailyGoals extends JPanel implements ActionListener {
         caloriesBurnedBar.setValue((int) day.getCaloriesOut());
         percent = (int) (caloriesBurnedBar.getPercentComplete() * 100);
         caloriesBurnedBar.setString("" + day.getCaloriesOut() + "/" + caloriesBurnedBar.getMaximum() + " calories (" + percent + "%)");
+        if (percent == 100) {
+            numComplete++;
+        }
 
         //DISTANCE
         if (userConfig.getDistanceGoal() < 0) {
@@ -213,6 +217,9 @@ public class DailyGoals extends JPanel implements ActionListener {
         totalDistanceBar.setValue((int) day.getDistance());
         percent = (int) (totalDistanceBar.getPercentComplete() * 100);
         totalDistanceBar.setString("" + day.getDistance() + "/" + totalDistanceBar.getMaximum() + " km (" + percent + "%)");
+        if (percent == 100) {
+            numComplete++;
+        }
 
         //STEPS
         if (userConfig.getStepsGoal() < 0) {
@@ -223,6 +230,9 @@ public class DailyGoals extends JPanel implements ActionListener {
         stepsTakenBar.setValue((int) day.getSteps());
         percent = (int) (stepsTakenBar.getPercentComplete() * 100);
         stepsTakenBar.setString("" + day.getSteps() + "/" + stepsTakenBar.getMaximum() + " steps (" + percent + "%)");
+        if (percent == 100) {
+            numComplete++;
+        }
 
         //FLOORS
         if (userConfig.getFloorsGoal() < 0) {
@@ -233,6 +243,9 @@ public class DailyGoals extends JPanel implements ActionListener {
         floorsClimbedBar.setValue((int) day.getFloors());
         percent = (int) (floorsClimbedBar.getPercentComplete() * 100);
         floorsClimbedBar.setString("" + day.getFloors() + "/" + floorsClimbedBar.getMaximum() + " floors (" + percent + "%)");
+        if (percent == 100) {
+            numComplete++;
+        }
 
         //ACTIVE MINS
         if (userConfig.getActiveGoal() < 0) {
@@ -243,7 +256,11 @@ public class DailyGoals extends JPanel implements ActionListener {
         activeMinutesBar.setValue((int) day.getActiveMins());
         percent = (int) (activeMinutesBar.getPercentComplete() * 100);
         activeMinutesBar.setString("" + day.getActiveMins() + "/" + activeMinutesBar.getMaximum() + " minutes (" + percent + "%)");
-
+        if (percent == 100) {
+            numComplete++;
+        }
+        
+        userConfig.setGoalsComplete(numComplete);
     }
 
     /**
@@ -268,17 +285,17 @@ public class DailyGoals extends JPanel implements ActionListener {
         } else if (e.getSource() == activeEdit) {
             this.setGoal("Active Minutes");
         }
-
+        
     }
-
+    
     private void switchDay() {
         int n = JOptionPane.showOptionDialog(this, dateChooser,
                 "Calendar", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE, null, null, null);
-
+        
         if (n == JOptionPane.OK_OPTION) {
             Daily dayInfo;
-
+            
             if (fitbitInfo.isTestMode()) { //checks if in Test Mode
                 FitbitInfo info = new FitbitInfo();
                 info.testModeData();
@@ -294,7 +311,7 @@ public class DailyGoals extends JPanel implements ActionListener {
                     return; //so that the data does not update
                 }
             }
-
+            
             date.setText(new SimpleDateFormat("EEEE, MMMM d, yyyy").format(dateChooser.getDate()));
             int percent;
 
@@ -327,7 +344,7 @@ public class DailyGoals extends JPanel implements ActionListener {
             activeMinutesBar.setValue((int) dayInfo.getActiveMins());
             percent = (int) (activeMinutesBar.getPercentComplete() * 100);
             activeMinutesBar.setString("" + dayInfo.getActiveMins() + "/" + activeMinutesBar.getMaximum() + " minutes (" + percent + "%)");
-        
+            
             caloriesEdit.setVisible(false);
             distanceEdit.setVisible(false);
             stepsEdit.setVisible(false);
@@ -335,7 +352,7 @@ public class DailyGoals extends JPanel implements ActionListener {
             activeEdit.setVisible(false);
         }
     }
-
+    
     public void refreshConfig() {
         caloriesPanel.setVisible(userConfig.isCaloriesData());
         distancePanel.setVisible(userConfig.isDistanceData());
@@ -343,15 +360,15 @@ public class DailyGoals extends JPanel implements ActionListener {
         stepsPanel.setVisible(userConfig.isStepsData());
         activePanel.setVisible(userConfig.isActiveData());
     }
-
+    
     private void setGoal(String field) {
         String input = JOptionPane.showInputDialog(this, "New " + field + " Goal (enter negative number to use fitbit goals)", "Edit a Daily Goal", JOptionPane.PLAIN_MESSAGE);
-
+        
         if (input != null) {
             try {
                 int val = Integer.parseInt(input);
-                if(val <0){
-                    val=-1;
+                if (val < 0) {
+                    val = -1;
                 }
                 if (field.equals("Calories Burned")) {
                     userConfig.setCalGoal(val);
@@ -369,7 +386,7 @@ public class DailyGoals extends JPanel implements ActionListener {
                 System.out.println("Not a number");
             }
         }
-
+        
     }
-
+    
 }
