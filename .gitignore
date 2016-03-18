@@ -4,3 +4,5 @@
 target/
 .class
 nbaactions.xml
+user.config
+user.info
