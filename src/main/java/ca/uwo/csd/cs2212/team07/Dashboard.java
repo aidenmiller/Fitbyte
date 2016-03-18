@@ -399,7 +399,6 @@ public class Dashboard extends JPanel implements ActionListener {
             JOptionPane.showMessageDialog(new JFrame(), "Time Graph not available in test mode");
         }
         else {
-        JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
         try {
             TimeGraph graph = new TimeGraph(title, yAxisTitle, Api.getTimeSeriesData(new SimpleDateFormat("yyyy-MM-dd").format(dateChooser.getDate()), activity, 1));
             graph.showGraph();
