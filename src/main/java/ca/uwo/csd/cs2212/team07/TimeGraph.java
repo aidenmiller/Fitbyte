@@ -4,59 +4,64 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Time;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartMouseEvent;
-import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
-import org.jfree.chart.entity.ChartEntity;
-import org.jfree.chart.entity.XYItemEntity;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.general.SeriesException;
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
-import org.jfree.data.xy.XYDataItem;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
 import org.json.JSONException;
 
+/**
+ * TimeGraph Class: This class creates a Graph window to display time series
+ * information
+ *
+ * @author Team07 CS2212
+ */
 public class TimeGraph extends ApplicationFrame {
 
+    /**
+     * CONSTRUCTOR METHOD: Creates a new TimeGraph
+     *
+     * @param title Title String of graph
+     * @param yAxisTitle Y axis label string of graph (x axis will always be
+     * time)
+     * @param timeData TimeSeriesData object that will be used to populate data points on the graph
+     */
     public TimeGraph(final String title, final String yAxisTitle, TimeSeriesData timeData) {
-        super(title);
-        final XYDataset dataset = createDataset(timeData);
-        final JFreeChart chart = createChart(dataset, title, yAxisTitle);
+        super(title); // create new ApplicationFrame object with the title
+        final XYDataset dataset = createDataset(timeData); // create dataset out of TimeSeriesData object that was paramatized
+        final JFreeChart chart = createChart(dataset, title, yAxisTitle); // create JFreeChart using the dataset, title and y axis title
         final ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(560, 370));
+        chartPanel.setPreferredSize(new java.awt.Dimension(560, 370)); //set dimensions of Graph window
 
-        chartPanel.setMouseZoomable(true, false);
+        chartPanel.setMouseZoomable(true, false); // set zoomable in the x axis, but not the y axis
         chartPanel.setRangeZoomable(false);
-        setContentPane(chartPanel);
+        setContentPane(chartPanel); 
 
-        StandardChartTheme theme = (StandardChartTheme) org.jfree.chart.StandardChartTheme.createJFreeTheme();
-        chart.getPlot().setBackgroundPaint(Color.WHITE);
+        StandardChartTheme theme = (StandardChartTheme) org.jfree.chart.StandardChartTheme.createJFreeTheme(); // set chart theme
+        chart.getPlot().setBackgroundPaint(Color.WHITE); // set background colour of chart
 
-        chart.getTitle().setFont(new Font("Arial", 1, 24));
+        chart.getTitle().setFont(new Font("Arial", 1, 24)); // set font and size of title
 
-        chart.getXYPlot().setDomainCrosshairVisible(true);
+        chart.getXYPlot().setDomainCrosshairVisible(true); // show where user clicked
         chart.getXYPlot().setDomainCrosshairLockedOnData(true);
         chart.getXYPlot().setRangeCrosshairVisible(true);
         chart.getXYPlot().setRangeCrosshairLockedOnData(true);
 
     }
-    
+
+    /**
+     * showGraph() method:
+     */
     private void showGraph() {
         this.pack();
         this.setVisible(true);
     }
-    
 
     private XYDataset createDataset(TimeSeriesData test) {
         final TimeSeries series = new TimeSeries("Fitbit Data");
@@ -84,16 +89,4 @@ public class TimeGraph extends ApplicationFrame {
                 false);
     }
 
-    
-   /* public static void main(final String[] args) {
-        try {
-            TimeGraph graph = new TimeGraph("Heart Rate Data", "Heart Rate", Api.getTimeSeriesData("2016-02-11", "heart", 1));
-            graph.showGraph();
-        } catch (JSONException ex) {
-            Logger.getLogger(TimeGraph.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RefreshTokenException ex) {
-            Logger.getLogger(TimeGraph.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    } */
 }
