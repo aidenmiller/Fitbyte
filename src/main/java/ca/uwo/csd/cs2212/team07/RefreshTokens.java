@@ -141,10 +141,14 @@ public class RefreshTokens {
                 // This accessToken is now the current one, and the old ones will not work
                 //   again.  You should save the contents of accessToken.
                 try {
-                accessToken = service.refreshOAuth2AccessToken(accessToken);
+                    accessToken = service.refreshOAuth2AccessToken(accessToken); //THIS IS WHERE REFRESH TOKEN PROBLEM HAPPENS
+                    writeToken(accessToken);
+                }
+                catch (RefreshTokenException e){
+                    throw e;
                 }
                 catch (Exception e) {
-                    throw new RefreshTokenException("Error refreshing token, expired token");
+                    throw new RefreshTokenException("Error refreshing token, expired token" + e.getMessage());
                 }
 
                 // Now we can try to access the service again
@@ -160,7 +164,17 @@ public class RefreshTokens {
                 throw new RefreshTokenException("429-Rate Limit Exceeded");
         }
 
-        BufferedWriter bufferedWriter = null;
+        
+        // if the response code was not 200, throw exception
+        if (response.getCode() != 200) {
+            throw new RefreshTokenException("Error Accessing API");
+        } else { // else response is valid, return response
+            return response;
+        }
+    }
+    
+    private static void writeToken(OAuth2AccessToken tokenToSave) throws RefreshTokenException{
+         BufferedWriter bufferedWriter = null;
         //  Save the current accessToken information for next time
 
         // IF YOU DO NOT SAVE THE CURRENTLY ACTIVE TOKEN INFO YOU WILL NOT BE ABLE TO REFRESH
@@ -170,17 +184,18 @@ public class RefreshTokens {
             fileWriter
                     = new FileWriter("src/main/resources/Team7Tokens.txt");
             bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(accessToken.getToken());
+            bufferedWriter.write(tokenToSave.getToken());
             bufferedWriter.newLine();
-            bufferedWriter.write(accessToken.getTokenType());
+            bufferedWriter.write(tokenToSave.getTokenType());
             bufferedWriter.newLine();
-            bufferedWriter.write(accessToken.getRefreshToken());
+            bufferedWriter.write(tokenToSave.getRefreshToken());
             bufferedWriter.newLine();
-            bufferedWriter.write(accessToken.getExpiresIn().toString());
+            bufferedWriter.write(tokenToSave.getExpiresIn().toString());
             bufferedWriter.newLine();
-            bufferedWriter.write(accessToken.getRawResponse());
+            bufferedWriter.write(tokenToSave.getRawResponse());
             bufferedWriter.newLine();
             bufferedWriter.close();
+            System.out.println("TOKENS HAVE BEEN REWRITTEN- PLEASE DISTRUBUTE NEW TOKENS TO TEAM!!!!");
         } catch (FileNotFoundException ex) {
             throw new RefreshTokenException("Unable to open file\n" + ex.getMessage());
         } catch (IOException ex) {
@@ -195,13 +210,7 @@ public class RefreshTokens {
                         "Error closing file\n" + e.getMessage());
             }
         }//end try
-        
-        // if the response code was not 200, throw exception
-        if (response.getCode() != 200) {
-            throw new RefreshTokenException("Error Accessing API");
-        } else { // else response is valid, return response
-            return response;
-        }
+       
     }
 
 }

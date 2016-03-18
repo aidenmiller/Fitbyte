@@ -226,4 +226,8 @@ public class DailyGoals extends JPanel {
         date.setText(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
     }
 
+    void refreshConfig() {
+        System.out.println("To Implement");
+    }
+
 }
