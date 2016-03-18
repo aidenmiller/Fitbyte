@@ -56,28 +56,44 @@ public class TimeGraph extends ApplicationFrame {
     }
 
     /**
-     * showGraph() method:
+     * showGraph() method: Displays the window that holds the time series graph
      */
     private void showGraph() {
         this.pack();
-        this.setVisible(true);
+        this.setVisible(true); // set the graph as visible
     }
 
-    private XYDataset createDataset(TimeSeriesData test) {
-        final TimeSeries series = new TimeSeries("Fitbit Data");
-        for (int i = 0; i < test.getDatasetLength(); i++) {
+    /**
+     * createDataset() method: converts the TimeSeriesData object into a dataset that the graph can use for population
+     * @param data TimeSeriesData that will be used to populate TimeGraph
+     * @return XYDataset in proper format that JFreeChart API can use
+     */
+    private XYDataset createDataset(TimeSeriesData data) {
+        
+        final TimeSeries series = new TimeSeries("Fitbit Data");  //create TimeSeries object
+        
+        for (int i = 0; i < data.getDatasetLength(); i++) { // loop through every data point in the TimeSeriesData object
             try {
-                TimePoint currentTimePoint = test.getTimePoint(i);
-                series.add(new Minute(Time.valueOf(currentTimePoint.getTime())), currentTimePoint.getValue());
+                TimePoint currentTimePoint = data.getTimePoint(i);
+                
+                // add each of these data points into the TimeSeries object, the time and the value
+                series.add(new Minute(Time.valueOf(currentTimePoint.getTime())), currentTimePoint.getValue()); 
 
-            } catch (SeriesException e) {
+            } catch (SeriesException e) { // throw exception if there was a error parsing into the TimeSeries
                 System.err.println("Error adding to series");
             }
         }
 
-        return new TimeSeriesCollection(series);
+        return new TimeSeriesCollection(series); // return the TimeSeriesCollection that the chart will be able to use for population
     }
 
+    /**
+     * createChart() method: specifies the details of the chart
+     * @param dataset data that will be used to populate chart
+     * @param title title of graph
+     * @param yAxisTitle String of title of Y axis (distance, calories, steps, heartrate)
+     * @return the created Time Series Chart
+     */
     private JFreeChart createChart(final XYDataset dataset, String title, String yAxisTitle) {
         return ChartFactory.createTimeSeriesChart(
                 title,
