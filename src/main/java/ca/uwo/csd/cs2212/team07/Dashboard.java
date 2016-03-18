@@ -395,6 +395,11 @@ public class Dashboard extends JPanel implements ActionListener {
     }
 
     private void displayTimeGraph(String title, String yAxisTitle, String activity) {
+        if(fitbitInfo.isTestMode()) {
+            JOptionPane.showMessageDialog(new JFrame(), "Time Graph not available in test mode");
+        }
+        else {
+        JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
         try {
             TimeGraph graph = new TimeGraph(title, yAxisTitle, Api.getTimeSeriesData(new SimpleDateFormat("yyyy-MM-dd").format(dateChooser.getDate()), activity, 1));
             graph.showGraph();
@@ -402,6 +407,7 @@ public class Dashboard extends JPanel implements ActionListener {
             System.out.println("WE MUST HANDLE THIS ERRROR JSON");
         } catch (RefreshTokenException ex) {
             System.out.println("WE MUST HANDLE THIS ERROR: RTE");
+        }
         }
 
     }
