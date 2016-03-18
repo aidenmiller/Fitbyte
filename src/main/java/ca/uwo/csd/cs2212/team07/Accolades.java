@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 public class Accolades extends JPanel {
 
     private final FitbitInfo fitbitInfo;
+    private UserConfig userConfig;
 
     private JLabel date;
     private JLabel stepsTakenData;
@@ -28,13 +29,13 @@ public class Accolades extends JPanel {
     private JLabel dailyGoalsData;
     private JLabel accoladesEarnedData;
 
-    private JLabel caloriesDate;
-    private JLabel distanceDate;
-    private JLabel activeDate;
-    private JLabel stepsDate;
-    private JLabel floorsDate;
-    private JLabel goalsDate;
-    private JLabel accoladesDate;
+    private String caloriesDate;
+    private String distanceDate;
+    private String activeDate;
+    private String stepsDate;
+    private String floorsDate;
+    private String goalsDate;
+    private String accoladesDate;
 
     private JPanel datePanel;
     private JPanel stepsPanel;
@@ -47,7 +48,7 @@ public class Accolades extends JPanel {
 
     private long calories, active, steps;
     private double distance, floors;
-    private int goals, goldAccolades;
+    private int goals, totalAccolades;
     
     private String caloriesBronze;
     private String caloriesSilver;
@@ -75,30 +76,21 @@ public class Accolades extends JPanel {
      * Constructor for the Daily Goals class
      *
      * @param fitbitInfo container for user data
+     * @param userConfig container to save progress data
      */
-    public Accolades(FitbitInfo fitbitInfo) {
+    public Accolades(FitbitInfo fitbitInfo, UserConfig userConfig) {
         super();
         this.fitbitInfo = fitbitInfo;
+        this.userConfig = userConfig;
         initPanel();
     }
 
-    /**
-     * Initializes the panel to display Daily Goals to the user
-     */
     private void initPanel() {
 
         this.setBackground(Color.white); //Color of the menu bar
         date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
         this.add(date);
         
-        //Reset Date label
-        caloriesDate = new JLabel("Date Achieved : " + "");
-        distanceDate = new JLabel("Date Achieved : " + "");
-        activeDate = new JLabel("Date Achieved : " + "");
-        stepsDate = new JLabel("Date Achieved : " + "");
-        floorsDate = new JLabel("Date Achieved : " + "");    
-        goalsDate = new JLabel("Date Achieved : " + "");
-        accoladesDate = new JLabel("Date Achieved : " + "");
         
         //Reset file names for accolades to gray icons
         caloriesBronze = "accolades/caloriesBronzeGray.png";
@@ -126,140 +118,182 @@ public class Accolades extends JPanel {
         //Check for new records
         if (fitbitInfo.getDay().getCaloriesOut() > calories) {
             calories = fitbitInfo.getDay().getCaloriesOut();
-            caloriesDate = new JLabel("Date Achieved : " + fitbitInfo.getDay().getDate());
         }
 
         if (fitbitInfo.getDay().getDistance() > distance) {
             distance = fitbitInfo.getDay().getDistance();
-            distanceDate = new JLabel("Date Achieved : " + fitbitInfo.getDay().getDate());
         }
 
         if (fitbitInfo.getDay().getFloors() > floors) {
             floors = fitbitInfo.getDay().getFloors();
-            floorsDate = new JLabel("Date Achieved : " + fitbitInfo.getDay().getDate());
         }
 
         if (fitbitInfo.getDay().getSteps() > steps) {
             steps = fitbitInfo.getDay().getSteps();
-            stepsDate = new JLabel("Date Achieved : " + fitbitInfo.getDay().getDate());
         }
 
         if (fitbitInfo.getDay().getActiveMins() > active) {
             active = fitbitInfo.getDay().getActiveMins();
-            activeDate = new JLabel("Date Achieved : " + fitbitInfo.getDay().getDate());
         }
 
         if (fitbitInfo.getDay().getCaloriesOut() > goals) {
             goals = 10;
-            goalsDate = new JLabel("Date Achieved : " + fitbitInfo.getDay().getDate());
         }
 
-        if (fitbitInfo.getDay().getCaloriesOut() > goldAccolades) {
-            goldAccolades = 20;
-            accoladesDate = new JLabel("Date Achieved : " + fitbitInfo.getDay().getDate());
+        if (fitbitInfo.getDay().getCaloriesOut() > totalAccolades) {
+            totalAccolades = 20;
         }
         
         //Update accolade icons based on records
-        if (calories >= 100){
+        if (calories >= 1000){
+            if (false == userConfig.isCaloriesAccoladeBronze()){
+                userConfig.setCaloriesAccoladeBronze(true);
+                userConfig.setCaloriesAccoladeBronzeDate(fitbitInfo.getDay().getDate());
+                totalAccolades += 1;
+            }
             caloriesBronze = "accolades/caloriesBronze.png";
-            if (calories >= 200){
+            userConfig.setCaloriesAccoladeBronze(true);
+            if (calories >= 2000){
+                if (false == userConfig.isCaloriesAccoladeBronze()){
+                userConfig.setCaloriesAccoladeSilver(true);
+                userConfig.setCaloriesAccoladeSilverDate(fitbitInfo.getDay().getDate());
+                totalAccolades += 1;
+                }
                 caloriesSilver = "accolades/caloriesSilver.png";
-                if (calories >= 300){
+                if (calories >= 3000){
+                    if (false == userConfig.isCaloriesAccoladeGold()){
+                        userConfig.setCaloriesAccoladeGold(true);
+                        userConfig.setCaloriesAccoladeSilverDate(fitbitInfo.getDay().getDate());
+                        totalAccolades += 1;
+                    }
                     caloriesGold = "accolades/caloriesGold.png";
-                    goldAccolades += 1;
                 }
             }
         }
         
         if (distance >= 1.0){
+            if (false == userConfig.isDistanceAccoladeBronze()){
+                userConfig.setDistanceAccoladeBronze(true);
+                userConfig.setDistanceAccoladeBronzeDate(fitbitInfo.getDay().getDate());
+                totalAccolades += 1;
+            }
             distanceBronze = "accolades/distanceBronze.png";
             if (distance >= 2.0){
+                if (false == userConfig.isDistanceAccoladeSilver()){
+                userConfig.setDistanceAccoladeSilver(true);
+                userConfig.setDistanceAccoladeSilverDate(fitbitInfo.getDay().getDate());
+                totalAccolades += 1;
+                }
                 distanceSilver = "accolades/distanceSilver.png";
                 if (distance >= 3.0){
+                    if (false == userConfig.isDistanceAccoladeGold()){
+                        userConfig.setDistanceAccoladeGold(true);
+                        userConfig.setDistanceAccoladeGoldDate(fitbitInfo.getDay().getDate());
+                        totalAccolades += 1;
+                    }
                     distanceGold = "accolades/distanceGold.png";
-                    goldAccolades += 1;
                 }
             }
         }
         if (floors >= 5.0){
+            if (false == userConfig.isFloorsAccoladeBronze()){
+                userConfig.setFloorsAccoladeBronze(true);
+                userConfig.setFloorsAccoladeBronzeDate(fitbitInfo.getDay().getDate());
+                totalAccolades += 1;
+            }
             floorsBronze = "accolades/floorsBronze.png";
+            userConfig.setFloorsAccoladeBronze(true);
             if (floors >= 10.0){
                 floorsSilver = "accolades/floorsSilver.png";
+                userConfig.setFloorsAccoladeSilver(true);
                 if (floors >= 15.0){
                     floorsGold = "accolades/floorsGold.png";
-                    goldAccolades += 1;
+                    userConfig.setFloorsAccoladeGold(true);
+                    totalAccolades += 1;
                 }
             }
         }
         if (steps >= 100){
             stepsBronze = "accolades/stepsBronze.png";
+            userConfig.setStepsAccoladeBronze(true);
             if (steps >= 250){
                 stepsSilver = "accolades/stepsSilver.png";
+                userConfig.setStepsAccoladeSilver(true);
                 if (steps >= 500){
                     stepsGold = "accolades/stepsGold.png";
-                    goldAccolades += 1;
+                    userConfig.setStepsAccoladeGold(true);
+                    totalAccolades += 1;
                 }
             }
         }
-        if (active >= 20){
+        if (active >= 30){
             activeBronze = "accolades/activeBronze.png";
-            if (active >= 40){
+            userConfig.setActiveAccoladeBronze(true);
+            if (active >= 60){
                 activeSilver = "accolades/activeSilver.png";
-                if (active >= 60){
+                userConfig.setActiveAccoladeSilver(true);
+                if (active >= 90){
                     activeGold = "accolades/activeGold.png";
-                    goldAccolades += 1;
+                    userConfig.setActiveAccoladeGold(true);
+                    totalAccolades += 1;
                 }
             }
         }
         
-        if (goals >= 5){
+        if (goals >= 10){
             goalsBronze = "accolades/goalsBronze.png";
-            if (goals >= 10){
+            userConfig.setGoalsAccoladeBronze(true);
+            if (goals >= 25){
                 goalsSilver = "accolades/goalsSilver.png";
-                if (goals >= 20){
+                userConfig.setGoalsAccoladeSilver(true);
+                if (goals >= 50){
                     goalsGold = "accolades/goalsGold.png";
-                    goldAccolades += 1;
+                    userConfig.setGoalsAccoladeGold(true);
+                    totalAccolades += 1;
                 }
             }
         }
         
-        if (goldAccolades >= 25){
+        if (totalAccolades >= 4){
             accolades1 = "accolades/goalsBronze.png";
-            if (goldAccolades >= 50){
+            userConfig.setAccoladesAccoladeBronze(true);
+            if (totalAccolades >= 9){
                 accolades2 = "accolades/goalsSilver.png";
-                if (goldAccolades >= 100){
+                userConfig.setAccoladesAccoladeSilver(true);
+                if (totalAccolades >= 19){
                     accolades3 = "accolades/goalsGold.png";
+                    userConfig.setAccoladesAccoladeGold(true);
                 }
             }
         }
 
         //Panels for each data item
-        caloriesBurnedData = new JLabel(calories + " Calories Burned (100, 200, 300)");
-        caloriesPanel = this.createDataBox(caloriesBurnedData, caloriesDate, caloriesBronze, caloriesSilver, caloriesGold, new Color(255, 150, 150));
+        caloriesBurnedData = new JLabel(calories + " Calories Burned (1000, 2000, 3000)");
+        caloriesPanel = this.createDataBox(caloriesBurnedData, caloriesBronze, caloriesSilver, caloriesGold, new Color(255, 150, 150));
         caloriesPanel.setToolTipText("The amount of calories burned on the current day.");
 
         totalDistanceData = new JLabel(distance + " Distance Travelled (1 km, 2 km, 3 km)");
-        distancePanel = this.createDataBox(totalDistanceData, distanceDate, distanceBronze, distanceSilver, distanceGold, new Color(200, 255, 200));
+        distancePanel = this.createDataBox(totalDistanceData, distanceBronze, distanceSilver, distanceGold, new Color(200, 255, 200));
         distancePanel.setToolTipText("The total distance travelled on the current day.");
 
         floorsClimbedData = new JLabel(floors + " Floors Climbed (5, 10, 20)");
-        floorsPanel = this.createDataBox(floorsClimbedData, floorsDate, floorsBronze, floorsSilver, floorsGold, new Color(255, 160, 255));
+        floorsPanel = this.createDataBox(floorsClimbedData, floorsBronze, floorsSilver, floorsGold, new Color(255, 160, 255));
         floorsPanel.setToolTipText("The number of floors climbed on the current day.");
 
-        stepsTakenData = new JLabel(steps + " Steps Taken (100, 250, 500)");
-        stepsPanel = this.createDataBox(stepsTakenData, stepsDate, stepsBronze, stepsSilver, stepsGold, new Color(250, 200, 160));
+        stepsTakenData = new JLabel(steps + " Steps Taken (2000, 5000, 10000)");
+        stepsPanel = this.createDataBox(stepsTakenData, stepsBronze, stepsSilver, stepsGold, new Color(250, 200, 160));
         stepsPanel.setToolTipText("The number of steps taken on the current day.");
 
-        activeMinutesData = new JLabel(active + " Active Minutes (20 min, 40 min, 60 min)");
-        activePanel = this.createDataBox(activeMinutesData, activeDate, activeBronze, activeSilver, activeGold, new Color(250, 255, 150));
+        activeMinutesData = new JLabel(active + " Active Minutes (30 min, 60 min, 90 min)");
+        activePanel = this.createDataBox(activeMinutesData, activeBronze, activeSilver, activeGold, new Color(250, 255, 150));
         activePanel.setToolTipText("The number of active minutes on the current day.");
 
-        dailyGoalsData = new JLabel(goals + " Daily Goals Met (5, 10, 20)");
-        goalsPanel = this.createDataBox(dailyGoalsData, goalsDate, goalsBronze, goalsSilver, goalsGold, new Color(100, 255, 255));
+        dailyGoalsData = new JLabel(goals + " Daily Goals Met (10, 25, 50)");
+        goalsPanel = this.createDataBox(dailyGoalsData, goalsDate, goalsSilver, goalsGold, new Color(100, 255, 255));
         goalsPanel.setToolTipText("The number of daily goals met in the user's lifetime.");
 
-        accoladesEarnedData = new JLabel(goldAccolades + " Gold Accolades Earned (25, 50, 100)");
-        accoladesPanel = this.createDataBox(accoladesEarnedData, accoladesDate, goalsBronze,goalsSilver, goalsGold, new Color(255, 204, 203));
+        accoladesEarnedData = new JLabel(totalAccolades + " Gold Accolades Earned (25, 50, 100)");
+        accoladesPanel = this.createDataBox(accoladesEarnedData, goalsBronze,goalsSilver, goalsGold, new Color(255, 204, 203));
         accoladesPanel.setToolTipText("The number of golden accolades earned in the user's lifetime.");
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -289,14 +323,13 @@ public class Accolades extends JPanel {
      * Create a data box for one of the data items displayed on the Dashboard
      *
      * @param data data to display
-     * @param date date of record achieved
      * @param color the color of the data box
      * @param iconFile bronze accolade earned
      * @param iconFile2 silver accolade earned
      * @param iconFile3 gold accolade earned
      * @return a JPanel containing the data box for the data item
      */
-    private JPanel createDataBox(JLabel header, JLabel date, String iconFile, String iconFile2, String iconFile3, Color color) {
+    private JPanel createDataBox(JLabel header, String iconFile, String iconFile2, String iconFile3, Color color) {
         JPanel panel = new JPanel();
 
         panel.setBackground(color);
@@ -316,9 +349,6 @@ public class Accolades extends JPanel {
         panel.add(Box.createHorizontalStrut(75));
         panel.add(header);
         panel.add(Box.createHorizontalGlue());
-        panel.add(date);
-        panel.add(Box.createHorizontalStrut(50));
-
         return panel;
     }
 }
