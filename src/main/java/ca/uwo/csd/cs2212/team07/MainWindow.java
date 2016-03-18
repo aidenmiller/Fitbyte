@@ -364,9 +364,9 @@ public class MainWindow extends JFrame implements ActionListener {
         } else if (e.getSource() == dailyGoalsButton) {
             cardLayout.show(cardPane, "Daily Goals");
         } else if (e.getSource() == heartRateButton) {
-            //cardLayout.show(cardPane, "Heart Rate");
+            cardLayout.show(cardPane, "Heart Rate");
         } else if (e.getSource() == accoladesButton) {
-            //cardLayout.show(cardPane, "Accolades");
+            cardLayout.show(cardPane, "Accolades");
         } else if (e.getSource() == refreshButton) {
             this.refreshInfo();
         } else if (e.getSource() == settingsButton) {
