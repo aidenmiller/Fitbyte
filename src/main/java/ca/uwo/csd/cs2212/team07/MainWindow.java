@@ -51,6 +51,7 @@ public class MainWindow extends JFrame implements ActionListener {
     private Dashboard dashboard;
     private DailyGoals dailyGoals;
     private Accolades accolades;
+    private HeartRate heartRate;
 
     private ButtonGroup buttonGroup;
     private JPanel cardPane;
@@ -211,11 +212,13 @@ public class MainWindow extends JFrame implements ActionListener {
         dashboard = new Dashboard(fitbitInfo, userConfig);
         dailyGoals = new DailyGoals(fitbitInfo);
         accolades = new Accolades(fitbitInfo);
+        heartRate = new HeartRate(fitbitInfo);
 
         cardPane = new JPanel(new CardLayout());
         cardPane.add(dashboard, "Dashboard");
         cardPane.add(dailyGoals, "Daily Goals");
         cardPane.add(accolades, "Accolades");
+        cardPane.add(heartRate, "Heart Rate");
         cardLayout = (CardLayout) cardPane.getLayout();
         // End of CardLayout creation
         this.add(cardPane, BorderLayout.CENTER);
