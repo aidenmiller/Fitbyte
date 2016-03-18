@@ -119,7 +119,7 @@ public class Api {
         JSONObject lifetimeStats = obj.getJSONObject("lifetime").getJSONObject("total");
 
         // return Lifetime object containing the user's lifetime statistics
-        return new Lifetime(lifetimeStats.getDouble("distance"), lifetimeStats.getDouble("floors"), lifetimeStats.getLong("steps"));
+        return new Lifetime(lifetimeStats.getDouble("distance"), lifetimeStats.getDouble("floors"), lifetimeStats.getLong("steps"), lifetimeStats.getLong("caloriesOut"));
     }
 
     /**

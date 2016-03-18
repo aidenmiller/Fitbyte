@@ -148,7 +148,7 @@ public class FitbitInfo implements Serializable {
         BestDay randStepsBestDay = new BestDay(date, "steps", (double) rand.nextInt(250));
         BestDay[] randBest = {randDistanceBestDay, randFloorsBestDay, randStepsBestDay};
 
-        Lifetime randLifetime = new Lifetime((double) rand.nextInt(250), (double) rand.nextInt(250), (long) rand.nextInt(250));
+        Lifetime randLifetime = new Lifetime((double) rand.nextInt(250), (double) rand.nextInt(250), (long) rand.nextInt(250), (long) rand.nextInt(250));
 
         this.lastRefreshTime = Calendar.getInstance();
         this.day = randDay;
