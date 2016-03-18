@@ -327,6 +327,12 @@ public class DailyGoals extends JPanel implements ActionListener {
             activeMinutesBar.setValue((int) dayInfo.getActiveMins());
             percent = (int) (activeMinutesBar.getPercentComplete() * 100);
             activeMinutesBar.setString("" + dayInfo.getActiveMins() + "/" + activeMinutesBar.getMaximum() + " minutes (" + percent + "%)");
+        
+            caloriesEdit.setVisible(false);
+            distanceEdit.setVisible(false);
+            stepsEdit.setVisible(false);
+            floorsEdit.setVisible(false);
+            activeEdit.setVisible(false);
         }
     }
 
@@ -339,11 +345,14 @@ public class DailyGoals extends JPanel implements ActionListener {
     }
 
     private void setGoal(String field) {
-        String input = JOptionPane.showInputDialog(this, "New " + field + " Goal: ", "Edit a Daily Goal", JOptionPane.PLAIN_MESSAGE);
+        String input = JOptionPane.showInputDialog(this, "New " + field + " Goal (enter negative number to use fitbit goals)", "Edit a Daily Goal", JOptionPane.PLAIN_MESSAGE);
 
         if (input != null) {
             try {
                 int val = Integer.parseInt(input);
+                if(val <0){
+                    val=-1;
+                }
                 if (field.equals("Calories Burned")) {
                     userConfig.setCalGoal(val);
                 } else if (field.equals("Total Distance")) {
