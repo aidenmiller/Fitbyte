@@ -7,8 +7,10 @@ import java.awt.event.WindowEvent;
 import java.sql.Time;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.data.general.SeriesException;
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
@@ -43,9 +45,13 @@ public class TimeGraph extends ApplicationFrame {
         chartPanel.setMouseZoomable(true, false); // set zoomable in the x axis, but not the y axis
         chartPanel.setRangeZoomable(false);
         setContentPane(chartPanel); 
-
-        StandardChartTheme theme = (StandardChartTheme) org.jfree.chart.StandardChartTheme.createJFreeTheme(); // set chart theme
         chart.getPlot().setBackgroundPaint(Color.WHITE); // set background colour of chart
+
+        //StandardChartTheme theme = (StandardChartTheme) org.jfree.chart.StandardChartTheme.createJFreeTheme(); // set chart theme
+        //ChartFactory.setChartTheme(theme);
+	//ChartUtilities.applyCurrentTheme(chart);
+        
+      
 
         chart.getTitle().setFont(new Font("Arial", 1, 24)); // set font and size of title
 
