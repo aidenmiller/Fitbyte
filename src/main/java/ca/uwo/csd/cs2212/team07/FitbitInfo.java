@@ -8,12 +8,13 @@ import org.json.JSONException;
 
 public class FitbitInfo implements Serializable {
 
-    private static final long serialVersionUID = 5L;
+    private static final long serialVersionUID = 6L;
 
     private boolean testMode;
     private Daily day; //holds daily data
     private BestDay[] bestDays; //holds best days data
     private Lifetime lifetime; //hold lifetime data
+    private HeartData heart;
     private Calendar lastRefreshTime; //hold last refresh time
 
     /**
@@ -37,7 +38,11 @@ public class FitbitInfo implements Serializable {
         this.day = Api.getDailySummary(date);
         this.bestDays = Api.getBestDays();
         this.lifetime = Api.getLifetime();
+        this.heart = Api.getHeartSummary(date);
 
+    }
+    public HeartData getHeart(){
+        return this.heart;
     }
 
     /**
@@ -110,6 +115,10 @@ public class FitbitInfo implements Serializable {
     public void setLifetime(Lifetime lifetime) {
         this.lifetime = lifetime;
     }
+    
+    public void setHeart(HeartData heartData) {
+        this.heart = heartData;
+    }
 
     /**
      * Sets the last refresh time of the FitbitInfo
@@ -135,17 +144,16 @@ public class FitbitInfo implements Serializable {
         this.testMode = true; //set test mode to true
         
         Random rand = new Random();
-        
         String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-        Daily randDay = new Daily(date, (long) rand.nextInt(250), (long) rand.nextInt(250),
+        Daily randDay = new Daily("yyyy-MM-dd", (long) rand.nextInt(250), (long) rand.nextInt(250),
                 (double) rand.nextInt(250), (double) rand.nextInt(250), (long) rand.nextInt(250), (long) rand.nextInt(250),
                 (long) rand.nextInt(250), (long) rand.nextInt(250), (double) rand.nextInt(250), (double) rand.nextInt(250),
                 (long) rand.nextInt(250), (double) rand.nextInt(250), (long) rand.nextInt(250), (long) rand.nextInt(250),
                 (long) rand.nextInt(250), (long) rand.nextInt(250), (long) rand.nextInt(250));
-
-        BestDay randDistanceBestDay = new BestDay(date, "distance", (double) rand.nextInt(250));
-        BestDay randFloorsBestDay = new BestDay(date, "floors", (double) rand.nextInt(250));
-        BestDay randStepsBestDay = new BestDay(date, "steps", (double) rand.nextInt(250));
+        
+        BestDay randDistanceBestDay = new BestDay("yyyy-MM-dd", "distance", (double) rand.nextInt(250));
+        BestDay randFloorsBestDay = new BestDay("yyyy-MM-dd", "floors", (double) rand.nextInt(250));
+        BestDay randStepsBestDay = new BestDay("yyyy-MM-dd", "steps", (double) rand.nextInt(250));
         BestDay[] randBest = {randDistanceBestDay, randFloorsBestDay, randStepsBestDay};
 
         Lifetime randLifetime = new Lifetime((double) rand.nextInt(250), (double) rand.nextInt(250), (long) rand.nextInt(250), (long) rand.nextInt(250));
@@ -154,6 +162,9 @@ public class FitbitInfo implements Serializable {
         this.day = randDay;
         this.bestDays = randBest;
         this.lifetime = randLifetime;
+        HeartData heartData = new HeartData(date, rand.nextInt(250), rand.nextInt(250), rand.nextInt(250),rand.nextInt(250), rand.nextInt(250),
+        (double)rand.nextInt(250), (double) rand.nextInt(250), (double) rand.nextInt(250), (double) rand.nextInt(250), null);
+        this.heart = heartData;
     }
 
 }
