@@ -28,6 +28,7 @@ public class DailyGoals extends JPanel {
     private JLabel date;
     
     private JLabel caloriesBurnedGoal= new JLabel("You haven't set up your daily goal yet!");
+    private JLabel cbdg = new JLabel("Calories Burned Daily Goal");
     private JLabel totalDistanceGoal = new JLabel("You haven't set up your daily goal yet!");
     private JLabel floorsClimbedGoal = new JLabel("You haven't set up your daily goal yet!");
     private JLabel stepsTakenGoal = new JLabel("You haven't set up your daily goal yet!");
@@ -63,24 +64,8 @@ public class DailyGoals extends JPanel {
         this.add(date);
         this.add(Box.createVerticalStrut(20));
         
-        JPanel caloriesGoal = this.createDataBox(new JLabel("Calories Burned Daily Goal"), caloriesBurnedGoal, Color.red);
-        this.add(caloriesGoal);
-        this.add(Box.createVerticalStrut(20));
-        
-        JPanel distanceGoal = this.createDataBox(new JLabel("Total Distance Daily Goal"), totalDistanceGoal, Color.green);
-        this.add(distanceGoal);
-        this.add(Box.createVerticalStrut(20));
-        
-        JPanel floorsGoal = this.createDataBox(new JLabel("Floors Climbed Daily Goal"), floorsClimbedGoal, Color.yellow);
-        this.add(floorsGoal);
-        this.add(Box.createVerticalStrut(20));
-           
-        JPanel stepsGoal = this.createDataBox(new JLabel("Steps Taken Daily Goal"), stepsTakenGoal, Color.white);
-        this.add(stepsGoal);
-        this.add(Box.createVerticalStrut(20));
-                   
-        JPanel panCal = new JPanel();
-        panCal.setBackground(Color.CYAN);
+        //JPanel panCal = new JPanel();
+        //panCal.setBackground(Color.CYAN);
         calBox = new JComboBox();
         calBox.addItem("");
         calBox.addItem("250");
@@ -94,10 +79,30 @@ public class DailyGoals extends JPanel {
         calBox.addItem("2250");
         calBox.addItem("2500");
         calLabel = new JLabel("Edit you calories burned daily goal: ");
-        panCal.add(calLabel);
-        panCal.add(calBox);
+        //panCal.add(calLabel);
+        //panCal.add(calBox);
         calBox.addItemListener(new ItemStateCal());
-        this.add(panCal);
+        //this.add(panCal);
+        
+        JPanel caloriesGoal = this.createDataBox(cbdg, caloriesBurnedGoal, Color.red, calBox);
+        this.add(caloriesGoal);
+        //caloriesBurnedGoal.setAlignmentX(10);
+        //cbdg.setAlignmentX(10);
+        this.add(Box.createVerticalStrut(20));
+        
+        JPanel distanceGoal = this.createDataBox(new JLabel("Total Distance Daily Goal"), totalDistanceGoal, Color.green, null);
+        this.add(distanceGoal);
+        this.add(Box.createVerticalStrut(20));
+        
+        JPanel floorsGoal = this.createDataBox(new JLabel("Floors Climbed Daily Goal"), floorsClimbedGoal, Color.yellow, null);
+        this.add(floorsGoal);
+        this.add(Box.createVerticalStrut(20));
+           
+        JPanel stepsGoal = this.createDataBox(new JLabel("Steps Taken Daily Goal"), stepsTakenGoal, Color.white, null);
+        this.add(stepsGoal);
+        this.add(Box.createVerticalStrut(20));
+                   
+
         
         JPanel panDist = new JPanel();
         panDist.setBackground(Color.CYAN);
@@ -196,19 +201,19 @@ public class DailyGoals extends JPanel {
         }      
     }
     
-    private JPanel createDataBox(JLabel header, JLabel data, Color color) {
+    private JPanel createDataBox(JLabel header, JLabel data, Color color, JComboBox box) {
         JPanel panel = new JPanel();
 
         panel.setBackground(color);
         panel.setBorder(BorderFactory.createLineBorder(Color.black));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.add(Box.createRigidArea(new Dimension(600, 10)));
-        
+        panel.add(Box.createRigidArea(new Dimension(600, 10)));     
         panel.add(header);
         panel.add(data);
+        panel.add(box);
         panel.add(Box.createRigidArea(new Dimension(600, 10)));
         
-       
+ 
         return panel;
     }
     
