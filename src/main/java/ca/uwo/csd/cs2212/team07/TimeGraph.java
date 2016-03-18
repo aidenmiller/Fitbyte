@@ -3,6 +3,7 @@ package ca.uwo.csd.cs2212.team07;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.WindowEvent;
 import java.sql.Time;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -58,7 +59,7 @@ public class TimeGraph extends ApplicationFrame {
     /**
      * showGraph() method: Displays the window that holds the time series graph
      */
-    private void showGraph() {
+    public void showGraph() {
         this.pack();
         this.setVisible(true); // set the graph as visible
     }
@@ -85,6 +86,10 @@ public class TimeGraph extends ApplicationFrame {
         }
 
         return new TimeSeriesCollection(series); // return the TimeSeriesCollection that the chart will be able to use for population
+    }
+    
+    public void windowClosing(WindowEvent e) {
+        this.setVisible(false);
     }
 
     /**
