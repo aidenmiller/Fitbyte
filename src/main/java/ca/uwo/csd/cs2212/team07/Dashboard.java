@@ -214,7 +214,7 @@ public class Dashboard extends JPanel implements ActionListener {
             panel.add(iconLabel);
             panel.add(Box.createHorizontalStrut(50));
             panel.add(caloriesTimeButton);
-            panel.add(Box.createHorizontalStrut(165));
+            panel.add(Box.createHorizontalStrut(167));
         }
         if (activity.equals("steps")) {
             stepsTimeButton = new JToggleButton();
@@ -228,7 +228,7 @@ public class Dashboard extends JPanel implements ActionListener {
             panel.add(iconLabel);
             panel.add(Box.createHorizontalStrut(50));
             panel.add(stepsTimeButton);
-            panel.add(Box.createHorizontalStrut(165));
+            panel.add(Box.createHorizontalStrut(167));
         }
         if (activity.equals("distance")) {
             distanceTimeButton = new JToggleButton();
@@ -242,7 +242,7 @@ public class Dashboard extends JPanel implements ActionListener {
             panel.add(iconLabel);
             panel.add(Box.createHorizontalStrut(50));
             panel.add(distanceTimeButton);
-            panel.add(Box.createHorizontalStrut(165));
+            panel.add(Box.createHorizontalStrut(167));
         }
 
         header.setFont(new Font(header.getFont().getName(), Font.PLAIN, 14));
