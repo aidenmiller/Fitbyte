@@ -52,7 +52,7 @@ public class DailyGoals extends JPanel {
      */
     private void initPanel() {
 
-        
+        /*
         this.setBackground(Color.CYAN); //Color of the menu bar
 
         date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
@@ -64,8 +64,8 @@ public class DailyGoals extends JPanel {
         this.add(date);
         this.add(Box.createVerticalStrut(20));
         
-        //JPanel panCal = new JPanel();
-        //panCal.setBackground(Color.CYAN);
+        JPanel panCal = new JPanel();
+        panCal.setBackground(Color.CYAN);
         calBox = new JComboBox();
         calBox.addItem("");
         calBox.addItem("250");
@@ -215,15 +215,15 @@ public class DailyGoals extends JPanel {
         
  
         return panel;
+        */
     }
     
    
-
     /**
      * Refresh the data displayed to the user
      */
     public void refresh() {
-        date.setText(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
+        
     }
 
 

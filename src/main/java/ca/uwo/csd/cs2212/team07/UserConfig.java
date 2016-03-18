@@ -4,20 +4,23 @@ import java.io.Serializable;
 
 /**
  * Stores User Configuration as it relates to personal customization options.
+ *
  * @author team07
  */
 public class UserConfig implements Serializable {
 
-    private static final long serialVersionUID = 3L;
+    private static final long serialVersionUID = 6L;
 
     private boolean testMode;
 
-    private boolean caloriesData;
-    private boolean distanceData;
-    private boolean floorsData;
-    private boolean stepsData;
-    private boolean activeData;
-    private boolean sedentaryData;
+    private boolean caloriesVisible;
+    private boolean distanceVisible;
+    private boolean floorsVisible;
+    private boolean stepsVisible;
+    private boolean activeVisible;
+    private boolean sedentaryVisible;
+
+    private boolean fatVisible, peakVisible, cardioVisible, outVisible;
 
     private boolean caloriesAccolade[];
     private boolean distanceAccolade[];
@@ -27,13 +30,20 @@ public class UserConfig implements Serializable {
     private boolean goalsAccolade[];
     private boolean accoladesAccolade[];
 
+    private long calGoal, activeGoal, stepsGoal, floorsGoal, distanceGoal;
+    private int goalsComplete;
+
     public UserConfig() {
-        caloriesData = true;
-        distanceData = true;
-        floorsData = true;
-        stepsData = true;
-        activeData = true;
-        sedentaryData = true;
+        caloriesVisible = true;
+        distanceVisible = true;
+        floorsVisible = true;
+        stepsVisible = true;
+        activeVisible = true;
+        sedentaryVisible = true;
+        fatVisible = true;
+        peakVisible = true;
+        cardioVisible = true;
+        outVisible = true;
         caloriesAccolade = new boolean[3];
         distanceAccolade = new boolean[3];
         activeAccolade = new boolean[3];
@@ -41,6 +51,12 @@ public class UserConfig implements Serializable {
         floorsAccolade = new boolean[3];
         goalsAccolade = new boolean[3];
         accoladesAccolade = new boolean[3];
+        calGoal = -1;
+        activeGoal = -1;
+        stepsGoal = -1;
+        floorsGoal = -1;
+        distanceGoal = -1;
+        goalsComplete = 0;
     }
 
     public boolean isTestMode() {
@@ -108,51 +124,131 @@ public class UserConfig implements Serializable {
     }
 
     public boolean isCaloriesData() {
-        return caloriesData;
+        return caloriesVisible;
     }
 
     public void setCaloriesData(boolean caloriesData) {
-        this.caloriesData = caloriesData;
+        this.caloriesVisible = caloriesData;
     }
 
     public boolean isDistanceData() {
-        return distanceData;
+        return distanceVisible;
     }
 
     public void setDistanceData(boolean distanceData) {
-        this.distanceData = distanceData;
+        this.distanceVisible = distanceData;
     }
 
     public boolean isFloorsData() {
-        return floorsData;
+        return floorsVisible;
     }
 
     public void setFloorsData(boolean floorsData) {
-        this.floorsData = floorsData;
+        this.floorsVisible = floorsData;
     }
 
     public boolean isStepsData() {
-        return stepsData;
+        return stepsVisible;
     }
 
     public void setStepsData(boolean stepsData) {
-        this.stepsData = stepsData;
+        this.stepsVisible = stepsData;
     }
 
     public boolean isActiveData() {
-        return activeData;
+        return activeVisible;
     }
 
     public void setActiveData(boolean activeData) {
-        this.activeData = activeData;
+        this.activeVisible = activeData;
     }
 
     public boolean isSedentaryData() {
-        return sedentaryData;
+        return sedentaryVisible;
     }
 
     public void setSedentaryData(boolean sedentaryData) {
-        this.sedentaryData = sedentaryData;
+        this.sedentaryVisible = sedentaryData;
+    }
+
+    public long getCalGoal() {
+        return calGoal;
+    }
+
+    public void setCalGoal(long calGoal) {
+        this.calGoal = calGoal;
+    }
+
+    public long getActiveGoal() {
+        return activeGoal;
+    }
+
+    public void setActiveGoal(long activeGoal) {
+        this.activeGoal = activeGoal;
+    }
+
+    public long getStepsGoal() {
+        return stepsGoal;
+    }
+
+    public void setStepsGoal(long stepsGoal) {
+        this.stepsGoal = stepsGoal;
+    }
+
+    public long getFloorsGoal() {
+        return floorsGoal;
+    }
+
+    public void setFloorsGoal(long floorsGoal) {
+        this.floorsGoal = floorsGoal;
+    }
+
+    public long getDistanceGoal() {
+        return distanceGoal;
+    }
+
+    public void setDistanceGoal(long distanceGoal) {
+        this.distanceGoal = distanceGoal;
+    }
+
+    public boolean isFatVisible() {
+        return fatVisible;
+    }
+
+    public void setFatVisible(boolean fatVisible) {
+        this.fatVisible = fatVisible;
+    }
+
+    public boolean isPeakVisible() {
+        return peakVisible;
+    }
+
+    public void setPeakVisible(boolean peakVisible) {
+        this.peakVisible = peakVisible;
+    }
+
+    public boolean isCardioVisible() {
+        return cardioVisible;
+    }
+
+    public void setCardioVisible(boolean cardioVisible) {
+        this.cardioVisible = cardioVisible;
+    }
+
+    public boolean isOutVisible() {
+        return outVisible;
+    }
+
+    public void setOutVisible(boolean outVisible) {
+        this.outVisible = outVisible;
+    }
+
+    public int getGoalsComplete() {
+        return goalsComplete;
+    }
+
+    public void setGoalsComplete(int goalsComplete) {
+        this.goalsComplete = goalsComplete;
     }
 
 }
