@@ -1,6 +1,7 @@
 package ca.uwo.csd.cs2212.team07;
 
 import java.awt.Color;
+import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -13,7 +14,7 @@ import javax.swing.JRadioButton;
  *
  * @author team07
  */
-public class SettingsPanel extends JPanel {
+public class SettingsWindow extends JPanel {
 
     private final UserConfig userConfig;
     private JRadioButton caloriesOn;
@@ -28,7 +29,7 @@ public class SettingsPanel extends JPanel {
     private JRadioButton activeOff;
     private JRadioButton sedentaryOn;
     private JRadioButton sedentaryOff;
-    
+
     private JRadioButton fatOn, fatOff;
     private JRadioButton peakOn, peakOff;
     private JRadioButton cardioOn, cardioOff;
@@ -39,60 +40,67 @@ public class SettingsPanel extends JPanel {
      *
      * @param userConfig the user configuration
      */
-    public SettingsPanel(UserConfig userConfig) {
+    public SettingsWindow(UserConfig userConfig) {
         this.userConfig = userConfig;
-        this.initUI();
+        this.init();
     }
 
-    private void initUI() {
+    private void init() {
+        this.setSize(300, 400);
+
         this.setOpaque(false);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        this.add(Box.createVerticalStrut(10));
-        
-        caloriesOn = new JRadioButton("Yes");
-        caloriesOff = new JRadioButton("No");
-        JLabel calText = new JLabel("Show Calories Burned: ");
+        caloriesOn = new JRadioButton("Show");
+        caloriesOff = new JRadioButton("Hide");
+        JLabel calText = new JLabel("Calories Burned");
         this.add(this.makeField(calText, caloriesOn, caloriesOff, userConfig.isCaloriesData()));
-        distanceOn = new JRadioButton("Yes");
-        distanceOff = new JRadioButton("No");
-        JLabel distText = new JLabel("Show Distance Travelled: ");
+        this.add(Box.createVerticalStrut(5));
+        distanceOn = new JRadioButton("Show");
+        distanceOff = new JRadioButton("Hide");
+        JLabel distText = new JLabel("Distance Travelled");
         this.add(this.makeField(distText, distanceOn, distanceOff, userConfig.isDistanceData()));
-        floorsOn = new JRadioButton("Yes");
-        floorsOff = new JRadioButton("No");
-        JLabel floorsText = new JLabel("Show Floors Climbed: ");
+        this.add(Box.createVerticalStrut(5));
+        floorsOn = new JRadioButton("Show");
+        floorsOff = new JRadioButton("Hide");
+        JLabel floorsText = new JLabel("Floors Climbed");
         this.add(this.makeField(floorsText, floorsOn, floorsOff, userConfig.isFloorsData()));
-        stepsOn = new JRadioButton("Yes");
-        stepsOff = new JRadioButton("No");
-        JLabel stepsText = new JLabel("Show Steps Taken: ");
+        this.add(Box.createVerticalStrut(5));
+        stepsOn = new JRadioButton("Show");
+        stepsOff = new JRadioButton("Hide");
+        JLabel stepsText = new JLabel("Steps Taken");
         this.add(this.makeField(stepsText, stepsOn, stepsOff, userConfig.isStepsData()));
-        activeOn = new JRadioButton("Yes");
-        activeOff = new JRadioButton("No");
-        JLabel activeText = new JLabel("Show Active Minutes: ");
+        this.add(Box.createVerticalStrut(5));
+        activeOn = new JRadioButton("Show");
+        activeOff = new JRadioButton("Hide");
+        JLabel activeText = new JLabel("Active Minutes");
         this.add(this.makeField(activeText, activeOn, activeOff, userConfig.isActiveData()));
-        sedentaryOn = new JRadioButton("Yes");
-        sedentaryOff = new JRadioButton("No");
-        JLabel sedentaryText = new JLabel("Show Sedentary Minutes: ");
+        this.add(Box.createVerticalStrut(5));
+        sedentaryOn = new JRadioButton("Show");
+        sedentaryOff = new JRadioButton("Hide");
+        JLabel sedentaryText = new JLabel("Sedentary Minutes");
         this.add(this.makeField(sedentaryText, sedentaryOn, sedentaryOff, userConfig.isSedentaryData()));
-        
-        JLabel fatText = new JLabel("Show Fat Heart Rate Zone");
-        fatOn = new JRadioButton("Yes");
-        fatOff = new JRadioButton("No");
+
+        this.add(Box.createVerticalStrut(15));
+        JLabel fatText = new JLabel("Fat Zone");
+        fatOn = new JRadioButton("Show");
+        fatOff = new JRadioButton("Hide");
         this.add(this.makeField(fatText, fatOn, fatOff, userConfig.isFatVisible()));
-        JLabel peakText = new JLabel("Show Peak Heart Rate Zone");
-        peakOn = new JRadioButton("Yes");
-        peakOff = new JRadioButton("No");
+        this.add(Box.createVerticalStrut(5));
+        JLabel peakText = new JLabel("Peak Zone");
+        peakOn = new JRadioButton("Show");
+        peakOff = new JRadioButton("Hide");
         this.add(this.makeField(peakText, peakOn, peakOff, userConfig.isPeakVisible()));
-        JLabel cardioText = new JLabel("Show Cardio Heart Rate Zone");
-        cardioOn = new JRadioButton("Yes");
-        cardioOff = new JRadioButton("No");
+        this.add(Box.createVerticalStrut(5));
+        JLabel cardioText = new JLabel("Cardio Zone");
+        cardioOn = new JRadioButton("Show");
+        cardioOff = new JRadioButton("Hide");
         this.add(this.makeField(cardioText, cardioOn, cardioOff, userConfig.isCardioVisible()));
-        JLabel outText = new JLabel("Show Out Of Range Heart Rate Zone");
-        outOn = new JRadioButton("Yes");
-        outOff = new JRadioButton("No");
+        this.add(Box.createVerticalStrut(5));
+        JLabel outText = new JLabel("Out Of Range Zone");
+        outOn = new JRadioButton("Show");
+        outOff = new JRadioButton("Hide");
         this.add(this.makeField(outText, outOn, outOff, userConfig.isOutVisible()));
-        
-        this.add(Box.createVerticalStrut(10));
 
         this.setVisible(true);
     }
@@ -107,17 +115,18 @@ public class SettingsPanel extends JPanel {
         JPanel fieldPanel = new JPanel();
         fieldPanel.setOpaque(false);
         fieldPanel.setLayout(new BoxLayout(fieldPanel, BoxLayout.X_AXIS));
-        fieldPanel.add(Box.createHorizontalStrut(50));
+        fieldPanel.add(Box.createHorizontalStrut(10));
         fieldPanel.add(text);
         fieldPanel.add(Box.createHorizontalGlue());
+        fieldPanel.add(Box.createHorizontalStrut(30));
         fieldPanel.add(onButton);
         fieldPanel.add(offButton);
-        fieldPanel.add(Box.createHorizontalStrut(50));
-        
+        fieldPanel.add(Box.createHorizontalStrut(10));
+
         return fieldPanel;
     }
 
-    void confirmSettings() {
+    public void saveSettings() {
         userConfig.setCaloriesData(caloriesOn.isSelected());
         userConfig.setDistanceData(distanceOn.isSelected());
         userConfig.setFloorsData(floorsOn.isSelected());
@@ -129,4 +138,5 @@ public class SettingsPanel extends JPanel {
         userConfig.setCardioVisible(cardioOn.isSelected());
         userConfig.setOutVisible(outOn.isSelected());
     }
+
 }

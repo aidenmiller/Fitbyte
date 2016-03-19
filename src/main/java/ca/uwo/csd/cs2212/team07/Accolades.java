@@ -20,37 +20,16 @@ public class Accolades extends JPanel {
     private final UserConfig userConfig;
 
     private JLabel date;
-    private JLabel stepsTakenData;
-    private JLabel caloriesBurnedData;
-    private JLabel totalDistanceData;
-    private JLabel floorsClimbedData;
-    private JLabel activeMinutesData;
-    private JLabel dailyGoalsData;
-    private JLabel accoladesEarnedData;
+    private JLabel stepsTakenData, caloriesBurnedData, totalDistanceData, floorsClimbedData, activeMinutesData, dailyGoalsData, accoladesEarnedData;
 
-    private String caloriesDate1;
-    private String caloriesDate2;
-    private String caloriesDate3;
-    private String distanceDate1;
-    private String distanceDate2;
-    private String distanceDate3;    
-    private String activeDate1;
-    private String activeDate2;
-    private String activeDate3;
-    private String stepsDate1;
-    private String stepsDate2;
-    private String stepsDate3;
-    private String floorsDate1;
-    private String floorsDate2;
-    private String floorsDate3;
-    private String goalsDate1;
-    private String goalsDate2;
-    private String goalsDate3;
-    private String accoladesDate1;
-    private String accoladesDate2;
-    private String accoladesDate3;    
+    private String caloriesDate1, caloriesDate2, caloriesDate3;
+    private String distanceDate1, distanceDate2, distanceDate3;
+    private String activeDate1, activeDate2, activeDate3;
+    private String stepsDate1, stepsDate2, stepsDate3;
+    private String floorsDate1, floorsDate2, floorsDate3;
+    private String goalsDate1, goalsDate2, goalsDate3;
+    private String accoladesDate1, accoladesDate2, accoladesDate3;
 
-    private JPanel datePanel;
     private JPanel stepsPanel;
     private JPanel caloriesPanel;
     private JPanel distancePanel;
@@ -100,9 +79,7 @@ public class Accolades extends JPanel {
 
     private void initPanel() {
 
-        this.setBackground(Color.white); //Color of the menu bar
-        date = new JLabel(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
-        this.add(date);
+        this.setOpaque(false); //Color of the background
 
         //Reset file names for accolades to gray icons
         caloriesBronze = "accolades/caloriesBronzeGray.png";
@@ -149,283 +126,82 @@ public class Accolades extends JPanel {
         accoladesDate2 = "Not yet achieved.";
         accoladesDate3 = "Not yet achieved.";
 
-        //Check for new records
-        if (fitbitInfo.getDay().getCaloriesOut() > calories) {
-            calories = fitbitInfo.getDay().getCaloriesOut();
-        }
-
-        if (fitbitInfo.getDay().getDistance() > distance) {
-            distance = fitbitInfo.getDay().getDistance();
-        }
-
-        if (fitbitInfo.getDay().getFloors() > floors) {
-            floors = fitbitInfo.getDay().getFloors();
-        }
-
-        if (fitbitInfo.getDay().getSteps() > steps) {
-            steps = fitbitInfo.getDay().getSteps();
-        }
-
-        if (fitbitInfo.getDay().getActiveMins() > active) {
-            active = fitbitInfo.getDay().getActiveMins();
-        }
-
-        if (userConfig.getGoalsComplete() > goals) {
-            goals = userConfig.getGoalsComplete();
-        }
-
-        if (userConfig.getAccoladesComplete() > totalAccolades) {
-            totalAccolades = userConfig.getAccoladesComplete();
-        }
-
-        //Update accolade icons based on records
-        if (calories >= 1000) {
-            if (false == userConfig.isCaloriesAccoladeBronze()) {
-                caloriesDate1 = fitbitInfo.getDay().getDate();
-                userConfig.setCaloriesAccoladeBronze(true);
-                userConfig.setCaloriesAccoladeBronzeDate(caloriesDate1);
-                userConfig.incAccoladesComplete();
-            }
-            if (calories >= 2000) {
-                if (false == userConfig.isCaloriesAccoladeBronze()) {
-                    caloriesDate2 = fitbitInfo.getDay().getDate();
-                    userConfig.setCaloriesAccoladeSilver(true);
-                    userConfig.setCaloriesAccoladeSilverDate(caloriesDate2);
-                    userConfig.incAccoladesComplete();
-                }
-                if (calories >= 3000) {
-                    if (false == userConfig.isCaloriesAccoladeGold()) {
-                        caloriesDate3 = fitbitInfo.getDay().getDate();
-                        userConfig.setCaloriesAccoladeGold(true);
-                        userConfig.setCaloriesAccoladeSilverDate(caloriesDate3);
-                        userConfig.incAccoladesComplete();
-                    }
-                }
-            }
-        }
-
-        if (distance >= 1.0) {
-            if (false == userConfig.isDistanceAccoladeBronze()) {
-                distanceDate1 = fitbitInfo.getDay().getDate();
-                userConfig.setDistanceAccoladeBronze(true);
-                userConfig.setDistanceAccoladeBronzeDate(distanceDate1);
-                userConfig.incAccoladesComplete();
-            }
-            if (distance >= 2.0) {
-                if (false == userConfig.isDistanceAccoladeSilver()) {
-                    distanceDate2 = fitbitInfo.getDay().getDate();
-                    userConfig.setDistanceAccoladeSilver(true);
-                    userConfig.setDistanceAccoladeSilverDate(distanceDate2);
-                    userConfig.incAccoladesComplete();
-                }
-                if (distance >= 3.0) {
-                    if (false == userConfig.isDistanceAccoladeGold()) {
-                        distanceDate3 = fitbitInfo.getDay().getDate();
-                        userConfig.setDistanceAccoladeGold(true);
-                        userConfig.setDistanceAccoladeGoldDate(distanceDate3);
-                        userConfig.incAccoladesComplete();
-                    }
-                }
-            }
-        }
-        if (floors >= 5.0) {
-            if (false == userConfig.isFloorsAccoladeBronze()) {
-                floorsDate1 = fitbitInfo.getDay().getDate();
-                userConfig.setFloorsAccoladeBronze(true);
-                userConfig.setFloorsAccoladeBronzeDate(floorsDate1);
-                userConfig.incAccoladesComplete();
-            }
-            if (floors >= 10.0) {
-                if (false == userConfig.isFloorsAccoladeSilver()) {
-                    floorsDate2 = fitbitInfo.getDay().getDate();
-                    userConfig.setFloorsAccoladeSilver(true);
-                    userConfig.setFloorsAccoladeSilverDate(floorsDate2);
-                    userConfig.incAccoladesComplete();
-                }
-                if (floors >= 15.0) {
-                    if (false == userConfig.isFloorsAccoladeGold()) {
-                        floorsDate3 = fitbitInfo.getDay().getDate();
-                        userConfig.setFloorsAccoladeGold(true);
-                        userConfig.setFloorsAccoladeGoldDate(floorsDate3);
-                        userConfig.incAccoladesComplete();
-                    }
-                }
-            }
-        }
-        if (steps >= 2000) {
-            if (false == userConfig.isStepsAccoladeBronze()) {
-                stepsDate1 = fitbitInfo.getDay().getDate();
-                userConfig.setStepsAccoladeBronze(true);
-                userConfig.setStepsAccoladeBronzeDate(stepsDate1);
-                userConfig.incAccoladesComplete();
-            }
-            if (steps >= 5000) {
-                if (false == userConfig.isStepsAccoladeSilver()) {
-                    stepsDate2 = fitbitInfo.getDay().getDate();
-                    userConfig.setStepsAccoladeSilver(true);
-                    userConfig.setStepsAccoladeSilverDate(stepsDate2);
-                    userConfig.incAccoladesComplete();
-                }
-                if (steps >= 10000) {
-                    if (false == userConfig.isStepsAccoladeGold()) {
-                        stepsDate3 = fitbitInfo.getDay().getDate();
-                        userConfig.setStepsAccoladeGold(true);
-                        userConfig.setStepsAccoladeGoldDate(stepsDate3);
-                        userConfig.incAccoladesComplete();
-                    }
-                }
-            }
-        }
-        if (active >= 30.0) {
-            if (false == userConfig.isActiveAccoladeBronze()) {
-                activeDate1 = fitbitInfo.getDay().getDate();
-                userConfig.setActiveAccoladeBronze(true);
-                userConfig.setActiveAccoladeBronzeDate(activeDate1);
-                userConfig.incAccoladesComplete();
-            }
-            if (active >= 60.0) {
-                if (false == userConfig.isActiveAccoladeSilver()) {
-                    activeDate2 = fitbitInfo.getDay().getDate();
-                    userConfig.setActiveAccoladeSilver(true);
-                    userConfig.setActiveAccoladeSilverDate(activeDate2);
-                    userConfig.incAccoladesComplete();
-                }
-                if (active >= 90.0) {
-                    if (false == userConfig.isActiveAccoladeGold()) {
-                        activeDate3 = fitbitInfo.getDay().getDate();
-                        userConfig.setActiveAccoladeGold(true);
-                        userConfig.setActiveAccoladeGoldDate(activeDate3);
-                        userConfig.incAccoladesComplete();
-                    }
-                }
-            }
-        }
-
-        if (goals >= 1) {
-            if (false == userConfig.isGoalsAccoladeBronze()) {
-                goalsDate1 = fitbitInfo.getDay().getDate();
-                userConfig.setGoalsAccoladeBronze(true);
-                userConfig.setGoalsAccoladeBronzeDate(goalsDate1);
-                userConfig.incAccoladesComplete();
-            }
-            if (goals >= 3) {
-                if (false == userConfig.isGoalsAccoladeSilver()) {
-                    goalsDate2 = fitbitInfo.getDay().getDate();
-                    userConfig.setGoalsAccoladeSilver(true);
-                    userConfig.setGoalsAccoladeSilverDate(goalsDate2);
-                    userConfig.incAccoladesComplete();
-                }
-                if (goals >= 5) {
-                    if (false == userConfig.isGoalsAccoladeGold()) {
-                        goalsDate3 = fitbitInfo.getDay().getDate();
-                        userConfig.setGoalsAccoladeGold(true);
-                        userConfig.setGoalsAccoladeGoldDate(goalsDate3);
-                        userConfig.incAccoladesComplete();
-                    }
-                }
-            }
-        }
-
-        if (totalAccolades >= 5) {
-            if (false == userConfig.isAccoladesAccoladeBronze()) {
-                accoladesDate1 = fitbitInfo.getDay().getDate();
-                userConfig.setAccoladesAccoladeBronze(true);
-                userConfig.setAccoladesAccoladeBronzeDate(accoladesDate1);
-                userConfig.incAccoladesComplete();
-            }
-            if (totalAccolades >= 10) {
-                if (false == userConfig.isGoalsAccoladeSilver()) {
-                    accoladesDate2 = fitbitInfo.getDay().getDate();
-                    userConfig.setGoalsAccoladeSilver(true);
-                    userConfig.setGoalsAccoladeSilverDate(accoladesDate2);
-                    userConfig.incAccoladesComplete();
-                }
-                if (totalAccolades >= 20) {
-                    if (false == userConfig.isGoalsAccoladeGold()) {
-                        accoladesDate3 = fitbitInfo.getDay().getDate();
-                        userConfig.setGoalsAccoladeGold(true);
-                        userConfig.setGoalsAccoladeGoldDate(accoladesDate3);
-                        userConfig.incAccoladesComplete();
-                    }
-                }
-            }
-        }
         
+
         //Update which trophies to display based on stored information in userConfig
-        
         //Calories
-        if (true == userConfig.isCaloriesAccoladeBronze()){
+        if (true == userConfig.isCaloriesAccoladeBronze()) {
             caloriesBronze = "accolades/caloriesBronze.png";
         }
-        if (true == userConfig.isCaloriesAccoladeSilver()){
+        if (true == userConfig.isCaloriesAccoladeSilver()) {
             caloriesSilver = "accolades/caloriesSilver.png";
         }
-        if (true == userConfig.isCaloriesAccoladeGold()){
+        if (true == userConfig.isCaloriesAccoladeGold()) {
             caloriesGold = "accolades/caloriesGold.png";
         }
         //Distance
-        if (true == userConfig.isDistanceAccoladeBronze()){
+        if (true == userConfig.isDistanceAccoladeBronze()) {
             distanceBronze = "accolades/distanceBronze.png";
         }
-        if (true == userConfig.isDistanceAccoladeSilver()){
+        if (true == userConfig.isDistanceAccoladeSilver()) {
             distanceSilver = "accolades/distanceSilver.png";
         }
-        if (true == userConfig.isDistanceAccoladeGold()){
+        if (true == userConfig.isDistanceAccoladeGold()) {
             distanceGold = "accolades/distanceGold.png";
         }
-        
+
         //Active
-        if (true == userConfig.isActiveAccoladeBronze()){
+        if (true == userConfig.isActiveAccoladeBronze()) {
             activeBronze = "accolades/activeBronze.png";
         }
-        if (true == userConfig.isActiveAccoladeSilver()){
+        if (true == userConfig.isActiveAccoladeSilver()) {
             activeSilver = "accolades/activeSilver.png";
         }
-        if (true == userConfig.isActiveAccoladeGold()){
+        if (true == userConfig.isActiveAccoladeGold()) {
             activeGold = "accolades/activeGold.png";
         }
-        
+
         //Steps
-        if (true == userConfig.isStepsAccoladeBronze()){
+        if (true == userConfig.isStepsAccoladeBronze()) {
             stepsBronze = "accolades/stepsBronze.png";
         }
-        if (true == userConfig.isStepsAccoladeSilver()){
+        if (true == userConfig.isStepsAccoladeSilver()) {
             stepsSilver = "accolades/stepsSilver.png";
         }
-        if (true == userConfig.isStepsAccoladeGold()){
+        if (true == userConfig.isStepsAccoladeGold()) {
             stepsGold = "accolades/stepsGold.png";
         }
 
         //Floors
-        if (true == userConfig.isFloorsAccoladeBronze()){
+        if (true == userConfig.isFloorsAccoladeBronze()) {
             floorsBronze = "accolades/floorsBronze.png";
         }
-        if (true == userConfig.isFloorsAccoladeSilver()){
+        if (true == userConfig.isFloorsAccoladeSilver()) {
             floorsSilver = "accolades/floorsSilver.png";
         }
-        if (true == userConfig.isFloorsAccoladeGold()){
+        if (true == userConfig.isFloorsAccoladeGold()) {
             floorsGold = "accolades/floorsGold.png";
         }
 
         //Goals
-        if (true == userConfig.isGoalsAccoladeBronze()){
+        if (true == userConfig.isGoalsAccoladeBronze()) {
             goalsBronze = "accolades/goalsBronze.png";
         }
-        if (true == userConfig.isGoalsAccoladeSilver()){
+        if (true == userConfig.isGoalsAccoladeSilver()) {
             goalsSilver = "accolades/goalsSilver.png";
         }
-        if (true == userConfig.isGoalsAccoladeGold()){
+        if (true == userConfig.isGoalsAccoladeGold()) {
             goalsGold = "accolades/goalsGold.png";
         }
 
         //Accolades
-        if (true == userConfig.isAccoladesAccoladeBronze()){
+        if (true == userConfig.isAccoladesAccoladeBronze()) {
             accoladesBronze = "accolades/totalBronze.png";
         }
-        if (true == userConfig.isAccoladesAccoladeSilver()){
+        if (true == userConfig.isAccoladesAccoladeSilver()) {
             accoladesSilver = "accolades/totalSilver.png";
         }
-        if (true == userConfig.isAccoladesAccoladeGold()){
+        if (true == userConfig.isAccoladesAccoladeGold()) {
             accoladesGold = "accolades/totalGold.png";
         }
 
@@ -534,9 +310,22 @@ public class Accolades extends JPanel {
     /**
      * Refresh the data displayed to the user
      */
-    public void refresh() {
-        date.setText(new SimpleDateFormat("dd MMM yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
+    public void refresh() { 
+        //this method is called by MainWindow as soon as program launches (therefore you do not need to set any values in initUI, just init JPanels and layouts and stuff)
+        //this method is called by MainWindow whenever the refresh button is pressed
+        //Refreshing any data relevant to FitbitInfo
+        //Refreshing UI elements (updating trophy icons, setting dates, etc)
+        
+        this.refreshConfig();
+        
     }
+    
+    public void refreshConfig() {
+        //Refreshing any data relevant to UserConfig - (ex. if isCaloriesData is false, then Calories Accolades panel should not be visible)
+      
+        
+    }
+    
 
     /**
      * Create a data box for one of the data items displayed on the Dashboard
