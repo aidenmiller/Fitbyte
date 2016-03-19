@@ -209,8 +209,8 @@ public class MainWindow extends JFrame implements ActionListener {
 
         // Creation of the CardLayout for displays
         dashboard = new Dashboard(fitbitInfo, userConfig);
-        dailyGoals = new DailyGoals(fitbitInfo);
-        accolades = new Accolades(fitbitInfo);
+        dailyGoals = new DailyGoals(fitbitInfo, userConfig);
+        accolades = new Accolades(fitbitInfo, userConfig);
 
         cardPane = new JPanel(new CardLayout());
         cardPane.add(dashboard, "Dashboard");
@@ -366,7 +366,7 @@ public class MainWindow extends JFrame implements ActionListener {
         } else if (e.getSource() == heartRateButton) {
             //cardLayout.show(cardPane, "Heart Rate");
         } else if (e.getSource() == accoladesButton) {
-            //cardLayout.show(cardPane, "Accolades");
+            cardLayout.show(cardPane, "Accolades");
         } else if (e.getSource() == refreshButton) {
             this.refreshInfo();
         } else if (e.getSource() == settingsButton) {

@@ -68,7 +68,7 @@ public class UserConfig implements Serializable {
     private String accoladesAccoladeGoldDate;
 
     private long calGoal, activeGoal, stepsGoal, floorsGoal, distanceGoal;
-    private int goalsComplete;
+    private int goalsComplete, accoladesComplete;
 
     public UserConfig() {
         caloriesVisible = true;
@@ -583,7 +583,17 @@ public class UserConfig implements Serializable {
     public void setAccoladesAccoladeGoldDate(String accoladesAccoladeGoldDate) {
         this.accoladesAccoladeGoldDate = accoladesAccoladeGoldDate;
     }
+
+    public int getAccoladesComplete() {
+        return accoladesComplete;
+    }
+
+    public void setAccoladesComplete(int accoladesComplete) {
+        this.accoladesComplete = accoladesComplete;
+    }
     
-    
+    public void incAccoladesComplete(){
+        this.accoladesComplete = accoladesComplete++;
+    }
 
 }
