@@ -36,7 +36,7 @@ public class Dashboard extends JPanel implements ActionListener {
     private JLabel caloriesBurnedData, totalDistanceData, floorsClimbedData, stepsTakenData, activeMinutesData, sedentaryMinutesData;
 
     private JToggleButton calendarButton;
-    private DateChooserPanel dateChooser;
+    private DateChooserGUI dateChooser;
     private ButtonGroup buttonGroup;
     private JToggleButton todayButton, bestButton, lifetimeButton;
     private JToggleButton caloriesTimeButton, stepsTimeButton, distanceTimeButton;
@@ -63,7 +63,7 @@ public class Dashboard extends JPanel implements ActionListener {
         this.setBackground(Color.white);
 
         date = new JLabel("");
-        dateChooser = new DateChooserPanel((Calendar) fitbitInfo.getLastRefreshTime().clone(), false);
+        dateChooser = new DateChooserGUI((Calendar) fitbitInfo.getLastRefreshTime().clone(), false);
         //Today, Best, Lifetime views
         calendarButton = new JToggleButton();
         calendarButton.addActionListener(this);
@@ -327,18 +327,17 @@ public class Dashboard extends JPanel implements ActionListener {
      * Displays the Lifetime data to the user
      */
     private void displayLifetime() {
-        double roundedLifeCalories = Math.round(fitbitInfo.getLifetime().getCaloriesOut() * 100.0) / 100.0;
         double roundedLifeDistance = Math.round(fitbitInfo.getLifetime().getDistance() * 100.0) / 100.0;
         double roundedLifeFloors = Math.round(fitbitInfo.getLifetime().getFloors() * 100.0) / 100.0;
         int roundedLifeSteps = (int) fitbitInfo.getLifetime().getSteps();
 
         date.setText("");
-        caloriesBurnedData.setText("" + roundedLifeCalories);
         totalDistanceData.setText("" + roundedLifeDistance);
         floorsClimbedData.setText("" + roundedLifeFloors);
         stepsTakenData.setText("" + roundedLifeSteps);
 
         this.refreshConfig();
+        caloriesPanel.setVisible(false);
         activePanel.setVisible(false);
         sedentaryPanel.setVisible(false);
 
