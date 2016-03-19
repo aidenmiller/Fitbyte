@@ -327,18 +327,17 @@ public class Dashboard extends JPanel implements ActionListener {
      * Displays the Lifetime data to the user
      */
     private void displayLifetime() {
-        double roundedLifeCalories = Math.round(fitbitInfo.getLifetime().getCaloriesOut() * 100.0) / 100.0;
         double roundedLifeDistance = Math.round(fitbitInfo.getLifetime().getDistance() * 100.0) / 100.0;
         double roundedLifeFloors = Math.round(fitbitInfo.getLifetime().getFloors() * 100.0) / 100.0;
         int roundedLifeSteps = (int) fitbitInfo.getLifetime().getSteps();
 
         date.setText("");
-        caloriesBurnedData.setText("" + roundedLifeCalories);
         totalDistanceData.setText("" + roundedLifeDistance);
         floorsClimbedData.setText("" + roundedLifeFloors);
         stepsTakenData.setText("" + roundedLifeSteps);
 
         this.refreshConfig();
+        caloriesPanel.setVisible(false);
         activePanel.setVisible(false);
         sedentaryPanel.setVisible(false);
 
