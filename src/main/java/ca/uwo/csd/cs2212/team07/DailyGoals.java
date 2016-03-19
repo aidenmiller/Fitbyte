@@ -34,7 +34,7 @@ public class DailyGoals extends JPanel implements ActionListener {
     private JProgressBar caloriesBurnedBar, totalDistanceBar, floorsClimbedBar, stepsTakenBar, activeMinutesBar;
     
     private JToggleButton calendarButton;
-    private DateChooserPanel dateChooser;
+    private DateChooserGUI dateChooser;
     private ButtonGroup buttonGroup;
     private JToggleButton todayButton;
     
@@ -65,7 +65,7 @@ public class DailyGoals extends JPanel implements ActionListener {
         this.setBackground(Color.white);
         
         date = new JLabel("");
-        dateChooser = new DateChooserPanel((Calendar) fitbitInfo.getLastRefreshTime().clone(), false);
+        dateChooser = new DateChooserGUI((Calendar) fitbitInfo.getLastRefreshTime().clone(), false);
         //Today, Best, Lifetime views
         calendarButton = new JToggleButton();
         calendarButton.addActionListener(this);
