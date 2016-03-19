@@ -124,25 +124,17 @@ public class Dashboard extends JPanel implements ActionListener {
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         topPanel.add(displayPanel);
         this.add(topPanel, BorderLayout.NORTH);
-        //Layout Specifications - WEST and EAST
-        JPanel westPanel = new JPanel();
-        JPanel eastPanel = new JPanel();
-        westPanel.setOpaque(false);
-        eastPanel.setOpaque(false);
-        this.add(westPanel, BorderLayout.WEST);
-        this.add(eastPanel, BorderLayout.EAST);
+
         //Layout Specifications - Center
         JPanel centerPanel = new JPanel();
         centerPanel.setOpaque(false);
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-        centerPanel.add(Box.createVerticalStrut(5));
         centerPanel.add(caloriesPanel);
         centerPanel.add(distancePanel);
         centerPanel.add(floorsPanel);
         centerPanel.add(stepsPanel);
         centerPanel.add(activePanel);
         centerPanel.add(sedentaryPanel);
-        centerPanel.add(Box.createVerticalStrut(20));
         this.add(centerPanel, BorderLayout.CENTER);
 
         //sets the view to Today
@@ -372,13 +364,17 @@ public class Dashboard extends JPanel implements ActionListener {
 
     }
 
-    public void refreshConfig() {
+    private void refreshConfig() {
         caloriesPanel.setVisible(userConfig.isCaloriesData());
         distancePanel.setVisible(userConfig.isDistanceData());
         floorsPanel.setVisible(userConfig.isFloorsData());
         stepsPanel.setVisible(userConfig.isStepsData());
         activePanel.setVisible(userConfig.isActiveData());
         sedentaryPanel.setVisible(userConfig.isSedentaryData());
+    }
+    
+    public void showToday() {
+        todayButton.doClick();
     }
 
 }

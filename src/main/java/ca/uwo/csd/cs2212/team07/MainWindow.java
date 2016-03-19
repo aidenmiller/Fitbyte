@@ -13,6 +13,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -118,15 +121,16 @@ public class MainWindow extends JFrame implements ActionListener {
      * Initializes the UI displayed in the Main Window
      */
     private void initUI() {
-        if(testMode) {
+        if (testMode) {
             this.setTitle("FitByte - TEST MODE");
         } else {
             this.setTitle("FitByte");
         }
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
-        this.setMinimumSize(new Dimension(800,600));
+        this.setMinimumSize(new Dimension(800, 600));
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
         this.setLayout(new BorderLayout());
         panelColor = new Color(0, 80, 105);
 
@@ -332,28 +336,13 @@ public class MainWindow extends JFrame implements ActionListener {
         Date date = fitbitInfo.getLastRefreshTime().getTime();
         lastRefresh.setText("last synced: " + new SimpleDateFormat("dd MMM yyyy").format(date)
                 + " at " + new SimpleDateFormat("h:mm:ss a z").format(date));
+        this.refreshPanels();
+    }
+
+    private void refreshPanels() {
         dashboard.refresh();
         dailyGoals.refresh();
-    }
-
-    private void refreshConfig() {
-        dashboard.refreshConfig();
-        dailyGoals.refreshConfig();
-    }
-
-    
-    private void openSettings() {
-        SettingsPanel settingsPan = new SettingsPanel(userConfig);
-
-        int n = JOptionPane.showOptionDialog(this, settingsPan,
-                "User Settings", JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE, null, null, null);
-
-        if (n == JOptionPane.OK_OPTION) {
-            settingsPan.confirmSettings();
-            this.refreshConfig();
-        }
-
+        accolades.refresh();
     }
 
     /**
@@ -364,6 +353,7 @@ public class MainWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == dashboardButton) {
             cardLayout.show(cardPane, "Dashboard");
+            dashboard.showToday();
         } else if (e.getSource() == dailyGoalsButton) {
             cardLayout.show(cardPane, "Daily Goals");
         } else if (e.getSource() == heartRateButton) {
@@ -373,7 +363,7 @@ public class MainWindow extends JFrame implements ActionListener {
         } else if (e.getSource() == refreshButton) {
             this.refreshInfo();
         } else if (e.getSource() == settingsButton) {
-            this.openSettings();
+            this.viewSettings();
         } else if (e.getSource() == exitButton) {
             if (!testMode) {
                 this.storeInfo();
@@ -381,6 +371,18 @@ public class MainWindow extends JFrame implements ActionListener {
             }
             this.dispose();
             System.exit(0);
+        }
+    }
+
+    private void viewSettings() {
+        SettingsWindow settingsWindow = new SettingsWindow(userConfig);
+        int n = JOptionPane.showOptionDialog(this, settingsWindow,
+                "User Settings", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE, null, null, null);
+
+        if (n == JOptionPane.OK_OPTION) {
+            settingsWindow.saveSettings();
+            this.refreshPanels();
         }
     }
 
