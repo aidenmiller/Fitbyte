@@ -138,7 +138,7 @@ public class Dashboard extends JPanel implements ActionListener {
         this.add(centerPanel, BorderLayout.CENTER);
 
         //sets the view to Today
-        todayButton.doClick();
+        this.refresh();
     }
 
     /**
@@ -235,7 +235,6 @@ public class Dashboard extends JPanel implements ActionListener {
         if (e.getSource() == calendarButton) {
             this.switchDay();
         } else if (e.getSource() == todayButton) {
-            this.refreshConfig();
             this.refresh();
             dateChooser.setDate(new Date());
         } else if (e.getSource() == bestButton) {
