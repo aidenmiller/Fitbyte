@@ -13,9 +13,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -328,7 +325,7 @@ public class MainWindow extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
                 return;
             } catch (RefreshTokenException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
+                JOptionPane.showMessageDialog(new JFrame(), "RefreshTokenException - tokens out of date");
                 return;
             }
         }
