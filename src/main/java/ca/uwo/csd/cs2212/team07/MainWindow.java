@@ -328,7 +328,7 @@ public class MainWindow extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
                 return;
             } catch (RefreshTokenException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
+                JOptionPane.showMessageDialog(new JFrame(), "RefreshTokenException - tokens out of date");
                 return;
             }
         }
