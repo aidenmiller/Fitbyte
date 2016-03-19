@@ -28,6 +28,11 @@ public class SettingsPanel extends JPanel {
     private JRadioButton activeOff;
     private JRadioButton sedentaryOn;
     private JRadioButton sedentaryOff;
+    
+    private JRadioButton fatOn, fatOff;
+    private JRadioButton peakOn, peakOff;
+    private JRadioButton cardioOn, cardioOff;
+    private JRadioButton outOn, outOff;
 
     /**
      * Constructs a new Main Window
@@ -70,6 +75,23 @@ public class SettingsPanel extends JPanel {
         JLabel sedentaryText = new JLabel("Show Sedentary Minutes: ");
         this.add(this.makeField(sedentaryText, sedentaryOn, sedentaryOff, userConfig.isSedentaryData()));
         
+        JLabel fatText = new JLabel("Show Fat Heart Rate Zone");
+        fatOn = new JRadioButton("Yes");
+        fatOff = new JRadioButton("No");
+        this.add(this.makeField(fatText, fatOn, fatOff, userConfig.isFatVisible()));
+        JLabel peakText = new JLabel("Show Peak Heart Rate Zone");
+        peakOn = new JRadioButton("Yes");
+        peakOff = new JRadioButton("No");
+        this.add(this.makeField(peakText, peakOn, peakOff, userConfig.isPeakVisible()));
+        JLabel cardioText = new JLabel("Show Cardio Heart Rate Zone");
+        cardioOn = new JRadioButton("Yes");
+        cardioOff = new JRadioButton("No");
+        this.add(this.makeField(cardioText, cardioOn, cardioOff, userConfig.isCardioVisible()));
+        JLabel outText = new JLabel("Show Out Of Range Heart Rate Zone");
+        outOn = new JRadioButton("Yes");
+        outOff = new JRadioButton("No");
+        this.add(this.makeField(outText, outOn, outOff, userConfig.isOutVisible()));
+        
         this.add(Box.createVerticalStrut(10));
 
         this.setVisible(true);
@@ -102,5 +124,9 @@ public class SettingsPanel extends JPanel {
         userConfig.setStepsData(stepsOn.isSelected());
         userConfig.setActiveData(activeOn.isSelected());
         userConfig.setSedentaryData(sedentaryOn.isSelected());
+        userConfig.setFatVisible(fatOn.isSelected());
+        userConfig.setPeakVisible(peakOn.isSelected());
+        userConfig.setCardioVisible(cardioOn.isSelected());
+        userConfig.setOutVisible(outOn.isSelected());
     }
 }

@@ -14,26 +14,39 @@ public class Lifetime implements Serializable {
     private double distance;
     private double floors;
     private long steps;
+    private long caloriesOut;
 
     /**
      * Constructor Method: makes a new Lifetime object
      * @param lifeDistance distance that user has traveled while using Fitbit
      * @param lifeFloors floors that user has climbed while using Fitbit
      * @param lifeSteps steps that user has taken while using Fitbit
+     * @param caloriesOut calories that user has burned while using Fitbit
      */
-    public Lifetime(double lifeDistance, double lifeFloors, long lifeSteps) {
+    public Lifetime(double lifeDistance, double lifeFloors, long lifeSteps, long caloriesOut) {
         this.distance = lifeDistance;
         this.floors = lifeFloors;
         this.steps = lifeSteps;
+        this.caloriesOut = caloriesOut;
     }
 
     /**
-     * toString method: used for testing.
-     * @return String containing info about Lifetime object
+     * getCaloriesOut() method: returns lifetime calories burned
+     * @return long value of caloriesOut
      */
-    public String toString() {
-        return "Lifetime Distance: " + this.distance + "\nLifetime Floors: " + this.floors + "\nLifetime Steps: " + this.steps;
+    public long getCaloriesOut() {
+        return caloriesOut;
     }
+
+    /**
+     * setCaloriesOut() method: sets the lifetime calories out
+     * @param caloriesOut long value to set as caloriesOut
+     */
+    public void setCaloriesOut(long caloriesOut) {
+        this.caloriesOut = caloriesOut;
+    }
+    
+    
 
     /**
      * getDistance() method:

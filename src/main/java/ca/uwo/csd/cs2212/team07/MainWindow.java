@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.FileInputStream;
@@ -24,8 +25,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 import org.json.JSONException;
 
 /**
@@ -119,10 +118,14 @@ public class MainWindow extends JFrame implements ActionListener {
      * Initializes the UI displayed in the Main Window
      */
     private void initUI() {
-        this.setTitle("FitByte");
+        if(testMode) {
+            this.setTitle("FitByte - TEST MODE");
+        } else {
+            this.setTitle("FitByte");
+        }
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
-        this.setResizable(false);
+        this.setMinimumSize(new Dimension(800,600));
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.setLayout(new BorderLayout());
         panelColor = new Color(0, 80, 105);
