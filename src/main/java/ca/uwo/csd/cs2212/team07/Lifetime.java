@@ -21,20 +21,13 @@ public class Lifetime implements Serializable {
      * @param lifeDistance distance that user has traveled while using Fitbit
      * @param lifeFloors floors that user has climbed while using Fitbit
      * @param lifeSteps steps that user has taken while using Fitbit
+     * @param caloriesOut calories that user has burned while using Fitbit
      */
     public Lifetime(double lifeDistance, double lifeFloors, long lifeSteps, long caloriesOut) {
         this.distance = lifeDistance;
         this.floors = lifeFloors;
         this.steps = lifeSteps;
         this.caloriesOut = caloriesOut;
-    }
-
-    /**
-     * toString method: used for testing.
-     * @return String containing info about Lifetime object
-     */
-    public String toString() {
-        return "Lifetime Distance: " + this.distance + "\nLifetime Floors: " + this.floors + "\nLifetime Steps: " + this.steps;
     }
 
     /**
