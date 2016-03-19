@@ -126,7 +126,207 @@ public class Accolades extends JPanel {
         accoladesDate2 = "Not yet achieved.";
         accoladesDate3 = "Not yet achieved.";
 
-        
+        //Check for new records
+        if (fitbitInfo.getDay().getCaloriesOut() > calories) {
+            calories = fitbitInfo.getDay().getCaloriesOut();
+        }
+
+        if (fitbitInfo.getDay().getDistance() > distance) {
+            distance = fitbitInfo.getDay().getDistance();
+        }
+
+        if (fitbitInfo.getDay().getFloors() > floors) {
+            floors = fitbitInfo.getDay().getFloors();
+        }
+
+        if (fitbitInfo.getDay().getSteps() > steps) {
+            steps = fitbitInfo.getDay().getSteps();
+        }
+
+        if (fitbitInfo.getDay().getActiveMins() > active) {
+            active = fitbitInfo.getDay().getActiveMins();
+        }
+
+        if (userConfig.getGoalsComplete() > goals) {
+            goals = userConfig.getGoalsComplete();
+        }
+
+        if (userConfig.getAccoladesComplete() > totalAccolades) {
+            totalAccolades = userConfig.getAccoladesComplete();
+        }
+
+        //Update accolade icons based on records
+        if (calories >= 1000) {
+            if (false == userConfig.isCaloriesAccoladeBronze()) {
+                caloriesDate1 = fitbitInfo.getDay().getDate();
+                userConfig.setCaloriesAccoladeBronze(true);
+                userConfig.setCaloriesAccoladeBronzeDate(caloriesDate1);
+                userConfig.incAccoladesComplete();
+            }
+            if (calories >= 2000) {
+                if (false == userConfig.isCaloriesAccoladeBronze()) {
+                    caloriesDate2 = fitbitInfo.getDay().getDate();
+                    userConfig.setCaloriesAccoladeSilver(true);
+                    userConfig.setCaloriesAccoladeSilverDate(caloriesDate2);
+                    userConfig.incAccoladesComplete();
+                }
+                if (calories >= 3000) {
+                    if (false == userConfig.isCaloriesAccoladeGold()) {
+                        caloriesDate3 = fitbitInfo.getDay().getDate();
+                        userConfig.setCaloriesAccoladeGold(true);
+                        userConfig.setCaloriesAccoladeSilverDate(caloriesDate3);
+                        userConfig.incAccoladesComplete();
+                    }
+                }
+            }
+        }
+
+        if (distance >= 1.0) {
+            if (false == userConfig.isDistanceAccoladeBronze()) {
+                distanceDate1 = fitbitInfo.getDay().getDate();
+                userConfig.setDistanceAccoladeBronze(true);
+                userConfig.setDistanceAccoladeBronzeDate(distanceDate1);
+                userConfig.incAccoladesComplete();
+            }
+            if (distance >= 2.0) {
+                if (false == userConfig.isDistanceAccoladeSilver()) {
+                    distanceDate2 = fitbitInfo.getDay().getDate();
+                    userConfig.setDistanceAccoladeSilver(true);
+                    userConfig.setDistanceAccoladeSilverDate(distanceDate2);
+                    userConfig.incAccoladesComplete();
+                }
+                if (distance >= 3.0) {
+                    if (false == userConfig.isDistanceAccoladeGold()) {
+                        distanceDate3 = fitbitInfo.getDay().getDate();
+                        userConfig.setDistanceAccoladeGold(true);
+                        userConfig.setDistanceAccoladeGoldDate(distanceDate3);
+                        userConfig.incAccoladesComplete();
+                    }
+                }
+            }
+        }
+        if (floors >= 5.0) {
+            if (false == userConfig.isFloorsAccoladeBronze()) {
+                floorsDate1 = fitbitInfo.getDay().getDate();
+                userConfig.setFloorsAccoladeBronze(true);
+                userConfig.setFloorsAccoladeBronzeDate(floorsDate1);
+                userConfig.incAccoladesComplete();
+            }
+            if (floors >= 10.0) {
+                if (false == userConfig.isFloorsAccoladeSilver()) {
+                    floorsDate2 = fitbitInfo.getDay().getDate();
+                    userConfig.setFloorsAccoladeSilver(true);
+                    userConfig.setFloorsAccoladeSilverDate(floorsDate2);
+                    userConfig.incAccoladesComplete();
+                }
+                if (floors >= 15.0) {
+                    if (false == userConfig.isFloorsAccoladeGold()) {
+                        floorsDate3 = fitbitInfo.getDay().getDate();
+                        userConfig.setFloorsAccoladeGold(true);
+                        userConfig.setFloorsAccoladeGoldDate(floorsDate3);
+                        userConfig.incAccoladesComplete();
+                    }
+                }
+            }
+        }
+        if (steps >= 2000) {
+            if (false == userConfig.isStepsAccoladeBronze()) {
+                stepsDate1 = fitbitInfo.getDay().getDate();
+                userConfig.setStepsAccoladeBronze(true);
+                userConfig.setStepsAccoladeBronzeDate(stepsDate1);
+                userConfig.incAccoladesComplete();
+            }
+            if (steps >= 5000) {
+                if (false == userConfig.isStepsAccoladeSilver()) {
+                    stepsDate2 = fitbitInfo.getDay().getDate();
+                    userConfig.setStepsAccoladeSilver(true);
+                    userConfig.setStepsAccoladeSilverDate(stepsDate2);
+                    userConfig.incAccoladesComplete();
+                }
+                if (steps >= 10000) {
+                    if (false == userConfig.isStepsAccoladeGold()) {
+                        stepsDate3 = fitbitInfo.getDay().getDate();
+                        userConfig.setStepsAccoladeGold(true);
+                        userConfig.setStepsAccoladeGoldDate(stepsDate3);
+                        userConfig.incAccoladesComplete();
+                    }
+                }
+            }
+        }
+        if (active >= 30.0) {
+            if (false == userConfig.isActiveAccoladeBronze()) {
+                activeDate1 = fitbitInfo.getDay().getDate();
+                userConfig.setActiveAccoladeBronze(true);
+                userConfig.setActiveAccoladeBronzeDate(activeDate1);
+                userConfig.incAccoladesComplete();
+            }
+            if (active >= 60.0) {
+                if (false == userConfig.isActiveAccoladeSilver()) {
+                    activeDate2 = fitbitInfo.getDay().getDate();
+                    userConfig.setActiveAccoladeSilver(true);
+                    userConfig.setActiveAccoladeSilverDate(activeDate2);
+                    userConfig.incAccoladesComplete();
+                }
+                if (active >= 90.0) {
+                    if (false == userConfig.isActiveAccoladeGold()) {
+                        activeDate3 = fitbitInfo.getDay().getDate();
+                        userConfig.setActiveAccoladeGold(true);
+                        userConfig.setActiveAccoladeGoldDate(activeDate3);
+                        userConfig.incAccoladesComplete();
+                    }
+                }
+            }
+        }
+
+        if (goals >= 1) {
+            if (false == userConfig.isGoalsAccoladeBronze()) {
+                goalsDate1 = fitbitInfo.getDay().getDate();
+                userConfig.setGoalsAccoladeBronze(true);
+                userConfig.setGoalsAccoladeBronzeDate(goalsDate1);
+                userConfig.incAccoladesComplete();
+            }
+            if (goals >= 3) {
+                if (false == userConfig.isGoalsAccoladeSilver()) {
+                    goalsDate2 = fitbitInfo.getDay().getDate();
+                    userConfig.setGoalsAccoladeSilver(true);
+                    userConfig.setGoalsAccoladeSilverDate(goalsDate2);
+                    userConfig.incAccoladesComplete();
+                }
+                if (goals >= 5) {
+                    if (false == userConfig.isGoalsAccoladeGold()) {
+                        goalsDate3 = fitbitInfo.getDay().getDate();
+                        userConfig.setGoalsAccoladeGold(true);
+                        userConfig.setGoalsAccoladeGoldDate(goalsDate3);
+                        userConfig.incAccoladesComplete();
+                    }
+                }
+            }
+        }
+
+        if (totalAccolades >= 5) {
+            if (false == userConfig.isAccoladesAccoladeBronze()) {
+                accoladesDate1 = fitbitInfo.getDay().getDate();
+                userConfig.setAccoladesAccoladeBronze(true);
+                userConfig.setAccoladesAccoladeBronzeDate(accoladesDate1);
+                userConfig.incAccoladesComplete();
+            }
+            if (totalAccolades >= 10) {
+                if (false == userConfig.isGoalsAccoladeSilver()) {
+                    accoladesDate2 = fitbitInfo.getDay().getDate();
+                    userConfig.setGoalsAccoladeSilver(true);
+                    userConfig.setGoalsAccoladeSilverDate(accoladesDate2);
+                    userConfig.incAccoladesComplete();
+                }
+                if (totalAccolades >= 20) {
+                    if (false == userConfig.isGoalsAccoladeGold()) {
+                        accoladesDate3 = fitbitInfo.getDay().getDate();
+                        userConfig.setGoalsAccoladeGold(true);
+                        userConfig.setGoalsAccoladeGoldDate(accoladesDate3);
+                        userConfig.incAccoladesComplete();
+                    }
+                }
+            }
+        }
 
         //Update which trophies to display based on stored information in userConfig
         //Calories
@@ -310,22 +510,20 @@ public class Accolades extends JPanel {
     /**
      * Refresh the data displayed to the user
      */
-    public void refresh() { 
+    public void refresh() {
         //this method is called by MainWindow as soon as program launches (therefore you do not need to set any values in initUI, just init JPanels and layouts and stuff)
         //this method is called by MainWindow whenever the refresh button is pressed
         //Refreshing any data relevant to FitbitInfo
         //Refreshing UI elements (updating trophy icons, setting dates, etc)
-        
+
         this.refreshConfig();
-        
+
     }
-    
+
     public void refreshConfig() {
         //Refreshing any data relevant to UserConfig - (ex. if isCaloriesData is false, then Calories Accolades panel should not be visible)
-      
-        
+
     }
-    
 
     /**
      * Create a data box for one of the data items displayed on the Dashboard
