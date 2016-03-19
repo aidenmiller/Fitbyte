@@ -213,7 +213,7 @@ public class MainWindow extends JFrame implements ActionListener {
         // Creation of the CardLayout for displays
         dashboard = new Dashboard(fitbitInfo, userConfig);
         dailyGoals = new DailyGoals(fitbitInfo, userConfig);
-        accolades = new Accolades(fitbitInfo);
+        accolades = new Accolades(fitbitInfo, userConfig);
 
         cardPane = new JPanel(new CardLayout());
         cardPane.add(dashboard, "Dashboard");
