@@ -78,26 +78,26 @@ public class MainWindow extends JFrame implements ActionListener {
      * @param testMode whether or not the program is run in test mode
      */
     private void getUserData() {
-        if (!testMode) {
-            try {
-                fitbitInfo = loadInfo();
-            } catch (Exception e) {
-                fitbitInfo = new FitbitInfo();
-                try {
-                    fitbitInfo.refreshInfo(Calendar.getInstance());
-                } catch (JSONException ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
-                    System.exit(0);
-                } catch (RefreshTokenException ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
-                    System.exit(0);
-                }
-            }
+//        if (!testMode) {
+//            try {
+//                fitbitInfo = loadInfo();
+//            } catch (Exception e) {
+//                fitbitInfo = new FitbitInfo();
+//                try {
+//                    fitbitInfo.refreshInfo(Calendar.getInstance());
+//                } catch (JSONException ex) {
+//                    JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
+//                    System.exit(0);
+//                } catch (RefreshTokenException ex) {
+//                    JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
+//                    System.exit(0);
+//                }
+//            }
 
-        } else {
+      //  } else {
             fitbitInfo = new FitbitInfo();
             fitbitInfo.testModeData();
-        }
+       // }
     }
 
     /**

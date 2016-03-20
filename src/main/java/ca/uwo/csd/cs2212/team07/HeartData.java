@@ -144,7 +144,7 @@ public class HeartData implements Serializable {
 
     /**
      * getOutOfRangeCalsOut() method
-     * @return double value of the calories burned while spent in the "out of range" heart rate category
+     * @return a double value of the calories burned while spent in the "out of range" heart rate category
      */
     public double getOutOfRangeCalsOut() {
         return outOfRangeCalsOut;
