@@ -593,7 +593,7 @@ public class UserConfig implements Serializable {
     }
     
     public void incAccoladesComplete(){
-        this.accoladesComplete = accoladesComplete++;
+        this.accoladesComplete = accoladesComplete+=1;
     }
 
 }
