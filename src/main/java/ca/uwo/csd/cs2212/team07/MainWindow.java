@@ -118,11 +118,6 @@ public class MainWindow extends JFrame implements ActionListener {
      * Initializes the UI displayed in the Main Window
      */
     private void initUI() {
-        if (testMode) {
-            this.setTitle("FitByte - TEST MODE");
-        } else {
-            this.setTitle("FitByte");
-        }
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
         this.setMinimumSize(new Dimension(800, 600));
@@ -349,13 +344,17 @@ public class MainWindow extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == dashboardButton) {
+            this.setTitle("FitByte - Dashboard");
             cardLayout.show(cardPane, "Dashboard");
             dashboard.showToday();
         } else if (e.getSource() == dailyGoalsButton) {
+            this.setTitle("FitByte - Daily Goals");
             cardLayout.show(cardPane, "Daily Goals");
         } else if (e.getSource() == heartRateButton) {
+            this.setTitle("FitByte - Heart Rate Zones");
             //cardLayout.show(cardPane, "Heart Rate");
         } else if (e.getSource() == accoladesButton) {
+            this.setTitle("FitByte - Accolades");
             cardLayout.show(cardPane, "Accolades");
         } else if (e.getSource() == refreshButton) {
             this.refreshInfo();
