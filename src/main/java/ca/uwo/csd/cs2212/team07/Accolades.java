@@ -72,7 +72,8 @@ public class Accolades extends JPanel {
 
     private void initPanel() {
 
-        this.setOpaque(false); //Color of the background
+        //Background color
+        this.setBackground(Color.white);
         
         //Reset file names for accolades to gray icons
         caloriesBronze = "accolades/caloriesBronzeGray.png";
@@ -96,29 +97,6 @@ public class Accolades extends JPanel {
         accoladesBronze = "accolades/totalBronzeGray.png";
         accoladesSilver = "accolades/totalSilverGray.png";
         accoladesGold = "accolades/totalGoldGray.png";
-
-        //Reset dates to display on tooltips
-        caloriesDate1 = "Not yet achieved.";
-        caloriesDate2 = "Not yet achieved.";
-        caloriesDate3 = "Not yet achieved.";
-        distanceDate1 = "Not yet achieved.";
-        distanceDate2 = "Not yet achieved.";
-        distanceDate3 = "Not yet achieved.";
-        activeDate1 = "Not yet achieved.";
-        activeDate2 = "Not yet achieved.";
-        activeDate3 = "Not yet achieved.";
-        stepsDate1 = "Not yet achieved.";
-        stepsDate2 = "Not yet achieved.";
-        stepsDate3 = "Not yet achieved.";
-        floorsDate1 = "Not yet achieved.";
-        floorsDate2 = "Not yet achieved.";
-        floorsDate3 = "Not yet achieved.";
-        goalsDate1 = "Not yet achieved.";
-        goalsDate2 = "Not yet achieved.";
-        goalsDate3 = "Not yet achieved.";
-        accoladesDate1 = "Not yet achieved.";
-        accoladesDate2 = "Not yet achieved.";
-        accoladesDate3 = "Not yet achieved.";
         
         //Panels for each data item
         caloriesBurnedData = new JLabel(calories + " Calories Burned (1000, 2000, 3000)");
@@ -134,7 +112,7 @@ public class Accolades extends JPanel {
         caloriesPanel = this.createDataBox(caloriesBurnedData, calLabel1, calLabel2, calLabel3, new Color(255, 150, 150));
         caloriesPanel.setToolTipText("The amount of calories burned on the current day.");
 
-        totalDistanceData = new JLabel(distance + " Distance Travelled (1 km, 2 km, 3 km)");
+        totalDistanceData = new JLabel(distance + " Distance Travelled (1 km, 3 km, 5 km)");
         disImage1 = new ImageIcon(FileReader.getImage(distanceBronze));
         disImage2 = new ImageIcon(FileReader.getImage(distanceSilver));
         disImage3 = new ImageIcon(FileReader.getImage(distanceGold));
@@ -147,7 +125,7 @@ public class Accolades extends JPanel {
         distancePanel = this.createDataBox(totalDistanceData, disLabel1, disLabel2, disLabel3, new Color(200, 255, 200));
         distancePanel.setToolTipText("The total distance travelled on the current day.");
 
-        floorsClimbedData = new JLabel(floors + " Floors Climbed (5, 10, 20)");
+        floorsClimbedData = new JLabel(floors + " Floors Climbed (10, 20, 30)");
         flImage1 = new ImageIcon(FileReader.getImage(floorsBronze));
         flImage2 = new ImageIcon(FileReader.getImage(floorsSilver));
         flImage3 = new ImageIcon(FileReader.getImage(floorsGold));
@@ -173,7 +151,7 @@ public class Accolades extends JPanel {
         stepsPanel = this.createDataBox(stepsTakenData, stLabel1, stLabel2, stLabel3, new Color(250, 200, 160));
         stepsPanel.setToolTipText("The number of steps taken on the current day.");
 
-        activeMinutesData = new JLabel(active + " Active Minutes (60 min, 120 min, 180 min)");
+        activeMinutesData = new JLabel(active + " Active Minutes (120 min, 180 min, 240 min)");
         actImage1 = new ImageIcon(FileReader.getImage(activeBronze));
         actImage2 = new ImageIcon(FileReader.getImage(activeSilver));
         actImage3 = new ImageIcon(FileReader.getImage(activeGold));
@@ -186,7 +164,7 @@ public class Accolades extends JPanel {
         activePanel = this.createDataBox(activeMinutesData, actLabel1, actLabel2, actLabel3, new Color(250, 255, 150));
         activePanel.setToolTipText("The number of active minutes on the current day.");
 
-        dailyGoalsData = new JLabel(goals + " Daily Goals Met (1, 2, 5)");
+        dailyGoalsData = new JLabel(goals + " Daily Goals Met (1, 3, 5)");
         goImage1 = new ImageIcon(FileReader.getImage(goalsBronze));
         goImage2 = new ImageIcon(FileReader.getImage(goalsSilver));
         goImage3 = new ImageIcon(FileReader.getImage(goalsGold));
@@ -233,6 +211,8 @@ public class Accolades extends JPanel {
         //Refreshing any data relevant to FitbitInfo
         //Refreshing UI elements (updating trophy icons, setting dates, etc)
         
+        this.refreshConfig();
+        
         //Check for new records
         calories = fitbitInfo.getDay().getCaloriesOut();
         distance = fitbitInfo.getDay().getDistance();
@@ -251,7 +231,7 @@ public class Accolades extends JPanel {
                 userConfig.incAccoladesComplete();
             }
             if (calories >= 2000) {
-                if (false == userConfig.isCaloriesAccoladeBronze()) {
+                if (false == userConfig.isCaloriesAccoladeSilver()) {
                     caloriesDate2 = fitbitInfo.getDay().getDate();
                     userConfig.setCaloriesAccoladeSilver(true);
                     userConfig.setCaloriesAccoladeSilverDate(caloriesDate2);
@@ -261,7 +241,7 @@ public class Accolades extends JPanel {
                     if (false == userConfig.isCaloriesAccoladeGold()) {
                         caloriesDate3 = fitbitInfo.getDay().getDate();
                         userConfig.setCaloriesAccoladeGold(true);
-                        userConfig.setCaloriesAccoladeSilverDate(caloriesDate3);
+                        userConfig.setCaloriesAccoladeGoldDate(caloriesDate3);
                         userConfig.incAccoladesComplete();
                     }
                 }
@@ -275,14 +255,14 @@ public class Accolades extends JPanel {
                 userConfig.setDistanceAccoladeBronzeDate(distanceDate1);
                 userConfig.incAccoladesComplete();
             }
-            if (distance >= 2.0) {
+            if (distance >= 3.0) {
                 if (false == userConfig.isDistanceAccoladeSilver()) {
                     distanceDate2 = fitbitInfo.getDay().getDate();
                     userConfig.setDistanceAccoladeSilver(true);
                     userConfig.setDistanceAccoladeSilverDate(distanceDate2);
                     userConfig.incAccoladesComplete();
                 }
-                if (distance >= 3.0) {
+                if (distance >= 5.0) {
                     if (false == userConfig.isDistanceAccoladeGold()) {
                         distanceDate3 = fitbitInfo.getDay().getDate();
                         userConfig.setDistanceAccoladeGold(true);
@@ -292,21 +272,21 @@ public class Accolades extends JPanel {
                 }
             }
         }
-        if (floors >= 5.0) {
+        if (floors >= 10.0) {
             if (false == userConfig.isFloorsAccoladeBronze()) {
                 floorsDate1 = fitbitInfo.getDay().getDate();
                 userConfig.setFloorsAccoladeBronze(true);
                 userConfig.setFloorsAccoladeBronzeDate(floorsDate1);
                 userConfig.incAccoladesComplete();
             }
-            if (floors >= 10.0) {
+            if (floors >= 20.0) {
                 if (false == userConfig.isFloorsAccoladeSilver()) {
                     floorsDate2 = fitbitInfo.getDay().getDate();
                     userConfig.setFloorsAccoladeSilver(true);
                     userConfig.setFloorsAccoladeSilverDate(floorsDate2);
                     userConfig.incAccoladesComplete();
                 }
-                if (floors >= 15.0) {
+                if (floors >= 30.0) {
                     if (false == userConfig.isFloorsAccoladeGold()) {
                         floorsDate3 = fitbitInfo.getDay().getDate();
                         userConfig.setFloorsAccoladeGold(true);
@@ -340,21 +320,21 @@ public class Accolades extends JPanel {
                 }
             }
         }
-        if (active >= 60.0) {
+        if (active >= 120.0) {
             if (false == userConfig.isActiveAccoladeBronze()) {
                 activeDate1 = fitbitInfo.getDay().getDate();
                 userConfig.setActiveAccoladeBronze(true);
                 userConfig.setActiveAccoladeBronzeDate(activeDate1);
                 userConfig.incAccoladesComplete();
             }
-            if (active >= 120.0) {
+            if (active >= 180.0) {
                 if (false == userConfig.isActiveAccoladeSilver()) {
                     activeDate2 = fitbitInfo.getDay().getDate();
                     userConfig.setActiveAccoladeSilver(true);
                     userConfig.setActiveAccoladeSilverDate(activeDate2);
                     userConfig.incAccoladesComplete();
                 }
-                if (active >= 180.0) {
+                if (active >= 240.0) {
                     if (false == userConfig.isActiveAccoladeGold()) {
                         activeDate3 = fitbitInfo.getDay().getDate();
                         userConfig.setActiveAccoladeGold(true);
@@ -502,82 +482,91 @@ public class Accolades extends JPanel {
         calImage2 = new ImageIcon(FileReader.getImage(caloriesSilver));
         calImage3 = new ImageIcon(FileReader.getImage(caloriesGold));
         calLabel1.setIcon(calImage1);
-        calLabel1.setToolTipText("Achieved on: " + caloriesDate1);
+        calLabel1.setToolTipText("Achieved on: " + userConfig.getCaloriesAccoladeBronzeDate());
         calLabel2.setIcon(calImage2);
-        calLabel2.setToolTipText("Achieved on: " + caloriesDate2);
+        calLabel2.setToolTipText("Achieved on: " + userConfig.getCaloriesAccoladeSilverDate());
         calLabel3.setIcon(calImage3);
-        calLabel3.setToolTipText("Achieved on: " + caloriesDate3);
+        calLabel3.setToolTipText("Achieved on: " + userConfig.getCaloriesAccoladeGoldDate());
 
         
-        totalDistanceData.setText(distance + " Distance Travelled (1 km, 2 km, 3 km)");
+        totalDistanceData.setText(distance + " Distance Travelled (1 km, 3 km, 5 km)");
         disImage1 = new ImageIcon(FileReader.getImage(distanceBronze));
         disImage2 = new ImageIcon(FileReader.getImage(distanceSilver));
         disImage3 = new ImageIcon(FileReader.getImage(distanceGold));
         disLabel1.setIcon(disImage1);
-        disLabel1.setToolTipText("Achieved on: " + distanceDate1);
+        disLabel1.setToolTipText("Achieved on: " + userConfig.getDistanceAccoladeBronzeDate());
         disLabel2.setIcon(disImage2);
-        disLabel2.setToolTipText("Achieved on: " + distanceDate2);
+        disLabel2.setToolTipText("Achieved on: " + userConfig.getCaloriesAccoladeSilverDate());
         disLabel3.setIcon(disImage3);
-        disLabel3.setToolTipText("Achieved on: " + distanceDate3);
+        disLabel3.setToolTipText("Achieved on: " + userConfig.getCaloriesAccoladeGoldDate());
 
-        floorsClimbedData.setText(floors + " Floors Climbed (5, 10, 20)");
+        floorsClimbedData.setText(floors + " Floors Climbed (10, 20, 30)");
         flImage1 = new ImageIcon(FileReader.getImage(floorsBronze));
         flImage2 = new ImageIcon(FileReader.getImage(floorsSilver));
         flImage3 = new ImageIcon(FileReader.getImage(floorsGold));
         flLabel1.setIcon(flImage1);
-        flLabel1.setToolTipText("Achieved on: " + floorsDate1);
+        flLabel1.setToolTipText("Achieved on: " + userConfig.getFloorsAccoladeBronzeDate());
         flLabel2.setIcon(flImage2);
-        flLabel2.setToolTipText("Achieved on: " + floorsDate2);
+        flLabel2.setToolTipText("Achieved on: " + userConfig.getFloorsAccoladeSilverDate());
         flLabel3.setIcon(flImage3);
-        flLabel3.setToolTipText("Achieved on: " + floorsDate3);
+        flLabel3.setToolTipText("Achieved on: " + userConfig.getFloorsAccoladeGoldDate());
 
         stepsTakenData.setText(steps + " Steps Taken (2000, 5000, 10000)");
         stImage1 = new ImageIcon(FileReader.getImage(stepsBronze));
         stImage2 = new ImageIcon(FileReader.getImage(stepsSilver));
         stImage3 = new ImageIcon(FileReader.getImage(stepsGold));
         stLabel1.setIcon(stImage1);
-        stLabel1.setToolTipText("Achieved on: " + stepsDate1);
+        stLabel1.setToolTipText("Achieved on: " + userConfig.getStepsAccoladeBronzeDate());
         stLabel2.setIcon(stImage2);
-        stLabel2.setToolTipText("Achieved on: " + stepsDate2);
+        stLabel2.setToolTipText("Achieved on: " + userConfig.getStepsAccoladeSilverDate());
         stLabel3.setIcon(stImage3);
-        stLabel3.setToolTipText("Achieved on: " + stepsDate3);
+        stLabel3.setToolTipText("Achieved on: " + userConfig.getStepsAccoladeGoldDate());
 
-        activeMinutesData.setText(active + " Active Minutes (60 min, 120 min, 180 min)");
+        activeMinutesData.setText(active + " Active Minutes (120 min, 180 min, 240 min)");
         actImage1 = new ImageIcon(FileReader.getImage(activeBronze));
         actImage2 = new ImageIcon(FileReader.getImage(activeSilver));
         actImage3 = new ImageIcon(FileReader.getImage(activeGold));
         actLabel1.setIcon(actImage1);
-        actLabel1.setToolTipText("Achieved on: " + activeDate1);
+        actLabel1.setToolTipText("Achieved on: " + userConfig.getActiveAccoladeBronzeDate());
         actLabel2.setIcon(actImage2);
-        actLabel2.setToolTipText("Achieved on: " + activeDate2);
+        actLabel2.setToolTipText("Achieved on: " + userConfig.getActiveAccoladeSilverDate());
         actLabel3.setIcon(actImage3);
-        actLabel3.setToolTipText("Achieved on: " + activeDate3);
+        actLabel3.setToolTipText("Achieved on: " + userConfig.getActiveAccoladeGoldDate());
 
-        dailyGoalsData.setText(goals + " Daily Goals Met (1, 2, 5)");
+        dailyGoalsData.setText(goals + " Daily Goals Met (1, 3, 5)");
         goImage1 = new ImageIcon(FileReader.getImage(goalsBronze));
         goImage2 = new ImageIcon(FileReader.getImage(goalsSilver));
         goImage3 = new ImageIcon(FileReader.getImage(goalsGold));
         goLabel1.setIcon(goImage1);
-        goLabel1.setToolTipText("Achieved on: " + goalsDate1);
+        goLabel1.setToolTipText("Achieved on: " + userConfig.getGoalsAccoladeBronzeDate());
         goLabel2.setIcon(goImage2);
-        goLabel2.setToolTipText("Achieved on: " + goalsDate2);
+        goLabel2.setToolTipText("Achieved on: " + userConfig.getGoalsAccoladeSilverDate());
         goLabel3.setIcon(goImage3);
-        goLabel3.setToolTipText("Achieved on: " + goalsDate3);
+        goLabel3.setToolTipText("Achieved on: " + userConfig.getGoalsAccoladeGoldDate());
 
         accoladesEarnedData.setText(totalAccolades + " Total Accolades Earned (5, 10, 20)");
         acImage1 = new ImageIcon(FileReader.getImage(accoladesBronze));
         acImage2 = new ImageIcon(FileReader.getImage(accoladesSilver));
         acImage3 = new ImageIcon(FileReader.getImage(accoladesGold));
         acLabel1.setIcon(acImage1);
-        acLabel1.setToolTipText("Achieved on: " + accoladesDate1);
+        acLabel1.setToolTipText("Achieved on: " + userConfig.getAccoladesAccoladeBronzeDate());
         acLabel2.setIcon(acImage2);
-        acLabel2.setToolTipText("Achieved on: " + accoladesDate2);
+        acLabel2.setToolTipText("Achieved on: " + userConfig.getAccoladesAccoladeSilverDate());
         acLabel3.setIcon(acImage3);
-        acLabel3.setToolTipText("Achieved on: " + accoladesDate3);
+        acLabel3.setToolTipText("Achieved on: " + userConfig.getAccoladesAccoladeGoldDate());
     }
 
     public void refreshConfig() {
         //Refreshing any data relevant to UserConfig - (ex. if isCaloriesData is false, then Calories Accolades panel should not be visible)
+        caloriesPanel.setVisible(userConfig.isCaloriesData());
+        distancePanel.setVisible(userConfig.isDistanceData());
+        floorsPanel.setVisible(userConfig.isFloorsData());
+        stepsPanel.setVisible(userConfig.isStepsData());
+        activePanel.setVisible(userConfig.isActiveData());
+        if (userConfig.isCaloriesData() == false && userConfig.isDistanceData() == false && userConfig.isFloorsData() == false && userConfig.isStepsData() == false && userConfig.isActiveData() == false){
+            goalsPanel.setVisible(false);
+            accoladesPanel.setVisible(false);
+        }
     }
 
     /**
@@ -597,11 +586,11 @@ public class Accolades extends JPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.add(Box.createHorizontalStrut(25));
         panel.add(iconLabel1);
-        panel.add(Box.createHorizontalStrut(25));
+        panel.add(Box.createHorizontalStrut(50));
         panel.add(iconLabel2);
-        panel.add(Box.createHorizontalStrut(25));
+        panel.add(Box.createHorizontalStrut(50));
         panel.add(iconLabel3);
-        panel.add(Box.createHorizontalStrut(150));
+        panel.add(Box.createHorizontalStrut(100));
         panel.add(header);
         panel.add(Box.createHorizontalGlue());
         return panel;
