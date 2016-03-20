@@ -214,12 +214,12 @@ public class Dashboard extends JPanel implements ActionListener {
         date.setText(new SimpleDateFormat("EEEE, MMMM d, yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
 
         Daily day = fitbitInfo.getDay();
-        caloriesBurnedData.setText("" + day.getCaloriesOut());
-        totalDistanceData.setText("" + day.getDistance());
-        stepsTakenData.setText("" + day.getSteps());
-        floorsClimbedData.setText("" + day.getFloors());
-        activeMinutesData.setText("" + day.getActiveMins());
-        sedentaryMinutesData.setText("" + day.getSedentaryMins());
+        caloriesBurnedData.setText("" + day.getCaloriesOut()  + " calories");
+        totalDistanceData.setText("" + day.getDistance()  + " km");
+        stepsTakenData.setText("" + day.getSteps()  + " steps");
+        floorsClimbedData.setText("" + day.getFloors()  + " floors");
+        activeMinutesData.setText("" + day.getActiveMins()  + " minutes");
+        sedentaryMinutesData.setText("" + day.getSedentaryMins()  + " minutes");
         stepsTimeButton.setVisible(true);
         caloriesTimeButton.setVisible(true);
         distanceTimeButton.setVisible(true);
@@ -276,12 +276,13 @@ public class Dashboard extends JPanel implements ActionListener {
             }
 
             date.setText(new SimpleDateFormat("EEEE, MMMM d, yyyy").format(dateChooser.getDate()));
-            sedentaryMinutesData.setText("" + dayInfo.getSedentaryMins());
-            activeMinutesData.setText("" + dayInfo.getActiveMins());
-            stepsTakenData.setText("" + dayInfo.getSteps());
-            floorsClimbedData.setText("" + dayInfo.getFloors());
-            totalDistanceData.setText("" + dayInfo.getDistance());
-            caloriesBurnedData.setText("" + dayInfo.getCaloriesOut());
+            caloriesBurnedData.setText("" + dayInfo.getCaloriesOut()  + " calories");
+            totalDistanceData.setText("" + dayInfo.getDistance() + " km");
+            floorsClimbedData.setText("" + dayInfo.getFloors() + " floors");
+            stepsTakenData.setText("" + dayInfo.getSteps() + " steps");
+            activeMinutesData.setText("" + dayInfo.getActiveMins() + " minutes");
+            sedentaryMinutesData.setText("" + dayInfo.getSedentaryMins() + " minutes");
+            
         }
     }
 
@@ -301,11 +302,11 @@ public class Dashboard extends JPanel implements ActionListener {
             date.setText("");
 
             totalDistanceData.setText(toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[0].getDate()))
-                    + "\t\t - \t\t" + roundedBestDistance);
+                    + "\t\t - \t\t" + roundedBestDistance  + " km");
             floorsClimbedData.setText(toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[1].getDate()))
-                    + "\t\t - \t\t" + roundedBestFloors);
+                    + "\t\t - \t\t" + roundedBestFloors  + " floors");
             stepsTakenData.setText(toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[2].getDate()))
-                    + "\t\t - \t\t" + roundedBestSteps);
+                    + "\t\t - \t\t" + roundedBestSteps  + " steps");
 
             this.refreshConfig();
             caloriesPanel.setVisible(false);
@@ -331,9 +332,9 @@ public class Dashboard extends JPanel implements ActionListener {
         int roundedLifeSteps = (int) fitbitInfo.getLifetime().getSteps();
 
         date.setText("");
-        totalDistanceData.setText("" + roundedLifeDistance);
-        floorsClimbedData.setText("" + roundedLifeFloors);
-        stepsTakenData.setText("" + roundedLifeSteps);
+        totalDistanceData.setText("" + roundedLifeDistance + " km");
+        floorsClimbedData.setText("" + roundedLifeFloors + " floors");
+        stepsTakenData.setText("" + roundedLifeSteps + " steps");
 
         this.refreshConfig();
         caloriesPanel.setVisible(false);
@@ -354,7 +355,7 @@ public class Dashboard extends JPanel implements ActionListener {
                 TimeGraph graph = new TimeGraph(title, yAxisTitle, Api.getTimeSeriesData(new SimpleDateFormat("yyyy-MM-dd").format(dateChooser.getDate()), activity, 1));
                 graph.showGraph();
             } catch (JSONException ex) {
-                System.out.println("WE MUST HANDLE THIS ERRROR JSON");
+                System.out.println("WE MUST HANDLE THIS ERROR JSON");
             } catch (RefreshTokenException ex) {
                 System.out.println("WE MUST HANDLE THIS ERROR: RTE");
             }
