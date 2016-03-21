@@ -2,6 +2,7 @@ package ca.uwo.csd.cs2212.team07;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 import javax.swing.JLabel;
@@ -163,36 +164,41 @@ public class Dashboard extends JPanel implements ActionListener {
         activityLabel.setFont(new Font(activityLabel.getFont().getName(), Font.PLAIN, 14));
         panel.add(activityLabel);
 
-        if (activity.equals("Calories Burned")) {
-            caloriesTimeButton = new JButton("Time Series Data");
-            caloriesTimeButton.addActionListener(this);
-            caloriesTimeButton.setToolTipText("Time Series Data for Calories Burned");
-            ImageIcon icon = new ImageIcon(FileReader.getImage("dataicons/graph.png"));
-            caloriesTimeButton.setIcon(icon);
-            panel.add(Box.createHorizontalGlue());
-            panel.add(caloriesTimeButton);
-        } else if (activity.equals("Total Distance")) {
-            distanceTimeButton = new JButton("Time Series Data");
-            distanceTimeButton.addActionListener(this);
-            distanceTimeButton.setToolTipText("Time Series Data for Total Distance");
-            ImageIcon icon = new ImageIcon(FileReader.getImage("dataicons/graph.png"));
-            distanceTimeButton.setIcon(icon);
-            panel.add(Box.createHorizontalGlue());
-            panel.add(distanceTimeButton);
-        } else if (activity.equals("Steps Taken")) {
-            stepsTimeButton = new JButton("Time Series Data");
-            stepsTimeButton.addActionListener(this);
-            stepsTimeButton.setToolTipText("Time Series Data for Steps Taken");
-            ImageIcon icon = new ImageIcon(FileReader.getImage("dataicons/graph.png"));
-            stepsTimeButton.setIcon(icon);
-            panel.add(Box.createHorizontalGlue());
-            panel.add(stepsTimeButton);
-        }
         panel.add(Box.createHorizontalGlue());
 
         data.setFont(new Font(data.getFont().getName(), Font.PLAIN, 14));
         panel.add(data);
-        panel.add(Box.createHorizontalStrut(50));
+
+        panel.add(Box.createHorizontalStrut(40));
+
+        if (activity.equals("Calories Burned")) {
+            caloriesTimeButton = new JButton();
+            caloriesTimeButton.addActionListener(this);
+            caloriesTimeButton.setToolTipText("Time Series Data for Calories Burned");
+            ImageIcon icon = new ImageIcon(FileReader.getImage("dataicons/graph.png"));
+            caloriesTimeButton.setIcon(icon);
+            caloriesTimeButton.setPreferredSize(new Dimension(35, 35));
+            panel.add(caloriesTimeButton);
+        } else if (activity.equals("Total Distance")) {
+            distanceTimeButton = new JButton();
+            distanceTimeButton.addActionListener(this);
+            distanceTimeButton.setToolTipText("Time Series Data for Total Distance");
+            ImageIcon icon = new ImageIcon(FileReader.getImage("dataicons/graph.png"));
+            distanceTimeButton.setIcon(icon);
+            distanceTimeButton.setPreferredSize(new Dimension(35, 35));
+            panel.add(distanceTimeButton);
+        } else if (activity.equals("Steps Taken")) {
+            stepsTimeButton = new JButton();
+            stepsTimeButton.addActionListener(this);
+            stepsTimeButton.setToolTipText("Time Series Data for Steps Taken");
+            ImageIcon icon = new ImageIcon(FileReader.getImage("dataicons/graph.png"));
+            stepsTimeButton.setIcon(icon);
+            stepsTimeButton.setPreferredSize(new Dimension(35, 35));
+            panel.add(stepsTimeButton);
+        } else {
+            panel.add(Box.createHorizontalStrut(35));
+        }
+        panel.add(Box.createHorizontalStrut(35));
 
         return panel;
     }

@@ -194,15 +194,25 @@ public class MainWindow extends JFrame implements ActionListener {
 
         //South Bar creation - for refresh info
         JPanel bottomBar = new JPanel();
+        bottomBar.setLayout(new BoxLayout(bottomBar, BoxLayout.X_AXIS));
         bottomBar.setBackground(panelColor);
+
+        JLabel fitbitCredit = new JLabel("Designed for use with the FITBIT® platform.");
+        fitbitCredit.setForeground(Color.white);
+        fitbitCredit.setFont(new Font(fitbitCredit.getFont().getName(), Font.PLAIN, 10));
+        bottomBar.add(Box.createHorizontalStrut(20));
+        bottomBar.add(fitbitCredit);
 
         Date date = fitbitInfo.getLastRefreshTime().getTime();
         lastRefresh = new JLabel("last synced: " + new SimpleDateFormat("dd MMM yyyy").format(date)
                 + " at " + new SimpleDateFormat("h:mm:ss a z").format(date));
         lastRefresh.setFont(new Font(lastRefresh.getFont().getName(), Font.PLAIN, 10));
         lastRefresh.setForeground(Color.white);
-
+        bottomBar.add(Box.createHorizontalGlue());
+        bottomBar.add(Box.createVerticalStrut(25)); //vertical height of bottom bar
         bottomBar.add(lastRefresh);
+        bottomBar.add(Box.createHorizontalStrut(20));
+
         //End of South Bar creation
         this.add(bottomBar, BorderLayout.SOUTH);
 
