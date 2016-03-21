@@ -21,8 +21,14 @@ import javax.swing.JToggleButton;
 import org.json.JSONException;
 
 /**
- * Creates a Dashboard panel that displays the Dashboard to the user.
- *
+ * This class is devoted to create a panel in the software to display the daily goals set by the user
+ * there are progress bar to help visualize the achievement users make in a day. 
+ * Users also enjoy the freedom of choosing what data they would like to be shown on the panel by changing the settings
+ * 
+ * <p> the method SwitchDay in this class all throw a <tt>JSONException</tt> if it fails to fetch the data 
+ * in the right format from the server. 
+ * 
+ * 
  * @author team07
  */
 public class DailyGoals extends JPanel implements ActionListener {
