@@ -23,18 +23,18 @@ import org.json.JSONException;
 /**
  * Creates a Dashboard panel that displays the daily goals to the user.
  *
-=======
- * This class is devoted to create a panel in the software to display the daily goals set by the user
- * there are progress bar to help visualize the achievement users make in a day. 
- * Users also enjoy the freedom of choosing what data they would like to be shown on the panel by changing the settings
- * 
- * <p> the method SwitchDay in this class all throw a <tt>JSONException</tt> if it fails to fetch the data 
- * in the right format from the server. 
- * 
- * 
+ * ======= This class is devoted to create a panel in the software to display
+ * the daily goals set by the user there are progress bar to help visualize the
+ * achievement users make in a day. Users also enjoy the freedom of choosing
+ * what data they would like to be shown on the panel by changing the settings
+ *
+ * <p>
+ * the method SwitchDay in this class all throw a <tt>JSONException</tt> if it
+ * fails to fetch the data in the right format from the server.
+ *
+ *
  * @author team07
  */
-
 public class DailyGoals extends JPanel implements ActionListener {
 
     private final FitbitInfo fitbitInfo;
@@ -113,19 +113,19 @@ public class DailyGoals extends JPanel implements ActionListener {
         distanceEdit = new JButton("Edit");
         distanceEdit.addActionListener(this);
         distancePanel = this.createDataBox(new JLabel("Total Distance"), totalDistanceBar, distanceEdit, "dataicons/distance.png", new Color(180, 255, 190));
-        
+
         //FLOORS
         floorsClimbedBar = new JProgressBar();
         floorsEdit = new JButton("Edit");
         floorsEdit.addActionListener(this);
         floorsPanel = this.createDataBox(new JLabel("Floors Climbed"), floorsClimbedBar, floorsEdit, "dataicons/floors.png", new Color(255, 220, 180));
-        
+
         //STEPS
         stepsTakenBar = new JProgressBar();
         stepsEdit = new JButton("Edit");
         stepsEdit.addActionListener(this);
         stepsPanel = this.createDataBox(new JLabel("Steps Taken"), stepsTakenBar, stepsEdit, "dataicons/steps.png", new Color(180, 250, 255));
-        
+
         //ACTIVE MINS
         activeMinutesBar = new JProgressBar();
         activeEdit = new JButton("Edit");
@@ -174,7 +174,7 @@ public class DailyGoals extends JPanel implements ActionListener {
         JLabel iconLabel = new JLabel(iconImage);
         panel.add(Box.createHorizontalStrut(50));
         panel.add(iconLabel);
-        panel.add(Box.createHorizontalStrut(70));
+        panel.add(Box.createHorizontalStrut(40));
 
         header.setFont(defaultFont);
         panel.add(header);
@@ -382,13 +382,13 @@ public class DailyGoals extends JPanel implements ActionListener {
     }
 
     /**
-     * Allows the user to set a custom Daily Goal. Uses Fitbit goal if a
+     * Allows the user to set a custom Daily Goal. Uses FitBit goal if a
      * negative number is typed
      *
      * @param field the activity to set a new daily goal for
      */
     private void setGoal(String field) {
-        String input = JOptionPane.showInputDialog(this, "New " + field + " Goal (enter negative number to use fitbit goals)", "Edit a Daily Goal", JOptionPane.PLAIN_MESSAGE);
+        String input = JOptionPane.showInputDialog(this, ("Enter new goal, or -1 to use goal from FitBit:"), ("Daily Goal - " + field), JOptionPane.PLAIN_MESSAGE);
 
         if (input != null) {
             try {
@@ -412,7 +412,13 @@ public class DailyGoals extends JPanel implements ActionListener {
                 System.out.println("Not a number. Please try again.");
             }
         }
+    }
 
+    /**
+     * Displays data relevant to today (or when FitbitInfo was last refreshed)
+     */
+    public void showToday() {
+        todayButton.doClick();
     }
 
 }

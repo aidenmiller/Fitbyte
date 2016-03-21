@@ -25,6 +25,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import org.json.JSONException;
 
 /**
@@ -56,6 +57,7 @@ public class MainWindow extends JFrame implements ActionListener {
     private CardLayout cardLayout;
 
     private Color panelColor;
+    private Timer timer;
 
     /**
      * Constructs a new Main Window
@@ -124,7 +126,7 @@ public class MainWindow extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
         this.setLayout(new BorderLayout());
-        panelColor = new Color(0, 80, 105);
+        panelColor = new Color(79, 38, 131);
 
         // Creation of the Menu Bar
         JPanel topBar = new JPanel();
@@ -321,13 +323,14 @@ public class MainWindow extends JFrame implements ActionListener {
      * the displays
      */
     private void refreshInfo() {
+
         if (fitbitInfo.isTestMode()) {
             fitbitInfo.testModeData();
         } else {
             try {
                 fitbitInfo.refreshInfo(Calendar.getInstance());
             } catch (JSONException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
+                System.err.println("Unable to refresh. Please try again later.");
                 return;
             } catch (RefreshTokenException ex) {
                 JOptionPane.showMessageDialog(new JFrame(), "RefreshTokenException - tokens out of date");
@@ -335,16 +338,41 @@ public class MainWindow extends JFrame implements ActionListener {
             }
         }
 
+        lastRefresh.setForeground(Color.yellow);
+        timer = new Timer(2000, this);
+        timer.setRepeats(false);
+        timer.start();
+
         Date date = fitbitInfo.getLastRefreshTime().getTime();
         lastRefresh.setText("last synced: " + new SimpleDateFormat("dd MMM yyyy").format(date)
                 + " at " + new SimpleDateFormat("h:mm:ss a z").format(date));
         this.refreshPanels();
     }
 
+    /**
+     * Calls a refresh to each menu pane to update Fitbit data and user
+     * configuration
+     */
     private void refreshPanels() {
         dashboard.refresh();
         dailyGoals.refresh();
+        //heartRate.refresh();
         accolades.refresh();
+    }
+
+    /**
+     * View the settings JOptionPane which modifies user configuration options
+     */
+    private void viewSettings() {
+        SettingsWindow settingsWindow = new SettingsWindow(userConfig);
+        int n = JOptionPane.showOptionDialog(this, settingsWindow,
+                "User Settings", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE, null, null, null);
+
+        if (n == JOptionPane.OK_OPTION) {
+            settingsWindow.saveSettings();
+            this.refreshPanels();
+        }
     }
 
     /**
@@ -355,10 +383,11 @@ public class MainWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == dashboardButton) {
             this.setTitle("FitByte - Dashboard");
-            cardLayout.show(cardPane, "Dashboard");
             dashboard.showToday();
+            cardLayout.show(cardPane, "Dashboard");
         } else if (e.getSource() == dailyGoalsButton) {
             this.setTitle("FitByte - Daily Goals");
+            dailyGoals.showToday();
             cardLayout.show(cardPane, "Daily Goals");
         } else if (e.getSource() == heartRateButton) {
             this.setTitle("FitByte - Heart Rate Zones");
@@ -377,18 +406,8 @@ public class MainWindow extends JFrame implements ActionListener {
             }
             this.dispose();
             System.exit(0);
-        }
-    }
-
-    private void viewSettings() {
-        SettingsWindow settingsWindow = new SettingsWindow(userConfig);
-        int n = JOptionPane.showOptionDialog(this, settingsWindow,
-                "User Settings", JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE, null, null, null);
-
-        if (n == JOptionPane.OK_OPTION) {
-            settingsWindow.saveSettings();
-            this.refreshPanels();
+        } else if (e.getSource() == timer) {
+            lastRefresh.setForeground(Color.white);
         }
     }
 
