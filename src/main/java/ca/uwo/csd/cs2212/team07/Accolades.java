@@ -559,12 +559,13 @@ public class Accolades extends JPanel {
      * @return a JPanel containing the data box for the data item
      */
     private JPanel createDataBox(JLabel header, JLabel iconLabel1, JLabel iconLabel2, JLabel iconLabel3, Color color) {
+       Font defaultFont = new Font("Helvetica", Font.PLAIN, 15);
         JPanel panel = new JPanel();
 
         panel.setBackground(color);
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.add(Box.createHorizontalStrut(50));
-        header.setFont(new Font(header.getFont().getName(), Font.PLAIN, 14));
+        header.setFont(defaultFont);
         panel.add(header);
         panel.add(Box.createHorizontalGlue());
         panel.add(iconLabel1);
