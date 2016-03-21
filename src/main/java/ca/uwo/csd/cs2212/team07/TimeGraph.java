@@ -10,6 +10,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.data.general.SeriesException;
 import org.jfree.data.time.Minute;
@@ -59,6 +60,9 @@ public class TimeGraph extends ApplicationFrame {
         chart.getXYPlot().setDomainCrosshairLockedOnData(true);
         chart.getXYPlot().setRangeCrosshairVisible(true);
         chart.getXYPlot().setRangeCrosshairLockedOnData(true);
+        chart.getXYPlot().getRangeAxis().setAutoRange(true);
+        chart.getXYPlot().getRangeAxis().setLowerBound(0.0f);
+     
 
     }
 
