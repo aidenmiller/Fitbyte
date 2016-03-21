@@ -21,7 +21,7 @@ public class Accolades extends JPanel {
     private JLabel stepsTakenData, caloriesBurnedData, totalDistanceData, floorsClimbedData, activeMinutesData, dailyGoalsData, accoladesEarnedData;
 
     private JPanel stepsPanel, caloriesPanel, distancePanel, floorsPanel, activePanel, goalsPanel, accoladesPanel;
-    
+
     private JLabel calLabel1, calLabel2, calLabel3;
     private JLabel disLabel1, disLabel2, disLabel3;
     private JLabel flLabel1, flLabel2, flLabel3;
@@ -29,7 +29,7 @@ public class Accolades extends JPanel {
     private JLabel actLabel1, actLabel2, actLabel3;
     private JLabel goLabel1, goLabel2, goLabel3;
     private JLabel acLabel1, acLabel2, acLabel3;
-    
+
     private long calories, active, steps;
     private double distance, floors;
     private int goals, totalAccolades;
@@ -41,20 +41,20 @@ public class Accolades extends JPanel {
     private String floorsBronze, floorsSilver, floorsGold;
     private String goalsBronze, goalsSilver, goalsGold;
     private String accoladesBronze, accoladesSilver, accoladesGold;
-    
+
     private ImageIcon calImage1, calImage2, calImage3;
     private ImageIcon disImage1, disImage2, disImage3;
     private ImageIcon flImage1, flImage2, flImage3;
     private ImageIcon stImage1, stImage2, stImage3;
     private ImageIcon actImage1, actImage2, actImage3;
     private ImageIcon goImage1, goImage2, goImage3;
-    private ImageIcon acImage1, acImage2, acImage3;   
+    private ImageIcon acImage1, acImage2, acImage3;
 
     /**
-     * Constructor for the Daily Goals class
+     * Constructor for the Accolades class
      *
      * @param fitbitInfo container for user data
-     * @param userConfig container to save progress data
+     * @param userConfig container that holds user configuration
      */
     public Accolades(FitbitInfo fitbitInfo, UserConfig userConfig) {
         super();
@@ -63,11 +63,14 @@ public class Accolades extends JPanel {
         initPanel();
     }
 
+    /**
+     * Initializes the UI panel for the accolades
+     */
     private void initPanel() {
 
         //Background color
         this.setBackground(Color.white);
-        
+
         //Reset file names for accolades to gray icons
         caloriesBronze = "accolades/caloriesBronzeGray.png";
         caloriesSilver = "accolades/caloriesSilverGray.png";
@@ -90,7 +93,7 @@ public class Accolades extends JPanel {
         accoladesBronze = "accolades/totalBronzeGray.png";
         accoladesSilver = "accolades/totalSilverGray.png";
         accoladesGold = "accolades/totalGoldGray.png";
-        
+
         //Panels for each data item
         caloriesBurnedData = new JLabel("Calories Burned (1000 cal, 2000 cal, 3000 cal)");
         calImage1 = new ImageIcon(FileReader.getImage(caloriesBronze));
@@ -103,7 +106,6 @@ public class Accolades extends JPanel {
         calLabel3 = new JLabel(calImage3);
         calLabel3.setToolTipText("Not yet achieved.");
         caloriesPanel = this.createDataBox(caloriesBurnedData, calLabel1, calLabel2, calLabel3, new Color(255, 175, 175));
-        
 
         totalDistanceData = new JLabel("Distance Travelled (1 km , 3 km, 5 km)");
         disImage1 = new ImageIcon(FileReader.getImage(distanceBronze));
@@ -185,17 +187,17 @@ public class Accolades extends JPanel {
         this.add(activePanel);
         this.add(goalsPanel);
         this.add(accoladesPanel);
-        
-        this.refresh();        
+
+        this.refresh();
     }
 
     /**
-     * Refresh the data displayed to the user
+     * Refreshes the data displayed to the user
      */
     public void refresh() {
-        
+
         this.refreshConfig();
-        
+
         //Check for new records
         calories = fitbitInfo.getDay().getCaloriesOut();
         distance = fitbitInfo.getDay().getDistance();
@@ -203,8 +205,8 @@ public class Accolades extends JPanel {
         steps = fitbitInfo.getDay().getSteps();
         active = fitbitInfo.getDay().getActiveMins();
         goals = userConfig.getGoalsComplete();
-        totalAccolades = userConfig.getAccoladesComplete();  
-       
+        totalAccolades = userConfig.getAccoladesComplete();
+
         //Update accolade icons based on records
         if (calories >= 1000) {
             if (false == userConfig.isCaloriesAccoladeBronze()) {
@@ -337,7 +339,7 @@ public class Accolades extends JPanel {
             }
             if (goals >= 3) {
                 if (false == userConfig.isGoalsAccoladeSilver()) {
-                   String  goalsDate2 = fitbitInfo.getDay().getDate();
+                    String goalsDate2 = fitbitInfo.getDay().getDate();
                     userConfig.setGoalsAccoladeSilver(true);
                     userConfig.setGoalsAccoladeSilverDate("Achieved on: " + goalsDate2);
                     userConfig.incAccoladesComplete();
@@ -352,8 +354,8 @@ public class Accolades extends JPanel {
                 }
             }
         }
-        
-        totalAccolades = userConfig.getAccoladesComplete(); 
+
+        totalAccolades = userConfig.getAccoladesComplete();
         if (totalAccolades >= 5) {
             if (false == userConfig.isAccoladesAccoladeBronze()) {
                 String accoladesDate1 = fitbitInfo.getDay().getDate();
@@ -381,7 +383,7 @@ public class Accolades extends JPanel {
                 }
             }
         }
-        
+
         //Update which trophies to display based on stored information in userConfig
         //Calories
         if (true == userConfig.isCaloriesAccoladeBronze()) {
@@ -458,7 +460,7 @@ public class Accolades extends JPanel {
         if (true == userConfig.isAccoladesAccoladeGold()) {
             accoladesGold = "accolades/totalGold.png";
         }
-        
+
         //Update labels with refreshed information
         calImage1 = new ImageIcon(FileReader.getImage(caloriesBronze));
         calImage2 = new ImageIcon(FileReader.getImage(caloriesSilver));
@@ -531,24 +533,26 @@ public class Accolades extends JPanel {
         acLabel3.setToolTipText(userConfig.getAccoladesAccoladeGoldDate());
     }
 
+    /**
+     * Hides or displays accolades based on user configurations set
+     */
     public void refreshConfig() {
         caloriesPanel.setVisible(userConfig.isCaloriesData());
         distancePanel.setVisible(userConfig.isDistanceData());
         floorsPanel.setVisible(userConfig.isFloorsData());
         stepsPanel.setVisible(userConfig.isStepsData());
         activePanel.setVisible(userConfig.isActiveData());
-        if (userConfig.isCaloriesData() == false && userConfig.isDistanceData() == false && userConfig.isFloorsData() == false && userConfig.isStepsData() == false && userConfig.isActiveData() == false){
+        if (userConfig.isCaloriesData() == false && userConfig.isDistanceData() == false && userConfig.isFloorsData() == false && userConfig.isStepsData() == false && userConfig.isActiveData() == false) {
             goalsPanel.setVisible(false);
             accoladesPanel.setVisible(false);
-        }
-        else {
+        } else {
             goalsPanel.setVisible(true);
             accoladesPanel.setVisible(true);
         }
     }
 
     /**
-     * Create a data box for one of the data items displayed on the Dashboard
+     * Create a data box for one of the data items displayed on the Accolades
      *
      * @param data data to display
      * @param color the color of the data box
@@ -572,7 +576,7 @@ public class Accolades extends JPanel {
         panel.add(Box.createHorizontalStrut(50));
         panel.add(iconLabel3);
         panel.add(Box.createHorizontalStrut(50));
-        
+
         return panel;
     }
 }

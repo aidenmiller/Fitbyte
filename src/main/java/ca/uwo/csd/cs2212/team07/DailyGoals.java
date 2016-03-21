@@ -46,7 +46,7 @@ public class DailyGoals extends JPanel implements ActionListener {
     private JButton activeEdit;
 
     /**
-     * Constructor for the Dashboard class
+     * Constructor for the Daily Goals class
      *
      * @param fitbitInfo container for user data
      * @param userConfig container for user configuration
@@ -59,7 +59,7 @@ public class DailyGoals extends JPanel implements ActionListener {
     }
 
     /**
-     * Initializes the panel that displays the Dashboard
+     * Initializes the panel that displays the Daily Goals
      */
     private void initPanel() {
         this.setBackground(Color.white);
@@ -139,7 +139,7 @@ public class DailyGoals extends JPanel implements ActionListener {
     }
 
     /**
-     * Create a data box for one of the data items displayed on the Dashboard
+     * Create a data box for one of the data items displayed on Daily Goals
      *
      * @param header name of data item
      * @param data the data to display
@@ -173,7 +173,7 @@ public class DailyGoals extends JPanel implements ActionListener {
     }
 
     /**
-     * Refreshes the Dashboard after refreshing the data in FitbitInfo or
+     * Refreshes the Daily Goals after refreshing the data in FitbitInfo or
      * returning to Today's view
      */
     public void refresh() {
@@ -255,7 +255,7 @@ public class DailyGoals extends JPanel implements ActionListener {
     }
 
     /**
-     * Sets the results of clicking different buttons on the Dashboard
+     * Sets the results of clicking different buttons on the Daily Goals
      *
      * @param e event called when button is pressed
      */
@@ -279,6 +279,10 @@ public class DailyGoals extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Displays a previous day selected from the DateChooserGUI with goals and
+     * data from that day
+     */
     private void switchDay() {
         dateChooser = new DateChooserGUI((Calendar) fitbitInfo.getLastRefreshTime().clone(), false);
         int n = JOptionPane.showOptionDialog(this, dateChooser,
@@ -347,6 +351,9 @@ public class DailyGoals extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Hides or shows Daily Goals based on user configuration
+     */
     public void refreshConfig() {
         caloriesPanel.setVisible(userConfig.isCaloriesData());
         distancePanel.setVisible(userConfig.isDistanceData());
@@ -355,6 +362,12 @@ public class DailyGoals extends JPanel implements ActionListener {
         activePanel.setVisible(userConfig.isActiveData());
     }
 
+    /**
+     * Allows the user to set a custom Daily Goal. Uses Fitbit goal if a
+     * negative number is typed
+     *
+     * @param field the activity to set a new daily goal for
+     */
     private void setGoal(String field) {
         String input = JOptionPane.showInputDialog(this, "New " + field + " Goal (enter negative number to use fitbit goals)", "Edit a Daily Goal", JOptionPane.PLAIN_MESSAGE);
 
@@ -377,7 +390,7 @@ public class DailyGoals extends JPanel implements ActionListener {
                 }
                 this.refresh();
             } catch (Exception e) {
-                System.out.println("Not a number");
+                System.out.println("Not a number. Please try again.");
             }
         }
 
