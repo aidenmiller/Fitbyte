@@ -1,24 +1,18 @@
 package ca.uwo.csd.cs2212.team07;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.WindowEvent;
 import java.sql.Time;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.StandardChartTheme;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.data.general.SeriesException;
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.ApplicationFrame;
-import org.json.JSONException;
 
 /**
  * TimeGraph Class: This class creates a Graph window to display time series
@@ -46,24 +40,16 @@ public class TimeGraph extends ApplicationFrame {
         chartPanel.setMouseZoomable(true, false); // set zoomable in the x axis, but not the y axis
         chartPanel.setRangeZoomable(false);
         setContentPane(chartPanel); 
-        chart.getPlot().setBackgroundPaint(Color.WHITE); // set background colour of chart
-
-        //StandardChartTheme theme = (StandardChartTheme) org.jfree.chart.StandardChartTheme.createJFreeTheme(); // set chart theme
-        //ChartFactory.setChartTheme(theme);
-	//ChartUtilities.applyCurrentTheme(chart);
         
-      
-
+        /* CUSTOMIZE GRAPH */
+        chart.getPlot().setBackgroundPaint(Color.WHITE); // set background colour of chart
         chart.getTitle().setFont(new Font("Arial", 1, 24)); // set font and size of title
-
         chart.getXYPlot().setDomainCrosshairVisible(true); // show where user clicked
-        chart.getXYPlot().setDomainCrosshairLockedOnData(true);
-        chart.getXYPlot().setRangeCrosshairVisible(true);
-        chart.getXYPlot().setRangeCrosshairLockedOnData(true);
-        chart.getXYPlot().getRangeAxis().setAutoRange(true);
-        chart.getXYPlot().getRangeAxis().setLowerBound(0.0f);
-     
-
+        chart.getXYPlot().setDomainCrosshairLockedOnData(true); // Ensure that crosshair gets locked on exact data point
+        chart.getXYPlot().setRangeCrosshairVisible(true); // set the crosshair where the user clicked as visible
+        chart.getXYPlot().setRangeCrosshairLockedOnData(true); //ensure that crosshair gets locked on exact data point
+        chart.getXYPlot().getRangeAxis().setAutoRange(true);   //graph's range will be automatically generated based on data
+        chart.getXYPlot().getRangeAxis().setLowerBound(0.0f);  // data will never be negative, set lower bound of range as 0s
     }
 
     /**
@@ -94,12 +80,15 @@ public class TimeGraph extends ApplicationFrame {
                 System.err.println("Error adding to series");
             }
         }
-
         return new TimeSeriesCollection(series); // return the TimeSeriesCollection that the chart will be able to use for population
     }
     
+    /**
+     * windowClosing() method, overrides the default window closing
+     * @param e WindowEvent of user clicking on 'X'
+     */
     public void windowClosing(WindowEvent e) {
-        this.setVisible(false);
+        this.setVisible(false); //hide window
     }
 
     /**
