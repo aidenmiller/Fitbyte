@@ -53,8 +53,8 @@ public class Accolades extends JPanel {
     /**
      * Constructor for the Accolades class
      *
-     * @param fitbitInfo container for user data
-     * @param userConfig container that holds user configuration
+     * @param fitbitInfo Container for user data
+     * @param userConfig Container that holds user configuration through program launches
      */
     public Accolades(FitbitInfo fitbitInfo, UserConfig userConfig) {
         super();
@@ -232,7 +232,6 @@ public class Accolades extends JPanel {
                 }
             }
         }
-
         if (distance >= 1.0) {
             if (false == userConfig.isDistanceAccoladeBronze()) {
                 String distanceDate1 = fitbitInfo.getDay().getDate();
@@ -329,7 +328,6 @@ public class Accolades extends JPanel {
                 }
             }
         }
-
         if (goals >= 1) {
             if (false == userConfig.isGoalsAccoladeBronze()) {
                 String goalsDate1 = fitbitInfo.getDay().getDate();
@@ -354,7 +352,6 @@ public class Accolades extends JPanel {
                 }
             }
         }
-
         totalAccolades = userConfig.getAccoladesComplete();
         if (totalAccolades >= 5) {
             if (false == userConfig.isAccoladesAccoladeBronze()) {
@@ -554,11 +551,11 @@ public class Accolades extends JPanel {
     /**
      * Create a data box for one of the data items displayed on the Accolades
      *
-     * @param data data to display
-     * @param color the color of the data box
-     * @param iconFile bronze accolade earned
-     * @param iconFile2 silver accolade earned
-     * @param iconFile3 gold accolade earned
+     * @param header Name of data to display
+     * @param iconFile JLabel of bronze accolade
+     * @param iconFile2 JLabel of silver accolade
+     * @param iconFile3 JLabel of gold accolade
+     * @param color Color of the data box
      * @return a JPanel containing the data box for the data item
      */
     private JPanel createDataBox(JLabel header, JLabel iconLabel1, JLabel iconLabel2, JLabel iconLabel3, Color color) {
