@@ -2,7 +2,6 @@ package ca.uwo.csd.cs2212.team07;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 import javax.swing.JLabel;
@@ -12,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -247,6 +245,9 @@ public class Dashboard extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Displays a date selected on the DateChooserGUI
+     */
     private void switchDay() {
         dateChooser = new DateChooserGUI((Calendar) fitbitInfo.getLastRefreshTime().clone(), false);
         int n = JOptionPane.showOptionDialog(this, dateChooser,
@@ -345,6 +346,13 @@ public class Dashboard extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Displays time series data for the given activity
+     *
+     * @param title the title of the graph
+     * @param yAxisTitle the title of the y axis
+     * @param activity the activity to display
+     */
     private void displayTimeGraph(String title, String yAxisTitle, String activity) {
         if (fitbitInfo.isTestMode()) {
             JOptionPane.showMessageDialog(new JFrame(), "Time Graph not available in test mode");
@@ -361,6 +369,9 @@ public class Dashboard extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Hides or shows panels based on user configuration
+     */
     private void refreshConfig() {
         caloriesPanel.setVisible(userConfig.isCaloriesData());
         distancePanel.setVisible(userConfig.isDistanceData());
@@ -370,6 +381,9 @@ public class Dashboard extends JPanel implements ActionListener {
         sedentaryPanel.setVisible(userConfig.isSedentaryData());
     }
 
+    /**
+     * Displays data relevant to today (or when FitbitInfo was last refreshed)
+     */
     public void showToday() {
         todayButton.doClick();
     }
