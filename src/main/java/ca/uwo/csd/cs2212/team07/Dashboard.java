@@ -31,6 +31,7 @@ public class Dashboard extends JPanel implements ActionListener {
 
     private final FitbitInfo fitbitInfo;
     private final UserConfig userConfig;
+    
 
     private JLabel date;
     private JLabel caloriesBurnedData, totalDistanceData, floorsClimbedData, stepsTakenData, activeMinutesData, sedentaryMinutesData;
@@ -149,6 +150,7 @@ public class Dashboard extends JPanel implements ActionListener {
      * @return a JPanel containing the data box for the data item
      */
     private JPanel createDataBox(String activity, JLabel data, String iconFile, Color color) {
+        Font defaultFont = new Font("Helvetica", Font.PLAIN, 15);
         JPanel panel = new JPanel();
 
         panel.setBackground(color);
@@ -161,12 +163,11 @@ public class Dashboard extends JPanel implements ActionListener {
         panel.add(Box.createHorizontalStrut(70));
 
         JLabel activityLabel = new JLabel(activity);
-        activityLabel.setFont(new Font(activityLabel.getFont().getName(), Font.PLAIN, 14));
+        activityLabel.setFont(defaultFont);
         panel.add(activityLabel);
 
         panel.add(Box.createHorizontalGlue());
-
-        data.setFont(new Font(data.getFont().getName(), Font.PLAIN, 14));
+        data.setFont(defaultFont);
         panel.add(data);
 
         panel.add(Box.createHorizontalStrut(40));

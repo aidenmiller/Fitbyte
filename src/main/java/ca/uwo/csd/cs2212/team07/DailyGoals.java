@@ -165,6 +165,7 @@ public class DailyGoals extends JPanel implements ActionListener {
      * @return a JPanel containing the data box for the data item
      */
     private JPanel createDataBox(JLabel header, JProgressBar progBar, JButton edit, String iconFile, Color color) {
+        Font defaultFont = new Font("Helvetica", Font.PLAIN, 15);
         JPanel panel = new JPanel();
 
         panel.setBackground(color);
@@ -175,7 +176,7 @@ public class DailyGoals extends JPanel implements ActionListener {
         panel.add(iconLabel);
         panel.add(Box.createHorizontalStrut(70));
 
-        header.setFont(new Font(header.getFont().getName(), Font.PLAIN, 14));
+        header.setFont(defaultFont);
         panel.add(header);
         panel.add(Box.createHorizontalGlue());
 
