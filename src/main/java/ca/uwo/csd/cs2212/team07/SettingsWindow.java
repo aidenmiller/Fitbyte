@@ -1,13 +1,12 @@
 package ca.uwo.csd.cs2212.team07;
 
-import java.awt.Color;
-import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JToggleButton;
 
 /**
  * Creates a Settings Panel to be displayed in the JOptionPane.
@@ -16,7 +15,7 @@ import javax.swing.JRadioButton;
  */
 public class SettingsWindow extends JPanel {
 
-    private final UserConfig userConfig;
+    private UserConfig userConfig;
     private JRadioButton caloriesOn;
     private JRadioButton caloriesOff;
     private JRadioButton distanceOn;
@@ -34,6 +33,7 @@ public class SettingsWindow extends JPanel {
     private JRadioButton peakOn, peakOff;
     private JRadioButton cardioOn, cardioOff;
     private JRadioButton outOn, outOff;
+    private JToggleButton resetButton;
 
     /**
      * Constructs a new Main Window

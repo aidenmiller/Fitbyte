@@ -31,7 +31,6 @@ public class Dashboard extends JPanel implements ActionListener {
 
     private final FitbitInfo fitbitInfo;
     private final UserConfig userConfig;
-    
 
     private JLabel date;
     private JLabel caloriesBurnedData, totalDistanceData, floorsClimbedData, stepsTakenData, activeMinutesData, sedentaryMinutesData;
@@ -160,17 +159,11 @@ public class Dashboard extends JPanel implements ActionListener {
         ImageIcon iconImage = new ImageIcon(FileReader.getImage(iconFile));
         JLabel iconLabel = new JLabel(iconImage);
         panel.add(iconLabel);
-        panel.add(Box.createHorizontalStrut(70));
+        panel.add(Box.createHorizontalStrut(40));
 
         JLabel activityLabel = new JLabel(activity);
         activityLabel.setFont(defaultFont);
         panel.add(activityLabel);
-
-        panel.add(Box.createHorizontalGlue());
-        data.setFont(defaultFont);
-        panel.add(data);
-
-        panel.add(Box.createHorizontalStrut(40));
 
         if (activity.equals("Calories Burned")) {
             caloriesTimeButton = new JButton();
@@ -179,6 +172,7 @@ public class Dashboard extends JPanel implements ActionListener {
             ImageIcon icon = new ImageIcon(FileReader.getImage("dataicons/graph.png"));
             caloriesTimeButton.setIcon(icon);
             caloriesTimeButton.setPreferredSize(new Dimension(35, 35));
+            panel.add(Box.createHorizontalStrut(250));
             panel.add(caloriesTimeButton);
         } else if (activity.equals("Total Distance")) {
             distanceTimeButton = new JButton();
@@ -187,6 +181,7 @@ public class Dashboard extends JPanel implements ActionListener {
             ImageIcon icon = new ImageIcon(FileReader.getImage("dataicons/graph.png"));
             distanceTimeButton.setIcon(icon);
             distanceTimeButton.setPreferredSize(new Dimension(35, 35));
+            panel.add(Box.createHorizontalStrut(260));
             panel.add(distanceTimeButton);
         } else if (activity.equals("Steps Taken")) {
             stepsTimeButton = new JButton();
@@ -195,12 +190,15 @@ public class Dashboard extends JPanel implements ActionListener {
             ImageIcon icon = new ImageIcon(FileReader.getImage("dataicons/graph.png"));
             stepsTimeButton.setIcon(icon);
             stepsTimeButton.setPreferredSize(new Dimension(35, 35));
+            panel.add(Box.createHorizontalStrut(270));
             panel.add(stepsTimeButton);
-        } else {
-            panel.add(Box.createHorizontalStrut(35));
         }
-        panel.add(Box.createHorizontalStrut(35));
+        panel.add(Box.createHorizontalGlue());
 
+        data.setFont(defaultFont);
+        panel.add(data);
+        panel.add(Box.createHorizontalStrut(50));
+        
         return panel;
     }
 
@@ -368,10 +366,13 @@ public class Dashboard extends JPanel implements ActionListener {
                 TimeGraph graph = new TimeGraph(title, yAxisTitle, Api.getTimeSeriesData(new SimpleDateFormat("yyyy-MM-dd").format(dateChooser.getDate()), activity, 1));
                 graph.showGraph();
             } catch (JSONException ex) {
-                System.out.println("WE MUST HANDLE THIS ERROR JSON");
+                System.err.println("WE MUST HANDLE THIS ERROR JSON");
             } catch (RefreshTokenException ex) {
-                System.out.println("WE MUST HANDLE THIS ERROR: RTE");
+                System.err.println("Unable to open Time Series Data for " + activity + " due to outdated team07tokens.txt file");
+            } catch (Exception ex) {
+                System.err.println("An unexpected error occured - please check tokens");
             }
+
         }
 
     }
