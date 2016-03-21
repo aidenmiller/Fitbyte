@@ -165,7 +165,7 @@ public class Accolades extends JPanel {
         goLabel2.setToolTipText("Not yet achieved.");
         goLabel3 = new JLabel(goImage3);
         goLabel3.setToolTipText("Not yet achieved.");
-        goalsPanel = this.createDataBox(dailyGoalsData, goLabel1, goLabel2, goLabel3, new Color(70, 240, 40));
+        goalsPanel = this.createDataBox(dailyGoalsData, goLabel1, goLabel2, goLabel3, new Color(160, 245, 185));
 
         accoladesEarnedData = new JLabel("Total Accolades Earned (5 accolades, 10 accolades, 20 accolades)");
         acImage1 = new ImageIcon(FileReader.getImage(accoladesBronze));
