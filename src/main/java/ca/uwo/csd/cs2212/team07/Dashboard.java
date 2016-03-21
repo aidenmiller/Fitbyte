@@ -169,7 +169,7 @@ public class Dashboard extends JPanel implements ActionListener {
             caloriesTimeButton.setToolTipText("Time Series Data for Calories Burned");
             ImageIcon icon = new ImageIcon(FileReader.getImage("dataicons/graph.png"));
             caloriesTimeButton.setIcon(icon);
-            panel.add(Box.createHorizontalGlue());
+            panel.add(Box.createHorizontalStrut(120));
             panel.add(caloriesTimeButton);
         } else if (activity.equals("Total Distance")) {
             distanceTimeButton = new JButton("Time Series Data");
@@ -177,7 +177,7 @@ public class Dashboard extends JPanel implements ActionListener {
             distanceTimeButton.setToolTipText("Time Series Data for Total Distance");
             ImageIcon icon = new ImageIcon(FileReader.getImage("dataicons/graph.png"));
             distanceTimeButton.setIcon(icon);
-            panel.add(Box.createHorizontalGlue());
+            panel.add(Box.createHorizontalStrut(132));
             panel.add(distanceTimeButton);
         } else if (activity.equals("Steps Taken")) {
             stepsTimeButton = new JButton("Time Series Data");
@@ -185,7 +185,7 @@ public class Dashboard extends JPanel implements ActionListener {
             stepsTimeButton.setToolTipText("Time Series Data for Steps Taken");
             ImageIcon icon = new ImageIcon(FileReader.getImage("dataicons/graph.png"));
             stepsTimeButton.setIcon(icon);
-            panel.add(Box.createHorizontalGlue());
+            panel.add(Box.createHorizontalStrut(146));
             panel.add(stepsTimeButton);
         }
         panel.add(Box.createHorizontalGlue());
