@@ -21,10 +21,20 @@ import javax.swing.JToggleButton;
 import org.json.JSONException;
 
 /**
- * Creates a Dashboard panel that displays the Dashboard to the user.
+ * Creates a Dashboard panel that displays the daily goals to the user.
  *
+=======
+ * This class is devoted to create a panel in the software to display the daily goals set by the user
+ * there are progress bar to help visualize the achievement users make in a day. 
+ * Users also enjoy the freedom of choosing what data they would like to be shown on the panel by changing the settings
+ * 
+ * <p> the method SwitchDay in this class all throw a <tt>JSONException</tt> if it fails to fetch the data 
+ * in the right format from the server. 
+ * 
+ * 
  * @author team07
  */
+
 public class DailyGoals extends JPanel implements ActionListener {
 
     private final FitbitInfo fitbitInfo;
@@ -65,7 +75,7 @@ public class DailyGoals extends JPanel implements ActionListener {
         this.setBackground(Color.white);
 
         date = new JLabel("");
-        //Today, Best, Lifetime views
+        //Calendar, Today butons 
         calendarButton = new JToggleButton("Calendar");
         calendarButton.addActionListener(this);
         calendarButton.setToolTipText("View Previous Day");
@@ -89,26 +99,34 @@ public class DailyGoals extends JPanel implements ActionListener {
         displayPanel.add(Box.createHorizontalGlue());
         displayPanel.add(date);
         displayPanel.add(Box.createHorizontalStrut(15));
-        //End of Today, Best, Lifetime views
+        //End of Calendar, Today butons
 
         //Panels for each data item
+        //CALORIES
         caloriesBurnedBar = new JProgressBar();
         caloriesEdit = new JButton("Edit");
         caloriesEdit.addActionListener(this);
         caloriesPanel = this.createDataBox(new JLabel("Calories Burned"), caloriesBurnedBar, caloriesEdit, "dataicons/calories.png", new Color(255, 175, 175));
 
+        //DISTANCE
         totalDistanceBar = new JProgressBar();
         distanceEdit = new JButton("Edit");
         distanceEdit.addActionListener(this);
         distancePanel = this.createDataBox(new JLabel("Total Distance"), totalDistanceBar, distanceEdit, "dataicons/distance.png", new Color(180, 255, 190));
+        
+        //FLOORS
         floorsClimbedBar = new JProgressBar();
         floorsEdit = new JButton("Edit");
         floorsEdit.addActionListener(this);
         floorsPanel = this.createDataBox(new JLabel("Floors Climbed"), floorsClimbedBar, floorsEdit, "dataicons/floors.png", new Color(255, 220, 180));
+        
+        //STEPS
         stepsTakenBar = new JProgressBar();
         stepsEdit = new JButton("Edit");
         stepsEdit.addActionListener(this);
         stepsPanel = this.createDataBox(new JLabel("Steps Taken"), stepsTakenBar, stepsEdit, "dataicons/steps.png", new Color(180, 250, 255));
+        
+        //ACTIVE MINS
         activeMinutesBar = new JProgressBar();
         activeEdit = new JButton("Edit");
         activeEdit.addActionListener(this);
@@ -188,9 +206,9 @@ public class DailyGoals extends JPanel implements ActionListener {
 
         //CALORIES
         if (userConfig.getCalGoal() < 0) {
-            caloriesBurnedBar.setMaximum((int) day.getCalOutGoal());
+            caloriesBurnedBar.setMaximum((int) day.getCalOutGoal());//goal from fitbit
         } else {
-            caloriesBurnedBar.setMaximum((int) userConfig.getCalGoal());
+            caloriesBurnedBar.setMaximum((int) userConfig.getCalGoal());//goal set by user
         }
         caloriesBurnedBar.setValue((int) day.getCaloriesOut());
         percent = (int) (caloriesBurnedBar.getPercentComplete() * 100);
@@ -201,9 +219,9 @@ public class DailyGoals extends JPanel implements ActionListener {
 
         //DISTANCE
         if (userConfig.getDistanceGoal() < 0) {
-            totalDistanceBar.setMaximum((int) day.getDistanceGoal());
+            totalDistanceBar.setMaximum((int) day.getDistanceGoal());//goal from fitbit
         } else {
-            totalDistanceBar.setMaximum((int) userConfig.getDistanceGoal());
+            totalDistanceBar.setMaximum((int) userConfig.getDistanceGoal());//goal set by user
         }
         totalDistanceBar.setValue((int) day.getDistance());
         percent = (int) (totalDistanceBar.getPercentComplete() * 100);
@@ -214,9 +232,9 @@ public class DailyGoals extends JPanel implements ActionListener {
 
         //STEPS
         if (userConfig.getStepsGoal() < 0) {
-            stepsTakenBar.setMaximum((int) day.getStepsGoal());
+            stepsTakenBar.setMaximum((int) day.getStepsGoal());//goal from fitbit
         } else {
-            stepsTakenBar.setMaximum((int) userConfig.getStepsGoal());
+            stepsTakenBar.setMaximum((int) userConfig.getStepsGoal());//goal set by user
         }
         stepsTakenBar.setValue((int) day.getSteps());
         percent = (int) (stepsTakenBar.getPercentComplete() * 100);
@@ -227,9 +245,9 @@ public class DailyGoals extends JPanel implements ActionListener {
 
         //FLOORS
         if (userConfig.getFloorsGoal() < 0) {
-            floorsClimbedBar.setMaximum((int) day.getFloorGoal());
+            floorsClimbedBar.setMaximum((int) day.getFloorGoal());//goal from fitbit
         } else {
-            floorsClimbedBar.setMaximum((int) userConfig.getFloorsGoal());
+            floorsClimbedBar.setMaximum((int) userConfig.getFloorsGoal());//goal set by user
         }
         floorsClimbedBar.setValue((int) day.getFloors());
         percent = (int) (floorsClimbedBar.getPercentComplete() * 100);
@@ -240,9 +258,9 @@ public class DailyGoals extends JPanel implements ActionListener {
 
         //ACTIVE MINS
         if (userConfig.getActiveGoal() < 0) {
-            activeMinutesBar.setMaximum((int) day.getActiveMinGoal());
+            activeMinutesBar.setMaximum((int) day.getActiveMinGoal());//goal from fitbit
         } else {
-            activeMinutesBar.setMaximum((int) userConfig.getActiveGoal());
+            activeMinutesBar.setMaximum((int) userConfig.getActiveGoal());//goal set by user
         }
         activeMinutesBar.setValue((int) day.getActiveMins());
         percent = (int) (activeMinutesBar.getPercentComplete() * 100);
