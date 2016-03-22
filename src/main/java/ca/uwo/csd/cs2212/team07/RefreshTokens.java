@@ -13,6 +13,8 @@ import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.model.*; //Request Verb
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.apis.service.FitbitOAuth20ServiceImpl;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -195,7 +197,8 @@ public class RefreshTokens {
             bufferedWriter.write(tokenToSave.getRawResponse());
             bufferedWriter.newLine();
             bufferedWriter.close();
-            System.out.println("TOKENS HAVE BEEN REWRITTEN- PLEASE DISTRUBUTE NEW TOKENS TO TEAM!!!!");
+            JOptionPane.showMessageDialog(new JFrame(), "TOKENS REFRESHED. Send your team07tokens.txt file to the team!");
+            System.err.println("team07tokens.txt has been refreshed - please send file to the rest of the team");
         } catch (FileNotFoundException ex) {
             throw new RefreshTokenException("Unable to open file\n" + ex.getMessage());
         } catch (IOException ex) {

@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.FileInputStream;
@@ -24,8 +25,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
+import javax.swing.Timer;
 import org.json.JSONException;
 
 /**
@@ -58,6 +58,7 @@ public class MainWindow extends JFrame implements ActionListener {
     private CardLayout cardLayout;
 
     private Color panelColor;
+    private Timer timer;
 
     /**
      * Constructs a new Main Window
@@ -78,26 +79,26 @@ public class MainWindow extends JFrame implements ActionListener {
      * @param testMode whether or not the program is run in test mode
      */
     private void getUserData() {
-//        if (!testMode) {
-//            try {
-//                fitbitInfo = loadInfo();
-//            } catch (Exception e) {
-//                fitbitInfo = new FitbitInfo();
-//                try {
-//                    fitbitInfo.refreshInfo(Calendar.getInstance());
-//                } catch (JSONException ex) {
-//                    JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
-//                    System.exit(0);
-//                } catch (RefreshTokenException ex) {
-//                    JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
-//                    System.exit(0);
-//                }
-//            }
+        if (!testMode) {
+            try {
+                fitbitInfo = loadInfo();
+            } catch (Exception e) {
+                fitbitInfo = new FitbitInfo();
+                try {
+                    fitbitInfo.refreshInfo(Calendar.getInstance());
+                } catch (JSONException ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
+                    System.exit(0);
+                } catch (RefreshTokenException ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
+                    System.exit(0);
+                }
+            }
 
-      //  } else {
+        } else {
             fitbitInfo = new FitbitInfo();
             fitbitInfo.testModeData();
-       // }
+        }
     }
 
     /**
@@ -120,13 +121,13 @@ public class MainWindow extends JFrame implements ActionListener {
      * Initializes the UI displayed in the Main Window
      */
     private void initUI() {
-        this.setTitle("FitByte");
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
-        this.setResizable(false);
+        this.setMinimumSize(new Dimension(800, 600));
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
         this.setLayout(new BorderLayout());
-        panelColor = new Color(0, 80, 105);
+        panelColor = new Color(79, 38, 131);
 
         // Creation of the Menu Bar
         JPanel topBar = new JPanel();
@@ -196,24 +197,34 @@ public class MainWindow extends JFrame implements ActionListener {
 
         //South Bar creation - for refresh info
         JPanel bottomBar = new JPanel();
+        bottomBar.setLayout(new BoxLayout(bottomBar, BoxLayout.X_AXIS));
         bottomBar.setBackground(panelColor);
+
+        JLabel fitbitCredit = new JLabel("Designed for use with the FITBIT® platform.");
+        fitbitCredit.setForeground(Color.white);
+        fitbitCredit.setFont(new Font(fitbitCredit.getFont().getName(), Font.PLAIN, 10));
+        bottomBar.add(Box.createHorizontalStrut(20));
+        bottomBar.add(fitbitCredit);
 
         Date date = fitbitInfo.getLastRefreshTime().getTime();
         lastRefresh = new JLabel("last synced: " + new SimpleDateFormat("dd MMM yyyy").format(date)
                 + " at " + new SimpleDateFormat("h:mm:ss a z").format(date));
         lastRefresh.setFont(new Font(lastRefresh.getFont().getName(), Font.PLAIN, 10));
         lastRefresh.setForeground(Color.white);
-
+        bottomBar.add(Box.createHorizontalGlue());
+        bottomBar.add(Box.createVerticalStrut(25)); //vertical height of bottom bar
         bottomBar.add(lastRefresh);
+        bottomBar.add(Box.createHorizontalStrut(20));
+
         //End of South Bar creation
         this.add(bottomBar, BorderLayout.SOUTH);
 
         // Creation of the CardLayout for displays
         dashboard = new Dashboard(fitbitInfo, userConfig);
-        dailyGoals = new DailyGoals(fitbitInfo);
-        accolades = new Accolades(fitbitInfo);
+        dailyGoals = new DailyGoals(fitbitInfo, userConfig);
+        accolades = new Accolades(fitbitInfo, userConfig);
         heartRate = new HeartRate(fitbitInfo);
-
+        
         cardPane = new JPanel(new CardLayout());
         cardPane.add(dashboard, "Dashboard");
         cardPane.add(dailyGoals, "Daily Goals");
@@ -315,45 +326,56 @@ public class MainWindow extends JFrame implements ActionListener {
      * the displays
      */
     private void refreshInfo() {
+
         if (fitbitInfo.isTestMode()) {
             fitbitInfo.testModeData();
         } else {
             try {
                 fitbitInfo.refreshInfo(Calendar.getInstance());
             } catch (JSONException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
+                System.err.println("Unable to refresh. Please try again later.");
                 return;
             } catch (RefreshTokenException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
+                JOptionPane.showMessageDialog(new JFrame(), "RefreshTokenException - tokens out of date");
                 return;
             }
         }
 
+        lastRefresh.setForeground(Color.yellow);
+        timer = new Timer(2000, this);
+        timer.setRepeats(false);
+        timer.start();
+
         Date date = fitbitInfo.getLastRefreshTime().getTime();
         lastRefresh.setText("last synced: " + new SimpleDateFormat("dd MMM yyyy").format(date)
                 + " at " + new SimpleDateFormat("h:mm:ss a z").format(date));
+        this.refreshPanels();
+    }
+
+    /**
+     * Calls a refresh to each menu pane to update Fitbit data and user
+     * configuration
+     */
+    private void refreshPanels() {
         dashboard.refresh();
         dailyGoals.refresh();
+        //heartRate.refresh();
+        accolades.refresh();
     }
 
-    private void refreshConfig() {
-        dashboard.refreshConfig();
-        dailyGoals.refreshConfig();
-    }
-
-    
-    private void openSettings() {
-        SettingsPanel settingsPan = new SettingsPanel(userConfig);
-
-        int n = JOptionPane.showOptionDialog(this, settingsPan,
+    /**
+     * View the settings JOptionPane which modifies user configuration options
+     */
+    private void viewSettings() {
+        SettingsWindow settingsWindow = new SettingsWindow(userConfig);
+        int n = JOptionPane.showOptionDialog(this, settingsWindow,
                 "User Settings", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE, null, null, null);
 
         if (n == JOptionPane.OK_OPTION) {
-            settingsPan.confirmSettings();
-            this.refreshConfig();
+            settingsWindow.saveSettings();
+            this.refreshPanels();
         }
-
     }
 
     /**
@@ -363,17 +385,23 @@ public class MainWindow extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == dashboardButton) {
+            this.setTitle("FitByte - Dashboard");
+            dashboard.showToday();
             cardLayout.show(cardPane, "Dashboard");
         } else if (e.getSource() == dailyGoalsButton) {
+            this.setTitle("FitByte - Daily Goals");
+            dailyGoals.showToday();
             cardLayout.show(cardPane, "Daily Goals");
         } else if (e.getSource() == heartRateButton) {
-            cardLayout.show(cardPane, "Heart Rate");
+            this.setTitle("FitByte - Heart Rate Zones");
+            //cardLayout.show(cardPane, "Heart Rate");
         } else if (e.getSource() == accoladesButton) {
+            this.setTitle("FitByte - Accolades");
             cardLayout.show(cardPane, "Accolades");
         } else if (e.getSource() == refreshButton) {
             this.refreshInfo();
         } else if (e.getSource() == settingsButton) {
-            this.openSettings();
+            this.viewSettings();
         } else if (e.getSource() == exitButton) {
             if (!testMode) {
                 this.storeInfo();
@@ -381,6 +409,8 @@ public class MainWindow extends JFrame implements ActionListener {
             }
             this.dispose();
             System.exit(0);
+        } else if (e.getSource() == timer) {
+            lastRefresh.setForeground(Color.white);
         }
     }
 

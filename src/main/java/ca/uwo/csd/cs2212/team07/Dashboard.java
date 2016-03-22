@@ -2,6 +2,7 @@ package ca.uwo.csd.cs2212.team07;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 import javax.swing.JLabel;
@@ -15,6 +16,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
@@ -32,11 +34,12 @@ public class Dashboard extends JPanel implements ActionListener {
 
     private JLabel date;
     private JLabel caloriesBurnedData, totalDistanceData, floorsClimbedData, stepsTakenData, activeMinutesData, sedentaryMinutesData;
-    
+
     private JToggleButton calendarButton;
-    private DateChooserPanel dateChooser;
+    private DateChooserGUI dateChooser;
     private ButtonGroup buttonGroup;
     private JToggleButton todayButton, bestButton, lifetimeButton;
+    private JButton caloriesTimeButton, stepsTimeButton, distanceTimeButton;
 
     private JPanel displayPanel, caloriesPanel, distancePanel, floorsPanel, stepsPanel, activePanel, sedentaryPanel;
 
@@ -60,9 +63,8 @@ public class Dashboard extends JPanel implements ActionListener {
         this.setBackground(Color.white);
 
         date = new JLabel("");
-        dateChooser = new DateChooserPanel((Calendar) fitbitInfo.getLastRefreshTime().clone(), false);
         //Today, Best, Lifetime views
-        calendarButton = new JToggleButton();
+        calendarButton = new JToggleButton("Calendar");
         calendarButton.addActionListener(this);
         calendarButton.setToolTipText("View Previous Day");
         ImageIcon icon = new ImageIcon(FileReader.getImage("calendar.png"));
@@ -101,17 +103,17 @@ public class Dashboard extends JPanel implements ActionListener {
 
         //Panels for each data item
         caloriesBurnedData = new JLabel("");
-        caloriesPanel = this.createDataBox(new JLabel("Calories Burned"), caloriesBurnedData, "dataicons/calories.png", new Color(255, 175, 175));
+        caloriesPanel = this.createDataBox("Calories Burned", caloriesBurnedData, "dataicons/calories.png", new Color(255, 175, 175));
         totalDistanceData = new JLabel("");
-        distancePanel = this.createDataBox(new JLabel("Total Distance"), totalDistanceData, "dataicons/distance.png", new Color(180, 255, 190));
+        distancePanel = this.createDataBox("Total Distance", totalDistanceData, "dataicons/distance.png", new Color(180, 255, 190));
         floorsClimbedData = new JLabel("");
-        floorsPanel = this.createDataBox(new JLabel("Floors Climbed"), floorsClimbedData, "dataicons/floors.png", new Color(255, 180, 245));
+        floorsPanel = this.createDataBox("Floors Climbed", floorsClimbedData, "dataicons/floors.png", new Color(255, 220, 180));
         stepsTakenData = new JLabel("");
-        stepsPanel = this.createDataBox(new JLabel("Steps Taken"), stepsTakenData, "dataicons/steps.png", new Color(180, 250, 255));
+        stepsPanel = this.createDataBox("Steps Taken", stepsTakenData, "dataicons/steps.png", new Color(180, 250, 255));
         activeMinutesData = new JLabel("");
-        activePanel = this.createDataBox(new JLabel("Active Minutes"), activeMinutesData, "dataicons/active.png", new Color(250, 255, 180));
+        activePanel = this.createDataBox("Active Minutes", activeMinutesData, "dataicons/active.png", new Color(250, 255, 180));
         sedentaryMinutesData = new JLabel("");
-        sedentaryPanel = this.createDataBox(new JLabel("Sedentary Minutes"), sedentaryMinutesData, "dataicons/sedentary.png", new Color(255, 220, 180));
+        sedentaryPanel = this.createDataBox("Sedentary Minutes", sedentaryMinutesData, "dataicons/sedentary.png", new Color(255, 200, 250));
         //end of Panels for each data item
 
         this.setLayout(new BorderLayout());
@@ -121,29 +123,21 @@ public class Dashboard extends JPanel implements ActionListener {
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         topPanel.add(displayPanel);
         this.add(topPanel, BorderLayout.NORTH);
-        //Layout Specifications - WEST and EAST
-        JPanel westPanel = new JPanel();
-        JPanel eastPanel = new JPanel();
-        westPanel.setOpaque(false);
-        eastPanel.setOpaque(false);
-        this.add(westPanel, BorderLayout.WEST);
-        this.add(eastPanel, BorderLayout.EAST);
+
         //Layout Specifications - Center
         JPanel centerPanel = new JPanel();
         centerPanel.setOpaque(false);
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-        centerPanel.add(Box.createVerticalStrut(5));
         centerPanel.add(caloriesPanel);
         centerPanel.add(distancePanel);
         centerPanel.add(floorsPanel);
         centerPanel.add(stepsPanel);
         centerPanel.add(activePanel);
         centerPanel.add(sedentaryPanel);
-        centerPanel.add(Box.createVerticalStrut(20));
         this.add(centerPanel, BorderLayout.CENTER);
 
         //sets the view to Today
-        todayButton.doClick();
+        this.refresh();
     }
 
     /**
@@ -154,25 +148,57 @@ public class Dashboard extends JPanel implements ActionListener {
      * @param color the color of the data box
      * @return a JPanel containing the data box for the data item
      */
-    private JPanel createDataBox(JLabel header, JLabel data, String iconFile, Color color) {
+    private JPanel createDataBox(String activity, JLabel data, String iconFile, Color color) {
+        Font defaultFont = new Font("Helvetica", Font.PLAIN, 15);
         JPanel panel = new JPanel();
 
         panel.setBackground(color);
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.add(Box.createHorizontalStrut(50));
+
         ImageIcon iconImage = new ImageIcon(FileReader.getImage(iconFile));
         JLabel iconLabel = new JLabel(iconImage);
-        panel.add(Box.createHorizontalStrut(50));
         panel.add(iconLabel);
-        panel.add(Box.createHorizontalStrut(250));
+        panel.add(Box.createHorizontalStrut(40));
 
-        header.setFont(new Font(header.getFont().getName(), Font.PLAIN, 14));
-        panel.add(header);
+        JLabel activityLabel = new JLabel(activity);
+        activityLabel.setFont(defaultFont);
+        panel.add(activityLabel);
+
+        if (activity.equals("Calories Burned")) {
+            caloriesTimeButton = new JButton();
+            caloriesTimeButton.addActionListener(this);
+            caloriesTimeButton.setToolTipText("Time Series Data for Calories Burned");
+            ImageIcon icon = new ImageIcon(FileReader.getImage("dataicons/graph.png"));
+            caloriesTimeButton.setIcon(icon);
+            caloriesTimeButton.setPreferredSize(new Dimension(35, 35));
+            panel.add(Box.createHorizontalStrut(250));
+            panel.add(caloriesTimeButton);
+        } else if (activity.equals("Total Distance")) {
+            distanceTimeButton = new JButton();
+            distanceTimeButton.addActionListener(this);
+            distanceTimeButton.setToolTipText("Time Series Data for Total Distance");
+            ImageIcon icon = new ImageIcon(FileReader.getImage("dataicons/graph.png"));
+            distanceTimeButton.setIcon(icon);
+            distanceTimeButton.setPreferredSize(new Dimension(35, 35));
+            panel.add(Box.createHorizontalStrut(260));
+            panel.add(distanceTimeButton);
+        } else if (activity.equals("Steps Taken")) {
+            stepsTimeButton = new JButton();
+            stepsTimeButton.addActionListener(this);
+            stepsTimeButton.setToolTipText("Time Series Data for Steps Taken");
+            ImageIcon icon = new ImageIcon(FileReader.getImage("dataicons/graph.png"));
+            stepsTimeButton.setIcon(icon);
+            stepsTimeButton.setPreferredSize(new Dimension(35, 35));
+            panel.add(Box.createHorizontalStrut(270));
+            panel.add(stepsTimeButton);
+        }
         panel.add(Box.createHorizontalGlue());
 
-        data.setFont(new Font(data.getFont().getName(), Font.PLAIN, 14));
+        data.setFont(defaultFont);
         panel.add(data);
         panel.add(Box.createHorizontalStrut(50));
-
+        
         return panel;
     }
 
@@ -187,12 +213,15 @@ public class Dashboard extends JPanel implements ActionListener {
         date.setText(new SimpleDateFormat("EEEE, MMMM d, yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
 
         Daily day = fitbitInfo.getDay();
-        caloriesBurnedData.setText("" + day.getCaloriesOut());
-        totalDistanceData.setText("" + day.getDistance());
-        stepsTakenData.setText("" + day.getSteps());
-        floorsClimbedData.setText("" + day.getFloors());
-        activeMinutesData.setText("" + day.getActiveMins());
-        sedentaryMinutesData.setText("" + day.getSedentaryMins());
+        caloriesBurnedData.setText("" + day.getCaloriesOut() + " calories");
+        totalDistanceData.setText("" + day.getDistance() + " km");
+        stepsTakenData.setText("" + day.getSteps() + " steps");
+        floorsClimbedData.setText("" + day.getFloors() + " floors");
+        activeMinutesData.setText("" + day.getActiveMins() + " minutes");
+        sedentaryMinutesData.setText("" + day.getSedentaryMins() + " minutes");
+        stepsTimeButton.setVisible(true);
+        caloriesTimeButton.setVisible(true);
+        distanceTimeButton.setVisible(true);
 
     }
 
@@ -205,16 +234,27 @@ public class Dashboard extends JPanel implements ActionListener {
         if (e.getSource() == calendarButton) {
             this.switchDay();
         } else if (e.getSource() == todayButton) {
-            this.refreshConfig();
             this.refresh();
+            dateChooser = new DateChooserGUI((Calendar) fitbitInfo.getLastRefreshTime().clone(), false);
         } else if (e.getSource() == bestButton) {
             this.displayBest();
         } else if (e.getSource() == lifetimeButton) {
             this.displayLifetime();
+        } else if (e.getSource() == caloriesTimeButton) {
+            this.displayTimeGraph("Calories Burned", "Calories", "calories");
+        } else if (e.getSource() == distanceTimeButton) {
+            this.displayTimeGraph("Distance Traveled", "Distance", "distance");
+        } else if (e.getSource() == stepsTimeButton) {
+            this.displayTimeGraph("Steps Taken", "Steps", "steps");
         }
+
     }
 
+    /**
+     * Displays a date selected on the DateChooserGUI
+     */
     private void switchDay() {
+        dateChooser = new DateChooserGUI((Calendar) fitbitInfo.getLastRefreshTime().clone(), false);
         int n = JOptionPane.showOptionDialog(this, dateChooser,
                 "Calendar", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE, null, null, null);
@@ -239,12 +279,14 @@ public class Dashboard extends JPanel implements ActionListener {
             }
 
             date.setText(new SimpleDateFormat("EEEE, MMMM d, yyyy").format(dateChooser.getDate()));
-            sedentaryMinutesData.setText("" + dayInfo.getSedentaryMins());
-            activeMinutesData.setText("" + dayInfo.getActiveMins());
-            stepsTakenData.setText("" + dayInfo.getSteps());
-            floorsClimbedData.setText("" + dayInfo.getFloors());
-            totalDistanceData.setText("" + dayInfo.getDistance());
-            caloriesBurnedData.setText("" + dayInfo.getCaloriesOut());
+            caloriesBurnedData.setText("" + dayInfo.getCaloriesOut() + " calories");
+            totalDistanceData.setText("" + dayInfo.getDistance() + " km");
+            floorsClimbedData.setText("" + dayInfo.getFloors() + " floors");
+            stepsTakenData.setText("" + dayInfo.getSteps() + " steps");
+            activeMinutesData.setText("" + dayInfo.getActiveMins() + " minutes");
+            sedentaryMinutesData.setText("" + dayInfo.getSedentaryMins() + " minutes");
+        } else {
+            todayButton.doClick();
         }
     }
 
@@ -261,17 +303,23 @@ public class Dashboard extends JPanel implements ActionListener {
             DateFormat toFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy");
             toFormat.setLenient(false);
 
-            date.setText("Best Days");
-            caloriesPanel.setVisible(false);
-            totalDistanceData.setText(toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[0].getDate()))
-                    + "\t\t - \t\t" + roundedBestDistance);
-            floorsClimbedData.setText(toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[1].getDate()))
-                    + "\t\t - \t\t" + roundedBestFloors);
-            stepsTakenData.setText(toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[2].getDate()))
-                    + "\t\t - \t\t" + roundedBestSteps);
+            date.setText("");
 
+            totalDistanceData.setText(toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[0].getDate()))
+                    + "\t\t - \t\t" + roundedBestDistance + " km");
+            floorsClimbedData.setText(toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[1].getDate()))
+                    + "\t\t - \t\t" + roundedBestFloors + " floors");
+            stepsTakenData.setText(toFormat.format(fromFormat.parse(fitbitInfo.getBestDays()[2].getDate()))
+                    + "\t\t - \t\t" + roundedBestSteps + " steps");
+
+            this.refreshConfig();
+            caloriesPanel.setVisible(false);
             activePanel.setVisible(false);
             sedentaryPanel.setVisible(false);
+
+            stepsTimeButton.setVisible(false);
+            distanceTimeButton.setVisible(false);
+            caloriesTimeButton.setVisible(false);
 
         } catch (ParseException ex) {
             System.err.println("ERROR PARSING DATE");
@@ -283,27 +331,69 @@ public class Dashboard extends JPanel implements ActionListener {
      * Displays the Lifetime data to the user
      */
     private void displayLifetime() {
-        double roundedBestDistance = Math.round(fitbitInfo.getLifetime().getDistance() * 100.0) / 100.0;
-        double roundedBestFloors = Math.round(fitbitInfo.getLifetime().getFloors() * 100.0) / 100.0;
-        int roundedBestSteps = (int) fitbitInfo.getLifetime().getSteps();
+        double roundedLifeDistance = Math.round(fitbitInfo.getLifetime().getDistance() * 100.0) / 100.0;
+        double roundedLifeFloors = Math.round(fitbitInfo.getLifetime().getFloors() * 100.0) / 100.0;
+        int roundedLifeSteps = (int) fitbitInfo.getLifetime().getSteps();
 
-        date.setText("Lifetime Totals");
+        date.setText("");
+        totalDistanceData.setText("" + roundedLifeDistance + " km");
+        floorsClimbedData.setText("" + roundedLifeFloors + " floors");
+        stepsTakenData.setText("" + roundedLifeSteps + " steps");
+
+        this.refreshConfig();
         caloriesPanel.setVisible(false);
-        totalDistanceData.setText("" + roundedBestDistance);
-        floorsClimbedData.setText("" + roundedBestFloors);
-        stepsTakenData.setText("" + roundedBestSteps);
         activePanel.setVisible(false);
         sedentaryPanel.setVisible(false);
 
+        stepsTimeButton.setVisible(false);
+        distanceTimeButton.setVisible(false);
+        caloriesTimeButton.setVisible(false);
+
     }
 
-    public void refreshConfig() {
+    /**
+     * Displays time series data for the given activity
+     *
+     * @param title the title of the graph
+     * @param yAxisTitle the title of the y axis
+     * @param activity the activity to display
+     */
+    private void displayTimeGraph(String title, String yAxisTitle, String activity) {
+        if (fitbitInfo.isTestMode()) {
+            JOptionPane.showMessageDialog(new JFrame(), "Time Graph not available in test mode");
+        } else {
+            try {
+                TimeGraph graph = new TimeGraph(title, yAxisTitle, Api.getTimeSeriesData(new SimpleDateFormat("yyyy-MM-dd").format(dateChooser.getDate()), activity, 1));
+                graph.showGraph();
+            } catch (JSONException ex) {
+                System.err.println("WE MUST HANDLE THIS ERROR JSON");
+            } catch (RefreshTokenException ex) {
+                System.err.println("Unable to open Time Series Data for " + activity + " due to outdated team07tokens.txt file");
+            } catch (Exception ex) {
+                System.err.println("An unexpected error occured - please check tokens");
+            }
+
+        }
+
+    }
+
+    /**
+     * Hides or shows panels based on user configuration
+     */
+    private void refreshConfig() {
         caloriesPanel.setVisible(userConfig.isCaloriesData());
         distancePanel.setVisible(userConfig.isDistanceData());
         floorsPanel.setVisible(userConfig.isFloorsData());
         stepsPanel.setVisible(userConfig.isStepsData());
         activePanel.setVisible(userConfig.isActiveData());
         sedentaryPanel.setVisible(userConfig.isSedentaryData());
+    }
+
+    /**
+     * Displays data relevant to today (or when FitbitInfo was last refreshed)
+     */
+    public void showToday() {
+        todayButton.doClick();
     }
 
 }

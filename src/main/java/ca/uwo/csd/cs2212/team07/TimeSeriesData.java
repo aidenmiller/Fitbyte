@@ -30,10 +30,20 @@ public class TimeSeriesData {
         this.activity = activity;
     }
     
+    /**
+     * getDatasetLength() function:
+     * returns the size of the arraylist storing the TimePoints
+     * @return  int value of TimePoint ArrayList size
+     */
     public int getDatasetLength() {
         return data.size();
     }
     
+    /**
+     * getTimePoint() method: gets a timepoint at a specific specified index
+     * @param index index of the timepoint to get
+     * @return TimePoint object at specified index
+     */
     public TimePoint getTimePoint(int index) {
         return data.get(index);
     }

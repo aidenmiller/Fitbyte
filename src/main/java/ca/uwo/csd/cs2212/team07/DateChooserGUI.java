@@ -69,7 +69,7 @@ import javax.swing.UIManager;
  *
  * @author David Gilbert
  */
-public class DateChooserPanel extends JPanel implements ActionListener {
+public class DateChooserGUI extends JPanel implements ActionListener {
 
     /**
      * The date selected in the panel.
@@ -142,7 +142,7 @@ public class DateChooserPanel extends JPanel implements ActionListener {
      * Constructs a new date chooser panel, using today's date as the initial
      * selection.
      */
-    public DateChooserPanel() {
+    public DateChooserGUI() {
         this(Calendar.getInstance(), false);
     }
 
@@ -153,7 +153,7 @@ public class DateChooserPanel extends JPanel implements ActionListener {
      * @param controlPanel a flag that indicates whether or not the 'today'
      * button should appear on the panel.
      */
-    public DateChooserPanel(final Calendar calendar,
+    public DateChooserGUI(final Calendar calendar,
             final boolean controlPanel) {
 
         super(new BorderLayout());
