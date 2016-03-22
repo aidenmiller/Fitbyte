@@ -1,13 +1,14 @@
 
 package ca.uwo.csd.cs2212.team07;
 
+import java.io.Serializable;
 import org.json.JSONArray;
 
 /**
  * HeartData Class: Stores all the heartrate data for the user on any given day
  * @author Team07
  */
-public class HeartData {
+public class HeartData implements Serializable {
     
     //INSTANCE VARIABLES:
     private String date;
@@ -143,7 +144,7 @@ public class HeartData {
 
     /**
      * getOutOfRangeCalsOut() method
-     * @return double value of the calories burned while spent in the "out of range" heart rate category
+     * @return a double value of the calories burned while spent in the "out of range" heart rate category
      */
     public double getOutOfRangeCalsOut() {
         return outOfRangeCalsOut;

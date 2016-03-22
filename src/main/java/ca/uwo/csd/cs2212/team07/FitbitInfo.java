@@ -8,19 +8,20 @@ import org.json.JSONException;
 
 public class FitbitInfo implements Serializable {
 
-    private static final long serialVersionUID = 9L;
+    private static final long serialVersionUID = 10L;
 
     private boolean testMode;
     private Daily day; //holds daily data
     private BestDay[] bestDays; //holds best days data
     private Lifetime lifetime; //hold lifetime data
+    private HeartData heart;
     private Calendar lastRefreshTime; //hold last refresh time
 
     /**
      * Constructor for the FitbitInfo class.
      */
     public FitbitInfo() {
-       
+
     }
 
     /**
@@ -37,7 +38,12 @@ public class FitbitInfo implements Serializable {
         this.day = Api.getDailySummary(date);
         this.bestDays = Api.getBestDays();
         this.lifetime = Api.getLifetime();
+        this.heart = Api.getHeartSummary(date);
 
+    }
+
+    public HeartData getHeart() {
+        return this.heart;
     }
 
     /**
@@ -75,9 +81,10 @@ public class FitbitInfo implements Serializable {
     public Calendar getLastRefreshTime() {
         return this.lastRefreshTime;
     }
-    
+
     /**
      * Returns true if FitbitInfo is running in test mode
+     *
      * @return true if FitbitInfo is running in test mode
      */
     public boolean isTestMode() {
@@ -111,6 +118,10 @@ public class FitbitInfo implements Serializable {
         this.lifetime = lifetime;
     }
 
+    public void setHeart(HeartData heartData) {
+        this.heart = heartData;
+    }
+
     /**
      * Sets the last refresh time of the FitbitInfo
      *
@@ -119,9 +130,10 @@ public class FitbitInfo implements Serializable {
     public void setLastRefreshTime(Calendar lastRefreshTIme) {
         this.lastRefreshTime = lastRefreshTIme;
     }
-    
+
     /**
      * Sets whether or not the program is running in Test Mode
+     *
      * @param mode whether or not the program is running in test mode
      */
     public void setTestMode(boolean mode) {
@@ -133,9 +145,8 @@ public class FitbitInfo implements Serializable {
      */
     public void testModeData() {
         this.testMode = true; //set test mode to true
-        
+
         Random rand = new Random();
-        
         String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
         Daily randDay = new Daily(date, (long) rand.nextInt(100), (long) rand.nextInt(2000),
                 (double) rand.nextInt(10), (double) rand.nextInt(20), (long) rand.nextInt(10000), (long) rand.nextInt(1500),
@@ -154,7 +165,8 @@ public class FitbitInfo implements Serializable {
         this.day = randDay;
         this.bestDays = randBest;
         this.lifetime = randLifetime;
-        
+        this.heart = new HeartData(date, rand.nextInt(250), rand.nextInt(250), rand.nextInt(250), rand.nextInt(250), rand.nextInt(250),
+                (double) rand.nextInt(250), (double) rand.nextInt(250), (double) rand.nextInt(250), (double) rand.nextInt(250), null);
     }
 
 }
