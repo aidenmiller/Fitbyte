@@ -87,10 +87,11 @@ public class MainWindow extends JFrame implements ActionListener {
                 try {
                     fitbitInfo.refreshInfo(Calendar.getInstance());
                 } catch (JSONException ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
+                    System.err.println("JSONException - " + ex.getMessage());
                     System.exit(0);
                 } catch (RefreshTokenException ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
+                    System.err.println("RefreshTokenException - " + ex.getMessage());
+                    System.err.println("team07tokens.txt needs to be replaced.");
                     System.exit(0);
                 }
             }
