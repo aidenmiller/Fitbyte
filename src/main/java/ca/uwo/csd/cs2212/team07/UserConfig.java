@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class UserConfig implements Serializable {
 
-    private static final long serialVersionUID = 10L;
+    private static final long serialVersionUID = 11L;
 
     private boolean testMode;
 

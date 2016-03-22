@@ -98,6 +98,25 @@ public class MainWindow extends JFrame implements ActionListener {
         } else {
             fitbitInfo = new FitbitInfo();
             fitbitInfo.testModeData();
+        }if (!testMode) {
+            try {
+                fitbitInfo = loadInfo();
+            } catch (Exception e) {
+                fitbitInfo = new FitbitInfo();
+                try {
+                    fitbitInfo.refreshInfo(Calendar.getInstance());
+                } catch (JSONException ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
+                    System.exit(0);
+                } catch (RefreshTokenException ex) {
+                    JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
+                    System.exit(0);
+                }
+            }
+
+        } else {
+            fitbitInfo = new FitbitInfo();
+            fitbitInfo.testModeData();
         }
     }
 
@@ -359,7 +378,7 @@ public class MainWindow extends JFrame implements ActionListener {
     private void refreshPanels() {
         dashboard.refresh();
         dailyGoals.refresh();
-        //heartRate.refresh();
+        heartRate.refresh();
         accolades.refresh();
     }
 
@@ -394,7 +413,7 @@ public class MainWindow extends JFrame implements ActionListener {
             cardLayout.show(cardPane, "Daily Goals");
         } else if (e.getSource() == heartRateButton) {
             this.setTitle("FitByte - Heart Rate Zones");
-            //cardLayout.show(cardPane, "Heart Rate");
+            cardLayout.show(cardPane, "Heart Rate");
         } else if (e.getSource() == accoladesButton) {
             this.setTitle("FitByte - Accolades");
             cardLayout.show(cardPane, "Accolades");

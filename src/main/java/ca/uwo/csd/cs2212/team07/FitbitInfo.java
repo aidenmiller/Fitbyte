@@ -8,7 +8,7 @@ import org.json.JSONException;
 
 public class FitbitInfo implements Serializable {
 
-    private static final long serialVersionUID = 10L;
+    private static final long serialVersionUID = 11L;
 
     private boolean testMode;
     private Daily day; //holds daily data
