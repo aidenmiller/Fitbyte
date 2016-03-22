@@ -8,7 +8,7 @@ import org.json.JSONException;
 
 public class FitbitInfo implements Serializable {
 
-    private static final long serialVersionUID = 10L;
+    private static final long serialVersionUID = 13L;
 
     private boolean testMode;
     private Daily day; //holds daily data
@@ -38,7 +38,12 @@ public class FitbitInfo implements Serializable {
         this.day = Api.getDailySummary(date);
         this.bestDays = Api.getBestDays();
         this.lifetime = Api.getLifetime();
-        this.heart = Api.getHeartSummary(date);
+        try {
+            this.heart = Api.getHeartSummary(date);
+        } catch (JSONException ex) {
+            this.heart = new HeartData(date, 0, 0, 0, 0, 0, 0, 0, 0, 0, null);
+            System.out.println("Note: HR Data not available yet for today");
+        }
 
     }
 

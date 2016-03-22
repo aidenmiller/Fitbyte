@@ -87,10 +87,11 @@ public class MainWindow extends JFrame implements ActionListener {
                 try {
                     fitbitInfo.refreshInfo(Calendar.getInstance());
                 } catch (JSONException ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
+                    System.err.println("JSONException - " + ex.getMessage());
                     System.exit(0);
                 } catch (RefreshTokenException ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
+                    System.err.println("RefreshTokenException - " + ex.getMessage());
+                    System.err.println("team07tokens.txt needs to be replaced.");
                     System.exit(0);
                 }
             }
@@ -224,7 +225,7 @@ public class MainWindow extends JFrame implements ActionListener {
         dailyGoals = new DailyGoals(fitbitInfo, userConfig);
         accolades = new Accolades(fitbitInfo, userConfig);
         heartRate = new HeartRate(fitbitInfo);
-        
+
         cardPane = new JPanel(new CardLayout());
         cardPane.add(dashboard, "Dashboard");
         cardPane.add(dailyGoals, "Daily Goals");
@@ -359,7 +360,7 @@ public class MainWindow extends JFrame implements ActionListener {
     private void refreshPanels() {
         dashboard.refresh();
         dailyGoals.refresh();
-        //heartRate.refresh();
+        heartRate.refresh();
         accolades.refresh();
     }
 
@@ -394,7 +395,7 @@ public class MainWindow extends JFrame implements ActionListener {
             cardLayout.show(cardPane, "Daily Goals");
         } else if (e.getSource() == heartRateButton) {
             this.setTitle("FitByte - Heart Rate Zones");
-            //cardLayout.show(cardPane, "Heart Rate");
+            cardLayout.show(cardPane, "Heart Rate");
         } else if (e.getSource() == accoladesButton) {
             this.setTitle("FitByte - Accolades");
             cardLayout.show(cardPane, "Accolades");
