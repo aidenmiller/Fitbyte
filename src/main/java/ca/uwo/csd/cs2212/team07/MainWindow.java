@@ -99,25 +99,6 @@ public class MainWindow extends JFrame implements ActionListener {
         } else {
             fitbitInfo = new FitbitInfo();
             fitbitInfo.testModeData();
-        }if (!testMode) {
-            try {
-                fitbitInfo = loadInfo();
-            } catch (Exception e) {
-                fitbitInfo = new FitbitInfo();
-                try {
-                    fitbitInfo.refreshInfo(Calendar.getInstance());
-                } catch (JSONException ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Unable to refresh. Please try again later.");
-                    System.exit(0);
-                } catch (RefreshTokenException ex) {
-                    JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
-                    System.exit(0);
-                }
-            }
-
-        } else {
-            fitbitInfo = new FitbitInfo();
-            fitbitInfo.testModeData();
         }
     }
 
@@ -244,7 +225,7 @@ public class MainWindow extends JFrame implements ActionListener {
         dailyGoals = new DailyGoals(fitbitInfo, userConfig);
         accolades = new Accolades(fitbitInfo, userConfig);
         heartRate = new HeartRate(fitbitInfo);
-        
+
         cardPane = new JPanel(new CardLayout());
         cardPane.add(dashboard, "Dashboard");
         cardPane.add(dailyGoals, "Daily Goals");
