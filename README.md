@@ -23,11 +23,11 @@ From the team07 working directory, run the program in one of two ways:
 #normally:
 
 ```
-java -jar target/team07_fitbit-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar target/team07_fitbitViewer-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 
-#test mode example:
+#test mode:
 
 ```
-java -jar target/team07_fitbit-1.0-SNAPSHOT-jar-with-dependencies.jar test
+java -jar target/team07_fitbitViewer-1.0-SNAPSHOT-jar-with-dependencies.jar test
 ```
