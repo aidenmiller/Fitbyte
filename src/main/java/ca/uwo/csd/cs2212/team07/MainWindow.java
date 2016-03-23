@@ -330,7 +330,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
         if (fitbitInfo.isTestMode()) {
             fitbitInfo.testModeData();
-        } /*else {
+        } else {
             try {
                 fitbitInfo.refreshInfo(Calendar.getInstance());
             } catch (JSONException ex) {
@@ -341,7 +341,7 @@ public class MainWindow extends JFrame implements ActionListener {
                 return;
             }
         }
-*/
+
         lastRefresh.setForeground(Color.yellow);
         timer = new Timer(2000, this);
         timer.setRepeats(false);

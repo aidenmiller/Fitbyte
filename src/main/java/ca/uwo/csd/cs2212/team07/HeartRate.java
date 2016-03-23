@@ -17,6 +17,24 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 import org.json.JSONException;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.text.SimpleDateFormat;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Calendar;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JToggleButton;
 import java.awt.*;
 
 /**
@@ -29,7 +47,7 @@ public class HeartRate extends JPanel implements ActionListener {
 
     private final FitbitInfo fitbitInfo;
     private final UserConfig userConfig;
-    private JToggleButton graphButton;
+    private JButton graphButton, prevButton, nextButton;
     private Calendar currDayView;
     private JLabel date, date2;
     private JLabel col1, col2, col3, col4;
@@ -39,8 +57,9 @@ public class HeartRate extends JPanel implements ActionListener {
 
     /**
      * Constructor for the class HeartRate
-     *
-     * @param fitbitInfo
+     * 
+     * @param fitbitInfo container for user data
+     * @param userConfig container for user configuration
      */
     public HeartRate(FitbitInfo fitbitInfo, UserConfig userConfig) {
         super();
@@ -124,14 +143,21 @@ public class HeartRate extends JPanel implements ActionListener {
         p7.add(Box.createHorizontalGlue());
         p8.add(Box.createHorizontalGlue());
 
-        graphButton = new JToggleButton();
+        graphButton = new JButton();
         graphButton.addActionListener(this);
         graphButton.setToolTipText("Click here to view your own personal heartrate graph");
         ImageIcon icon = new ImageIcon(FileReader.getImage("iconmafia/graph3.png"));
         graphButton.setIcon(icon);
         px.add(graphButton);
         graphButton.setRolloverIcon(new ImageIcon(FileReader.getImage("iconmafia/graph2.png")));
-
+        
+        prevButton = new JButton(new ImageIcon(FileReader.getImage("iconmafia/previous2.png")));
+        prevButton.addActionListener(this);
+        prevButton.setRolloverIcon(new ImageIcon(FileReader.getImage("iconmafia/previous.png")));
+        nextButton = new JButton(new ImageIcon(FileReader.getImage("iconmafia/next2.png")));
+        nextButton.addActionListener(this);
+        nextButton.setRolloverIcon(new ImageIcon(FileReader.getImage("iconmafia/next.png")));
+        
         p1.add(iconLabel1);
         p2.add(iconLabel2);
         p3.add(iconLabel3);
@@ -230,8 +256,9 @@ public class HeartRate extends JPanel implements ActionListener {
         col6.setForeground(Color.white);
         col7.setForeground(Color.white);
         col8.setForeground(Color.white);
-
+        px.add(prevButton);
         px.add(date2);
+        px.add(nextButton);
         px.add(Box.createHorizontalStrut(200));
         px.add(date);
         p1.add(col1);
@@ -312,7 +339,21 @@ public class HeartRate extends JPanel implements ActionListener {
         if (e.getSource() == graphButton) {
             //    JFrame ViewGraphGUI = new JFrame();
             //    new ViewGraphGUI();
-        }
+        }else if (e.getSource() == prevButton) {
+            currDayView.add(Calendar.DAY_OF_MONTH, -1);
+            showDay(currDayView);
+            nextButton.setVisible(true);
+        } 
+        else if (e.getSource() == nextButton) {
+            currDayView.add(Calendar.DAY_OF_MONTH, 1);
+            if (currDayView.equals(fitbitInfo.getLastRefreshTime())
+                    || currDayView.after(fitbitInfo.getLastRefreshTime())) {
+                this.refresh(); //use refresh and not showDay so fitbitInfo is shown instead of newly pulled data
+                nextButton.setVisible(false);
+            } else {
+                showDay(currDayView);
+            }
+        } 
     }
 
     /**
@@ -346,9 +387,6 @@ public class HeartRate extends JPanel implements ActionListener {
         col5 = new JLabel("" + fitbitInfo.getHeart().getFatBurnMins());
         col6 = new JLabel("" + fitbitInfo.getHeart().getFatBurnCalsOut());
         col7 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeMins());
-        col8 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeCalsOut());
-        
-     
-        
+        col8 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeCalsOut());   
     }
 }
