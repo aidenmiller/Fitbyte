@@ -49,7 +49,7 @@ public class HeartRate extends JPanel implements ActionListener {
     private final UserConfig userConfig;
     private JButton graphButton, prevButton, nextButton;
     private Calendar currDayView;
-    private JLabel date, date2;
+    private JLabel date, restingRate;
     private JLabel col1, col2, col3, col4;
     private JLabel col5, col6, col7, col8;
     private JPanel p1, p2, p3, p4, p5, p6, p7, p8, px;
@@ -57,7 +57,7 @@ public class HeartRate extends JPanel implements ActionListener {
 
     /**
      * Constructor for the class HeartRate
-     * 
+     *
      * @param fitbitInfo container for user data
      * @param userConfig container for user configuration
      */
@@ -67,7 +67,6 @@ public class HeartRate extends JPanel implements ActionListener {
         this.fitbitInfo = fitbitInfo;
         this.userConfig = userConfig;
         renderingGUI();
-        this.refresh();
     }
 
     @Override
@@ -95,15 +94,15 @@ public class HeartRate extends JPanel implements ActionListener {
         p7 = new JPanel();
         p8 = new JPanel();
 
-        px.setBackground(new Color(0, 0, 0, 220));
+        px.setBackground(new Color(0, 0, 0, 200));
         p1.setBackground(new Color(0, 0, 0, 200));
         p2.setBackground(new Color(0, 0, 0, 200));
-        p3.setBackground(new Color(0, 0, 0, 170));
-        p4.setBackground(new Color(0, 0, 0, 170));
-        p5.setBackground(new Color(0, 0, 0, 140));
-        p6.setBackground(new Color(0, 0, 0, 140));
-        p7.setBackground(new Color(0, 0, 0, 110));
-        p8.setBackground(new Color(0, 0, 0, 110));
+        p3.setBackground(new Color(0, 0, 0, 200));
+        p4.setBackground(new Color(0, 0, 0, 200));
+        p5.setBackground(new Color(0, 0, 0, 200));
+        p6.setBackground(new Color(0, 0, 0, 200));
+        p7.setBackground(new Color(0, 0, 0, 200));
+        p8.setBackground(new Color(0, 0, 0, 200));
 
         px.setLayout(new BoxLayout(px, BoxLayout.X_AXIS));
         p1.setLayout(new BoxLayout(p1, BoxLayout.X_AXIS));
@@ -150,14 +149,15 @@ public class HeartRate extends JPanel implements ActionListener {
         graphButton.setIcon(icon);
         px.add(graphButton);
         graphButton.setRolloverIcon(new ImageIcon(FileReader.getImage("iconmafia/graph2.png")));
-        
+
         prevButton = new JButton(new ImageIcon(FileReader.getImage("iconmafia/previous2.png")));
         prevButton.addActionListener(this);
         prevButton.setRolloverIcon(new ImageIcon(FileReader.getImage("iconmafia/previous.png")));
         nextButton = new JButton(new ImageIcon(FileReader.getImage("iconmafia/next2.png")));
         nextButton.addActionListener(this);
         nextButton.setRolloverIcon(new ImageIcon(FileReader.getImage("iconmafia/next.png")));
-        
+        nextButton.setVisible(false); //visiblity initially false
+
         p1.add(iconLabel1);
         p2.add(iconLabel2);
         p3.add(iconLabel3);
@@ -203,18 +203,18 @@ public class HeartRate extends JPanel implements ActionListener {
         p7.add(a7);
         p8.add(a8);
 
-        px.add(Box.createHorizontalStrut(200));
-        p1.add(Box.createHorizontalStrut(135));
-        p2.add(Box.createHorizontalStrut(135));
-        p3.add(Box.createHorizontalStrut(135));
-        p4.add(Box.createHorizontalStrut(135));
-        p5.add(Box.createHorizontalStrut(135));
-        p6.add(Box.createHorizontalStrut(135));
-        p7.add(Box.createHorizontalStrut(135));
-        p8.add(Box.createHorizontalStrut(135));
+        px.add(Box.createHorizontalStrut(140));
+        p1.add(Box.createHorizontalStrut(95));
+        p2.add(Box.createHorizontalStrut(95));
+        p3.add(Box.createHorizontalStrut(95));
+        p4.add(Box.createHorizontalStrut(95));
+        p5.add(Box.createHorizontalStrut(95));
+        p6.add(Box.createHorizontalStrut(95));
+        p7.add(Box.createHorizontalStrut(95));
+        p8.add(Box.createHorizontalStrut(95));
 
         date = new JLabel(new SimpleDateFormat("MMMM d").format(fitbitInfo.getLastRefreshTime().getTime()));
-        date2 = new JLabel("Resting Heart Rate: " + fitbitInfo.getHeart().getRestingHeartRate());
+        restingRate = new JLabel("Resting Heart Rate: " + fitbitInfo.getHeart().getRestingHeartRate());
         col1 = new JLabel("" + fitbitInfo.getHeart().getPeakMins() + " mins");
         col2 = new JLabel("" + fitbitInfo.getHeart().getPeakCalsOut() + " cal");
         col3 = new JLabel("" + fitbitInfo.getHeart().getCardioMins() + " mins");
@@ -224,8 +224,7 @@ public class HeartRate extends JPanel implements ActionListener {
         col7 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeMins() + " mins");
         col8 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeCalsOut() + " cal");
 
-        date.setToolTipText("today's date");
-        date2.setToolTipText("current resting heart rate");
+        restingRate.setToolTipText("current resting heart rate");
         col1.setToolTipText("minutes spent in this zone");
         col2.setToolTipText("1 cal = 4.184 J");
         col3.setToolTipText("minutes spent in this zone");
@@ -236,7 +235,7 @@ public class HeartRate extends JPanel implements ActionListener {
         col8.setToolTipText("1 cal = 4.184 J");
 
         date.setFont(new Font("Arial", Font.BOLD, 14));
-        date2.setFont(new Font("Arial", Font.BOLD, 14));
+        restingRate.setFont(new Font("Arial", Font.BOLD, 14));
         col1.setFont(new Font("Arial", Font.BOLD, 14));
         col2.setFont(new Font("Arial", Font.BOLD, 14));
         col3.setFont(new Font("Arial", Font.BOLD, 14));
@@ -247,7 +246,7 @@ public class HeartRate extends JPanel implements ActionListener {
         col8.setFont(new Font("Arial", Font.BOLD, 14));
 
         date.setForeground(Color.white);
-        date2.setForeground(Color.white);
+        restingRate.setForeground(Color.white);
         col1.setForeground(Color.white);
         col2.setForeground(Color.white);
         col3.setForeground(Color.white);
@@ -257,9 +256,9 @@ public class HeartRate extends JPanel implements ActionListener {
         col7.setForeground(Color.white);
         col8.setForeground(Color.white);
         px.add(prevButton);
-        px.add(date2);
+        px.add(restingRate);
         px.add(nextButton);
-        px.add(Box.createHorizontalStrut(200));
+        px.add(Box.createHorizontalStrut(100));
         px.add(date);
         p1.add(col1);
         p2.add(col2);
@@ -300,26 +299,39 @@ public class HeartRate extends JPanel implements ActionListener {
         add(p7);
         add(p8);
 
-        setSize(600, 400);
-        setVisible(true);
+        //tooltip texts for each heart zone
+        px.setToolTipText("Info about Resting HR");
+        p1.setToolTipText("Heart rate between 160 - 220 bpm");
+        p3.setToolTipText("Heart rate between 132 - 160 bpm");
+        p5.setToolTipText("Heart rate between 94 - 132 bpm");
+        p7.setToolTipText("Heart rate between 30 - 94 bpm");
+
+        this.refresh();
     }
 
     /**
      * Refreshes the Heart Rate data of an individual
      */
     public void refresh() {
+
         currDayView = (Calendar) fitbitInfo.getLastRefreshTime().clone();
-        date.setText(new SimpleDateFormat("MMMM d").format(fitbitInfo.getLastRefreshTime().getTime()));
-        date2.setText("" + fitbitInfo.getHeart().getRestingHeartRate());
-        col1.setText("" + fitbitInfo.getHeart().getPeakMins());
-        col2.setText("" + fitbitInfo.getHeart().getCardioMins());
-        col3.setText("" + fitbitInfo.getHeart().getFatBurnMins());
-        col4.setText("" + fitbitInfo.getHeart().getOutOfRangeMins());
-        col5.setText("" + fitbitInfo.getHeart().getPeakCalsOut());
-        col6.setText("" + fitbitInfo.getHeart().getCardioCalsOut());
-        col7.setText("" + fitbitInfo.getHeart().getFatBurnCalsOut());
-        col8.setText("" + fitbitInfo.getHeart().getOutOfRangeCalsOut());
-        
+        date.setText(new SimpleDateFormat("EEEE, MMMM d, yyyy").format(fitbitInfo.getLastRefreshTime().getTime()));
+        restingRate.setText("\t Resting Heart Rate: \t" + fitbitInfo.getHeart().getRestingHeartRate() + " bpm");
+
+        double roundedPeakCal = Math.round(fitbitInfo.getHeart().getPeakCalsOut() * 100.0) / 100.0;
+        double roundedCardioCal = Math.round(fitbitInfo.getHeart().getCardioCalsOut() * 100.0) / 100.0;
+        double roundedFatCal = Math.round(fitbitInfo.getHeart().getFatBurnCalsOut() * 100.0) / 100.0;
+        double roundedOutCal = Math.round(fitbitInfo.getHeart().getOutOfRangeCalsOut() * 100.0) / 100.0;
+
+        col1.setText("" + fitbitInfo.getHeart().getPeakMins() + " mins");
+        col2.setText("" + roundedPeakCal + " cal");
+        col3.setText("" + fitbitInfo.getHeart().getCardioMins() + " mins");
+        col4.setText("" + roundedCardioCal + " cal");
+        col5.setText("" + fitbitInfo.getHeart().getFatBurnMins() + " mins");
+        col6.setText("" + roundedFatCal + " cal");
+        col7.setText("" + fitbitInfo.getHeart().getOutOfRangeMins() + " mins");
+        col8.setText("" + roundedOutCal + " cal");
+
         p1.setVisible(userConfig.isPeakVisible());
         p2.setVisible(userConfig.isPeakVisible());
         p3.setVisible(userConfig.isCardioVisible());
@@ -328,6 +340,8 @@ public class HeartRate extends JPanel implements ActionListener {
         p6.setVisible(userConfig.isFatVisible());
         p7.setVisible(userConfig.isOutVisible());
         p8.setVisible(userConfig.isOutVisible());
+
+        nextButton.setVisible(false);
     }
 
     /**
@@ -339,12 +353,11 @@ public class HeartRate extends JPanel implements ActionListener {
         if (e.getSource() == graphButton) {
             //    JFrame ViewGraphGUI = new JFrame();
             //    new ViewGraphGUI();
-        }else if (e.getSource() == prevButton) {
+        } else if (e.getSource() == prevButton) {
             currDayView.add(Calendar.DAY_OF_MONTH, -1);
             showDay(currDayView);
             nextButton.setVisible(true);
-        } 
-        else if (e.getSource() == nextButton) {
+        } else if (e.getSource() == nextButton) {
             currDayView.add(Calendar.DAY_OF_MONTH, 1);
             if (currDayView.equals(fitbitInfo.getLastRefreshTime())
                     || currDayView.after(fitbitInfo.getLastRefreshTime())) {
@@ -353,7 +366,7 @@ public class HeartRate extends JPanel implements ActionListener {
             } else {
                 showDay(currDayView);
             }
-        } 
+        }
     }
 
     /**
@@ -362,31 +375,38 @@ public class HeartRate extends JPanel implements ActionListener {
      * @param dayToShow today's date that the user is seeing
      */
     private void showDay(Calendar dayToShow) {
-        Daily dayInfo;
-        if (fitbitInfo.getDay().getDate().equals("yyyy-MM-dd")) { //checks if in Test Mode
+        HeartData heartInfo;
+
+        if (fitbitInfo.isTestMode()) { //checks if in Test Mode
             FitbitInfo info = new FitbitInfo();
             info.testModeData();
-            dayInfo = info.getDay();
+            heartInfo = info.getHeart();
         } else {
             try {
-                dayInfo = Api.getDailySummary(new SimpleDateFormat("yyyy-MM-dd").format(dayToShow.getTime()));
+                heartInfo = Api.getHeartSummary(new SimpleDateFormat("yyyy-MM-dd").format(dayToShow.getTime()));
             } catch (JSONException ex) {
-                JOptionPane.showMessageDialog(new JFrame(), "Unable to display data.");
-                return; //so that the data does not update
+                heartInfo = new HeartData(new SimpleDateFormat("yyyy-MM-dd").format(dayToShow.getTime()), 0, 0, 0, 0, 0, 0, 0, 0, 0, null);
+                System.out.println("Note: HR Data not available for " + heartInfo.getDate());
             } catch (RefreshTokenException ex) {
                 JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
                 return; //so that the data does not update
             }
         }
-        date.setText(new SimpleDateFormat("dd MMM yyyy").format(dayToShow.getTime()));
-        date2.setText("" + fitbitInfo.getHeart().getRestingHeartRate());
-        col1 = new JLabel("" + fitbitInfo.getHeart().getPeakMins());
-        col2 = new JLabel("" + fitbitInfo.getHeart().getPeakCalsOut());
-        col3 = new JLabel("" + fitbitInfo.getHeart().getCardioMins());
-        col4 = new JLabel("" + fitbitInfo.getHeart().getCardioCalsOut());
-        col5 = new JLabel("" + fitbitInfo.getHeart().getFatBurnMins());
-        col6 = new JLabel("" + fitbitInfo.getHeart().getFatBurnCalsOut());
-        col7 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeMins());
-        col8 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeCalsOut());   
+
+        double roundedPeakCal = Math.round(heartInfo.getPeakCalsOut() * 100.0) / 100.0;
+        double roundedCardioCal = Math.round(heartInfo.getCardioCalsOut() * 100.0) / 100.0;
+        double roundedFatCal = Math.round(heartInfo.getFatBurnCalsOut() * 100.0) / 100.0;
+        double roundedOutCal = Math.round(heartInfo.getOutOfRangeCalsOut() * 100.0) / 100.0;
+
+        date.setText(new SimpleDateFormat("EEEE, MMMM d, yyyy").format(dayToShow.getTime()));
+        restingRate.setText("\t Resting Heart Rate: \t" + heartInfo.getRestingHeartRate() + " bpm");
+        col1.setText("" + heartInfo.getPeakMins() + " mins");
+        col2.setText("" + roundedPeakCal + " cals");
+        col3.setText("" + heartInfo.getCardioMins() + " mins");
+        col4.setText("" + roundedCardioCal + " cals");
+        col5.setText("" + heartInfo.getFatBurnMins() + " mins");
+        col6.setText("" + roundedFatCal + " cals");
+        col7.setText("" + heartInfo.getOutOfRangeMins() + " mins");
+        col8.setText("" + roundedOutCal + " cals");
     }
 }
