@@ -81,10 +81,12 @@ public class DailyGoals extends JPanel implements ActionListener {
         calendarButton.setToolTipText("View Previous Day");
         ImageIcon icon = new ImageIcon(FileReader.getImage("calendar.png"));
         calendarButton.setIcon(icon);
+        calendarButton.setFocusPainted(false);
 
         todayButton = new JToggleButton("Today");
         todayButton.setToolTipText("Today's Activity");
         todayButton.addActionListener(this);
+        todayButton.setFocusPainted(false);
         buttonGroup = new ButtonGroup();
         buttonGroup.add(calendarButton);
         buttonGroup.add(todayButton);
@@ -186,6 +188,7 @@ public class DailyGoals extends JPanel implements ActionListener {
         panel.add(progBar);
         panel.add(Box.createHorizontalStrut(50));
         edit.setName(header.getText());
+        edit.setFocusPainted(false);
         panel.add(edit);
 
         panel.add(Box.createHorizontalStrut(20));
