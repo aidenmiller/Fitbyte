@@ -1,11 +1,11 @@
-
 package ca.uwo.csd.cs2212.team07;
 
 import java.io.Serializable;
 
 /**
- * Lifetime class, this class stores data of the user's lifetime information. Total distance that they traveled,
- * total floors climbed and steps taken
+ * Lifetime class, this class stores data of the user's lifetime information.
+ * Total distance that they traveled, total floors climbed and steps taken
+ *
  * @author Team07
  */
 public class Lifetime implements Serializable {
@@ -17,6 +17,7 @@ public class Lifetime implements Serializable {
 
     /**
      * Constructor Method: makes a new Lifetime object
+     *
      * @param lifeDistance distance that user has traveled while using Fitbit
      * @param lifeFloors floors that user has climbed while using Fitbit
      * @param lifeSteps steps that user has taken while using Fitbit
@@ -29,7 +30,9 @@ public class Lifetime implements Serializable {
 
     /**
      * getDistance() method:
-     * @return the distance that has been traveled in the lifetime of this Fitbit
+     *
+     * @return the distance that has been traveled in the lifetime of this
+     * Fitbit
      */
     public double getDistance() {
         return distance;
@@ -37,7 +40,9 @@ public class Lifetime implements Serializable {
 
     /**
      * setDistance() method
-     * @param distance double to set as the distance that has been traveled in the lifetime of the fitbit
+     *
+     * @param distance double to set as the distance that has been traveled in
+     * the lifetime of the fitbit
      */
     public void setDistance(double distance) {
         this.distance = distance;
@@ -45,6 +50,7 @@ public class Lifetime implements Serializable {
 
     /**
      * getFloors() method:
+     *
      * @return double of the number of floors climbed
      */
     public double getFloors() {
@@ -53,6 +59,7 @@ public class Lifetime implements Serializable {
 
     /**
      * setFloors() method
+     *
      * @param floors, value to set as number of floors climbed
      */
     public void setFloors(double floors) {
@@ -61,6 +68,7 @@ public class Lifetime implements Serializable {
 
     /**
      * getSteps() method:
+     *
      * @return value of steps that have been taken
      */
     public long getSteps() {
@@ -69,12 +77,11 @@ public class Lifetime implements Serializable {
 
     /**
      * setSteps() method:
+     *
      * @param steps long value of steps that have been taken
      */
     public void setSteps(long steps) {
         this.steps = steps;
     }
 
-    
 }
-

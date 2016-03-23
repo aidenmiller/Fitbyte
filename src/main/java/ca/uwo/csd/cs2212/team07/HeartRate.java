@@ -393,9 +393,11 @@ public class HeartRate extends JPanel implements ActionListener {
     }
 
     /**
-     * displayHeartGraph() method, loads time series data from the api, and displays a graph based on data
+     * displayHeartGraph() method, loads time series data from the api, and
+     * displays a graph based on data
+     *
      * @param title Title of graph String
-     * @param yAxisTitle  Title of y axis String
+     * @param yAxisTitle Title of y axis String
      */
     private void displayHeartGraph(String title, String yAxisTitle) {
         if (fitbitInfo.isTestMode()) {

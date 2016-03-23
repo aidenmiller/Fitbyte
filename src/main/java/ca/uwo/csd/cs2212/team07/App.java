@@ -1,6 +1,5 @@
 package ca.uwo.csd.cs2212.team07;
 
-import static javax.swing.JFrame.setDefaultLookAndFeelDecorated;
 import javax.swing.SwingUtilities;
 
 /**
@@ -17,7 +16,6 @@ public class App {
      * @param args command line arguments supplied
      */
     public static void main(String[] args) {
-       
 
         //Runs test mode if specified by the command line argument
         if (args.length > 0 && args[0].equals("test")) {
@@ -28,8 +26,7 @@ public class App {
                     window.setVisible(true);
                 }
             });
-        } 
-        //Runs normal mode if either no command line argument is provided or arguments are unrecognized
+        } //Runs normal mode if either no command line argument is provided or arguments are unrecognized
         else {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {

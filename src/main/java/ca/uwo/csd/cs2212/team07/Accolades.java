@@ -54,7 +54,8 @@ public class Accolades extends JPanel {
      * Constructor for the Accolades class
      *
      * @param fitbitInfo Container for user data
-     * @param userConfig Container that holds user configuration through program launches
+     * @param userConfig Container that holds user configuration through program
+     * launches
      */
     public Accolades(FitbitInfo fitbitInfo, UserConfig userConfig) {
         super();
@@ -559,7 +560,7 @@ public class Accolades extends JPanel {
      * @return a JPanel containing the data box for the data item
      */
     private JPanel createDataBox(JLabel header, JLabel iconLabel1, JLabel iconLabel2, JLabel iconLabel3, Color color) {
-       Font defaultFont = new Font("Helvetica", Font.PLAIN, 15);
+        Font defaultFont = new Font("Helvetica", Font.PLAIN, 15);
         JPanel panel = new JPanel();
 
         panel.setBackground(color);

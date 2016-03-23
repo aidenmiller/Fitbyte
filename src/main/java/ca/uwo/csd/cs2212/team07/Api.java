@@ -1,13 +1,12 @@
 package ca.uwo.csd.cs2212.team07;
 
 import com.github.scribejava.core.model.*; //Request Verb
-import java.net.URI;
-import org.json.JSONObject;
-import org.json.JSONArray;
-import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * The API class manages API calls made to Fitbit, it calls on the
@@ -179,7 +178,7 @@ public class Api {
         Response response = RefreshTokens.getResponse(requestUrl); // get Response JSON object from API
 
         JSONObject obj = new JSONObject(response.getBody()); // create JSON object from Fitbit's response
-        
+
         // data pertaining to the "out of range" heartrate category
         JSONObject outOfRange
                 = obj.getJSONArray("activities-heart").getJSONObject(0).getJSONObject("value").getJSONArray("heartRateZones").getJSONObject(0);
