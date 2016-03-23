@@ -70,6 +70,7 @@ public class MainWindow extends JFrame implements ActionListener {
         this.getUserData();
         this.getUserConfig();
         this.initUI();
+        
     }
 
     /**
@@ -145,11 +146,12 @@ public class MainWindow extends JFrame implements ActionListener {
         dailyGoalsButton = makeMenuButton("Daily Goals", "menubuttons/dailygoals.png", "menubuttons/dailygoals_pressed.png");
         heartRateButton = makeMenuButton("Heart Rate", "menubuttons/heartrate.png", "menubuttons/heartrate_pressed.png");
         accoladesButton = makeMenuButton("Accolades", "menubuttons/accolades.png", "menubuttons/accolades_pressed.png");
+      
         menuBar.add(dashboardButton);
-        menuBar.add(dailyGoalsButton);
-        menuBar.add(heartRateButton);
-        menuBar.add(accoladesButton);
-        topBar.add(menuBar);
+       menuBar.add(dailyGoalsButton);
+       menuBar.add(heartRateButton);
+       menuBar.add(accoladesButton);
+      topBar.add(menuBar);  
         //end of menu bar
 
         //logo panel
@@ -173,18 +175,24 @@ public class MainWindow extends JFrame implements ActionListener {
         refreshButton.setBorderPainted(false);
         refreshButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/refresh_pressed.png")));
         refreshButton.addActionListener(this);
+         refreshButton.setPreferredSize(new Dimension(35,20));
+        refreshButton.setContentAreaFilled(false);
 
         settingsButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/settings.png")));
         settingsButton.setToolTipText("Settings");
         settingsButton.setBorderPainted(false);
         settingsButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/settings_pressed.png")));
         settingsButton.addActionListener(this);
+         settingsButton.setPreferredSize(new Dimension(35,20));
+        settingsButton.setContentAreaFilled(false);
 
         exitButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/exit.png")));
         exitButton.setToolTipText("Exit");
         exitButton.setBorderPainted(false);
         exitButton.setRolloverIcon(new ImageIcon(FileReader.getImage("menubuttons/exit_pressed.png")));
         exitButton.addActionListener(this);
+         exitButton.setPreferredSize(new Dimension(35,20));
+        exitButton.setContentAreaFilled(false);
 
         optionsBar.add(Box.createHorizontalGlue());
         optionsBar.add(refreshButton);
@@ -201,7 +209,7 @@ public class MainWindow extends JFrame implements ActionListener {
         bottomBar.setLayout(new BoxLayout(bottomBar, BoxLayout.X_AXIS));
         bottomBar.setBackground(panelColor);
 
-        JLabel fitbitCredit = new JLabel("Designed for use with the FITBITÂ® platform.");
+        JLabel fitbitCredit = new JLabel("Designed for use with the FITBIT® platform.");
         fitbitCredit.setForeground(Color.white);
         fitbitCredit.setFont(new Font(fitbitCredit.getFont().getName(), Font.PLAIN, 10));
         bottomBar.add(Box.createHorizontalStrut(20));
@@ -254,6 +262,9 @@ public class MainWindow extends JFrame implements ActionListener {
         buttonGroup.add(button);
         button.setToolTipText(name);
         button.setBorderPainted(false);
+        button.setPreferredSize(new Dimension(0,50));
+        button.setContentAreaFilled(false);
+
         ImageIcon icon = new ImageIcon(FileReader.getImage(iconFile));
         ImageIcon iconSelected = new ImageIcon(FileReader.getImage(iconSelectedFile));
         button.setIcon(icon);
