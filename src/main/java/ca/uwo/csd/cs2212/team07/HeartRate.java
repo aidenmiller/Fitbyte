@@ -1,40 +1,22 @@
 package ca.uwo.csd.cs2212.team07;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Font;
-import java.text.SimpleDateFormat;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Calendar;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JToggleButton;
 import org.json.JSONException;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.text.SimpleDateFormat;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
-import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JToggleButton;
 import java.awt.*;
 
 /**
@@ -69,11 +51,12 @@ public class HeartRate extends JPanel implements ActionListener {
         renderingGUI();
     }
 
-    @Override
-
     /**
-     * draws the background of the HeartRate Page
+     * Repaint the background of the JPanel
+     *
+     * @param g graphics component
      */
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(heartBackground, 0, 0, getWidth(), getHeight(), this);
@@ -370,9 +353,9 @@ public class HeartRate extends JPanel implements ActionListener {
     }
 
     /**
-     * Shows today's date to the user
+     * Shows a set date to the user
      *
-     * @param dayToShow today's date that the user is seeing
+     * @param dayToShow the date that the user is changing to
      */
     private void showDay(Calendar dayToShow) {
         HeartData heartInfo;
@@ -385,7 +368,7 @@ public class HeartRate extends JPanel implements ActionListener {
             try {
                 heartInfo = Api.getHeartSummary(new SimpleDateFormat("yyyy-MM-dd").format(dayToShow.getTime()));
             } catch (JSONException ex) {
-                heartInfo = new HeartData(new SimpleDateFormat("yyyy-MM-dd").format(dayToShow.getTime()), 0, 0, 0, 0, 0, 0, 0, 0, 0, null);
+                heartInfo = new HeartData(new SimpleDateFormat("yyyy-MM-dd").format(dayToShow.getTime()), 0, 0, 0, 0, 0, 0, 0, 0, 0);
                 System.out.println("Note: HR Data not available for " + heartInfo.getDate());
             } catch (RefreshTokenException ex) {
                 JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
