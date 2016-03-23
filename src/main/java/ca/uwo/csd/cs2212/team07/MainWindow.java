@@ -177,6 +177,7 @@ public class MainWindow extends JFrame implements ActionListener {
         refreshButton.addActionListener(this);
          refreshButton.setPreferredSize(new Dimension(35,20));
         refreshButton.setContentAreaFilled(false);
+        refreshButton.setFocusPainted(false);
 
         settingsButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/settings.png")));
         settingsButton.setToolTipText("Settings");
@@ -185,6 +186,7 @@ public class MainWindow extends JFrame implements ActionListener {
         settingsButton.addActionListener(this);
          settingsButton.setPreferredSize(new Dimension(35,20));
         settingsButton.setContentAreaFilled(false);
+        settingsButton.setFocusPainted(false);
 
         exitButton = new JButton(new ImageIcon(FileReader.getImage("menubuttons/exit.png")));
         exitButton.setToolTipText("Exit");
@@ -193,6 +195,7 @@ public class MainWindow extends JFrame implements ActionListener {
         exitButton.addActionListener(this);
          exitButton.setPreferredSize(new Dimension(35,20));
         exitButton.setContentAreaFilled(false);
+        exitButton.setFocusPainted(false);
 
         optionsBar.add(Box.createHorizontalGlue());
         optionsBar.add(refreshButton);
@@ -271,6 +274,7 @@ public class MainWindow extends JFrame implements ActionListener {
         button.setRolloverIcon(iconSelected);
         button.setSelectedIcon(iconSelected);
         button.setRolloverSelectedIcon(iconSelected);
+        button.setFocusPainted(false);
 
         return button;
     }
