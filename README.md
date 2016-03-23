@@ -1,4 +1,4 @@
-# FitByte - CS2212b Team 07
+# FitByte - CS2212  Winter 2016  Team 07
 ### Optimized UI for Mac OS X
 
 ## Working with the team07 repository
