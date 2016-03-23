@@ -224,7 +224,7 @@ public class MainWindow extends JFrame implements ActionListener {
         dashboard = new Dashboard(fitbitInfo, userConfig);
         dailyGoals = new DailyGoals(fitbitInfo, userConfig);
         accolades = new Accolades(fitbitInfo, userConfig);
-        heartRate = new HeartRate(fitbitInfo);
+        heartRate = new HeartRate(fitbitInfo, userConfig);
 
         cardPane = new JPanel(new CardLayout());
         cardPane.add(dashboard, "Dashboard");
@@ -330,7 +330,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
         if (fitbitInfo.isTestMode()) {
             fitbitInfo.testModeData();
-        } else {
+        } /*else {
             try {
                 fitbitInfo.refreshInfo(Calendar.getInstance());
             } catch (JSONException ex) {
@@ -341,7 +341,7 @@ public class MainWindow extends JFrame implements ActionListener {
                 return;
             }
         }
-
+*/
         lastRefresh.setForeground(Color.yellow);
         timer = new Timer(2000, this);
         timer.setRepeats(false);

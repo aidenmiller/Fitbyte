@@ -28,6 +28,7 @@ import java.awt.*;
 public class HeartRate extends JPanel implements ActionListener {
 
     private final FitbitInfo fitbitInfo;
+    private final UserConfig userConfig;
     private JToggleButton graphButton;
     private Calendar currDayView;
     private JLabel date, date2;
@@ -41,11 +42,13 @@ public class HeartRate extends JPanel implements ActionListener {
      *
      * @param fitbitInfo
      */
-    public HeartRate(FitbitInfo fitbitInfo) {
+    public HeartRate(FitbitInfo fitbitInfo, UserConfig userConfig) {
         super();
         heartBackground = new ImageIcon(FileReader.getImage("iconmafia/heartbackground.png")).getImage();
         this.fitbitInfo = fitbitInfo;
+        this.userConfig = userConfig;
         renderingGUI();
+        this.refresh();
     }
 
     @Override
@@ -186,13 +189,13 @@ public class HeartRate extends JPanel implements ActionListener {
 
         date = new JLabel(new SimpleDateFormat("MMMM d").format(fitbitInfo.getLastRefreshTime().getTime()));
         date2 = new JLabel("Resting Heart Rate: " + fitbitInfo.getHeart().getRestingHeartRate());
-        col1 = new JLabel(fitbitInfo.getHeart().getPeakMins() + " mins");
-        col2 = new JLabel("" + fitbitInfo.getHeart().getCardioMins() + " cal");
-        col3 = new JLabel("" + fitbitInfo.getHeart().getFatBurnMins() + " mins");
-        col4 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeMins() + " cal");
-        col5 = new JLabel("" + fitbitInfo.getHeart().getPeakCalsOut() + " mins");
-        col6 = new JLabel("" + fitbitInfo.getHeart().getCardioCalsOut() + " cal");
-        col7 = new JLabel("" + fitbitInfo.getHeart().getFatBurnCalsOut() + " mins");
+        col1 = new JLabel("" + fitbitInfo.getHeart().getPeakMins() + " mins");
+        col2 = new JLabel("" + fitbitInfo.getHeart().getPeakCalsOut() + " cal");
+        col3 = new JLabel("" + fitbitInfo.getHeart().getCardioMins() + " mins");
+        col4 = new JLabel("" + fitbitInfo.getHeart().getCardioCalsOut() + " cal");
+        col5 = new JLabel("" + fitbitInfo.getHeart().getFatBurnMins() + " mins");
+        col6 = new JLabel("" + fitbitInfo.getHeart().getFatBurnCalsOut() + " cal");
+        col7 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeMins() + " mins");
         col8 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeCalsOut() + " cal");
 
         date.setToolTipText("today's date");
@@ -289,6 +292,15 @@ public class HeartRate extends JPanel implements ActionListener {
         col6.setText("" + fitbitInfo.getHeart().getCardioCalsOut());
         col7.setText("" + fitbitInfo.getHeart().getFatBurnCalsOut());
         col8.setText("" + fitbitInfo.getHeart().getOutOfRangeCalsOut());
+        
+        p1.setVisible(userConfig.isPeakVisible());
+        p2.setVisible(userConfig.isPeakVisible());
+        p3.setVisible(userConfig.isCardioVisible());
+        p4.setVisible(userConfig.isCardioVisible());
+        p5.setVisible(userConfig.isFatVisible());
+        p6.setVisible(userConfig.isFatVisible());
+        p7.setVisible(userConfig.isOutVisible());
+        p8.setVisible(userConfig.isOutVisible());
     }
 
     /**
@@ -328,12 +340,15 @@ public class HeartRate extends JPanel implements ActionListener {
         date.setText(new SimpleDateFormat("dd MMM yyyy").format(dayToShow.getTime()));
         date2.setText("" + fitbitInfo.getHeart().getRestingHeartRate());
         col1 = new JLabel("" + fitbitInfo.getHeart().getPeakMins());
-        col2 = new JLabel("" + fitbitInfo.getHeart().getCardioMins());
-        col3 = new JLabel("" + fitbitInfo.getHeart().getFatBurnMins());
-        col4 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeMins());
-        col5 = new JLabel("" + fitbitInfo.getHeart().getPeakCalsOut());
-        col6 = new JLabel("" + fitbitInfo.getHeart().getCardioCalsOut());
-        col7 = new JLabel("" + fitbitInfo.getHeart().getFatBurnCalsOut());
+        col2 = new JLabel("" + fitbitInfo.getHeart().getPeakCalsOut());
+        col3 = new JLabel("" + fitbitInfo.getHeart().getCardioMins());
+        col4 = new JLabel("" + fitbitInfo.getHeart().getCardioCalsOut());
+        col5 = new JLabel("" + fitbitInfo.getHeart().getFatBurnMins());
+        col6 = new JLabel("" + fitbitInfo.getHeart().getFatBurnCalsOut());
+        col7 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeMins());
         col8 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeCalsOut());
+        
+     
+        
     }
 }
