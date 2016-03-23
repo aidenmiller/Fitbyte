@@ -392,6 +392,11 @@ public class HeartRate extends JPanel implements ActionListener {
         col8.setText("" + roundedOutCal + " cals");
     }
 
+    /**
+     * displayHeartGraph() method, loads time series data from the api, and displays a graph based on data
+     * @param title Title of graph String
+     * @param yAxisTitle  Title of y axis String
+     */
     private void displayHeartGraph(String title, String yAxisTitle) {
         if (fitbitInfo.isTestMode()) {
             JOptionPane.showMessageDialog(new JFrame(), "Heart Rate Graph not available in test mode");
