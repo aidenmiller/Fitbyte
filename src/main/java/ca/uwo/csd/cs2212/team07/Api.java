@@ -179,8 +179,7 @@ public class Api {
         Response response = RefreshTokens.getResponse(requestUrl); // get Response JSON object from API
 
         JSONObject obj = new JSONObject(response.getBody()); // create JSON object from Fitbit's response
-        JSONArray intraDayDataset = obj.getJSONObject("activities-heart-intraday").getJSONArray("dataset"); // gets Heart rate data at a 1m interval for the day
-
+        
         // data pertaining to the "out of range" heartrate category
         JSONObject outOfRange
                 = obj.getJSONArray("activities-heart").getJSONObject(0).getJSONObject("value").getJSONArray("heartRateZones").getJSONObject(0);
@@ -213,7 +212,7 @@ public class Api {
 
         // Return a new HeartData object with the info gathered from Fitbit's response
         return new HeartData(date, restingHeartRate, outOfRangeMins, fatBurnMins, cardioMins, peakMins, outOfRangeCalsOut, fatBurnCalsOut,
-                cardioCalsOut, peakCalsOut, intraDayDataset);
+                cardioCalsOut, peakCalsOut);
     }
 
     /**
