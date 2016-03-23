@@ -367,11 +367,11 @@ public class Dashboard extends JPanel implements ActionListener {
                 TimeGraph graph = new TimeGraph(title, yAxisTitle, Api.getTimeSeriesData(new SimpleDateFormat("yyyy-MM-dd").format(dateChooser.getDate()), activity, 1));
                 graph.showGraph();
             } catch (JSONException ex) {
-                System.err.println("WE MUST HANDLE THIS ERROR JSON");
+                JOptionPane.showMessageDialog(new JFrame(), "There was an error accessing Time Series data");
             } catch (RefreshTokenException ex) {
-                System.err.println("Unable to open Time Series Data for " + activity + " due to outdated team07tokens.txt file");
+                JOptionPane.showMessageDialog(new JFrame(), "There was an error accessing Time Series data (check tokens)");
             } catch (Exception ex) {
-                System.err.println("An unexpected error occured - please check tokens");
+                JOptionPane.showMessageDialog(new JFrame(), "An unexpected error occured");
             }
 
         }
