@@ -160,7 +160,9 @@ public class DailyGoals extends JPanel implements ActionListener {
      * Create a data box for one of the data items displayed on Daily Goals
      *
      * @param header name of data item
-     * @param data the data to display
+     * @param progBar the progress bar of the goal
+     * @param edit the button used to edit the goal
+     * @param iconFile the file for the image used
      * @param color the color of the data box
      * @return a JPanel containing the data box for the data item
      */

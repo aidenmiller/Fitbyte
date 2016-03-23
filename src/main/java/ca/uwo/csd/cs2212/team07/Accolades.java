@@ -552,9 +552,9 @@ public class Accolades extends JPanel {
      * Create a data box for one of the data items displayed on the Accolades
      *
      * @param header Name of data to display
-     * @param iconFile JLabel of bronze accolade
-     * @param iconFile2 JLabel of silver accolade
-     * @param iconFile3 JLabel of gold accolade
+     * @param iconLabel1 JLabel of bronze accolade
+     * @param iconLabel2 JLabel of silver accolade
+     * @param iconLabel3 JLabel of gold accolade
      * @param color Color of the data box
      * @return a JPanel containing the data box for the data item
      */

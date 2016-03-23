@@ -143,8 +143,9 @@ public class Dashboard extends JPanel implements ActionListener {
     /**
      * Create a data box for one of the data items displayed on the Dashboard
      *
-     * @param header name of data item
+     * @param activity name of data item
      * @param data the data to display
+     * @param iconFile the filename of the image
      * @param color the color of the data box
      * @return a JPanel containing the data box for the data item
      */
@@ -198,7 +199,7 @@ public class Dashboard extends JPanel implements ActionListener {
         data.setFont(defaultFont);
         panel.add(data);
         panel.add(Box.createHorizontalStrut(50));
-        
+
         return panel;
     }
 
