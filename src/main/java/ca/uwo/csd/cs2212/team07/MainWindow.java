@@ -209,7 +209,7 @@ public class MainWindow extends JFrame implements ActionListener {
         bottomBar.setLayout(new BoxLayout(bottomBar, BoxLayout.X_AXIS));
         bottomBar.setBackground(panelColor);
 
-        JLabel fitbitCredit = new JLabel("Designed for use with the FITBIT® platform.");
+        JLabel fitbitCredit = new JLabel("Designed for use with the FITBITÂ® platform.");
         fitbitCredit.setForeground(Color.white);
         fitbitCredit.setFont(new Font(fitbitCredit.getFont().getName(), Font.PLAIN, 10));
         bottomBar.add(Box.createHorizontalStrut(20));
