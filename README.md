@@ -1,3 +1,6 @@
+# FitByte - CS2212b Team 07
+### Optimized UI for Mac OS X
+
 ## Working with the team07 repository
 
 Clone the repository onto your local system:
