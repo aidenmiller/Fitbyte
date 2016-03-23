@@ -101,11 +101,11 @@ public class Accolades extends JPanel {
         calImage2 = new ImageIcon(FileReader.getImage(caloriesSilver));
         calImage3 = new ImageIcon(FileReader.getImage(caloriesGold));
         calLabel1 = new JLabel(calImage1);
-        calLabel1.setToolTipText("Not yet achieved.");
+        calLabel1.setToolTipText("Not yet achieved");
         calLabel2 = new JLabel(calImage2);
-        calLabel2.setToolTipText("Not yet achieved.");
+        calLabel2.setToolTipText("Not yet achieved");
         calLabel3 = new JLabel(calImage3);
-        calLabel3.setToolTipText("Not yet achieved.");
+        calLabel3.setToolTipText("Not yet achieved");
         caloriesPanel = this.createDataBox(caloriesBurnedData, calLabel1, calLabel2, calLabel3, new Color(255, 175, 175));
 
         totalDistanceData = new JLabel("Distance Travelled (1 km , 3 km, 5 km)");
@@ -113,11 +113,11 @@ public class Accolades extends JPanel {
         disImage2 = new ImageIcon(FileReader.getImage(distanceSilver));
         disImage3 = new ImageIcon(FileReader.getImage(distanceGold));
         disLabel1 = new JLabel(disImage1);
-        disLabel1.setToolTipText("Not yet achieved.");
+        disLabel1.setToolTipText("Not yet achieved");
         disLabel2 = new JLabel(disImage2);
-        disLabel2.setToolTipText("Not yet achieved.");
+        disLabel2.setToolTipText("Not yet achieved");
         disLabel3 = new JLabel(disImage3);
-        disLabel3.setToolTipText("Not yet achieved.");
+        disLabel3.setToolTipText("Not yet achieved");
         distancePanel = this.createDataBox(totalDistanceData, disLabel1, disLabel2, disLabel3, new Color(180, 255, 190));
 
         floorsClimbedData = new JLabel("Floors Climbed (10 floors, 20 floors, 30 floors)");
@@ -125,11 +125,11 @@ public class Accolades extends JPanel {
         flImage2 = new ImageIcon(FileReader.getImage(floorsSilver));
         flImage3 = new ImageIcon(FileReader.getImage(floorsGold));
         flLabel1 = new JLabel(flImage1);
-        flLabel1.setToolTipText("Not yet achieved.");
+        flLabel1.setToolTipText("Not yet achieved");
         flLabel2 = new JLabel(flImage2);
-        flLabel2.setToolTipText("Not yet achieved.");
+        flLabel2.setToolTipText("Not yet achieved");
         flLabel3 = new JLabel(flImage3);
-        flLabel3.setToolTipText("Not yet achieved.");
+        flLabel3.setToolTipText("Not yet achieved");
         floorsPanel = this.createDataBox(floorsClimbedData, flLabel1, flLabel2, flLabel3, new Color(255, 220, 180));
 
         stepsTakenData = new JLabel("Steps Taken (2000 steps, 5000 steps, 10000 steps)");
@@ -137,11 +137,11 @@ public class Accolades extends JPanel {
         stImage2 = new ImageIcon(FileReader.getImage(stepsSilver));
         stImage3 = new ImageIcon(FileReader.getImage(stepsGold));
         stLabel1 = new JLabel(stImage1);
-        stLabel1.setToolTipText("Not yet achieved.");
+        stLabel1.setToolTipText("Not yet achieved");
         stLabel2 = new JLabel(stImage2);
-        stLabel2.setToolTipText("Not yet achieved.");
+        stLabel2.setToolTipText("Not yet achieved");
         stLabel3 = new JLabel(stImage3);
-        stLabel3.setToolTipText("Not yet achieved.");
+        stLabel3.setToolTipText("Not yet achieved");
         stepsPanel = this.createDataBox(stepsTakenData, stLabel1, stLabel2, stLabel3, new Color(180, 250, 255));
 
         activeMinutesData = new JLabel("Active Minutes (120 mins, 180 mins, 240 mins)");
@@ -149,11 +149,11 @@ public class Accolades extends JPanel {
         actImage2 = new ImageIcon(FileReader.getImage(activeSilver));
         actImage3 = new ImageIcon(FileReader.getImage(activeGold));
         actLabel1 = new JLabel(actImage1);
-        actLabel1.setToolTipText("Not yet achieved.");
+        actLabel1.setToolTipText("Not yet achieved");
         actLabel2 = new JLabel(actImage2);
-        actLabel2.setToolTipText("Not yet achieved.");
+        actLabel2.setToolTipText("Not yet achieved");
         actLabel3 = new JLabel(actImage3);
-        actLabel3.setToolTipText("Not yet achieved.");
+        actLabel3.setToolTipText("Not yet achieved");
         activePanel = this.createDataBox(activeMinutesData, actLabel1, actLabel2, actLabel3, new Color(250, 255, 180));
 
         dailyGoalsData = new JLabel("Daily Goals Met (1 goal, 3 goals, 5 goals)");
@@ -161,11 +161,11 @@ public class Accolades extends JPanel {
         goImage2 = new ImageIcon(FileReader.getImage(goalsSilver));
         goImage3 = new ImageIcon(FileReader.getImage(goalsGold));
         goLabel1 = new JLabel(goImage1);
-        goLabel1.setToolTipText("Not yet achieved.");
+        goLabel1.setToolTipText("Not yet achieved");
         goLabel2 = new JLabel(goImage2);
-        goLabel2.setToolTipText("Not yet achieved.");
+        goLabel2.setToolTipText("Not yet achieved");
         goLabel3 = new JLabel(goImage3);
-        goLabel3.setToolTipText("Not yet achieved.");
+        goLabel3.setToolTipText("Not yet achieved");
         goalsPanel = this.createDataBox(dailyGoalsData, goLabel1, goLabel2, goLabel3, new Color(160, 245, 185));
 
         accoladesEarnedData = new JLabel("Total Accolades Earned (5 accolades, 10 accolades, 20 accolades)");
@@ -173,11 +173,11 @@ public class Accolades extends JPanel {
         acImage2 = new ImageIcon(FileReader.getImage(accoladesSilver));
         acImage3 = new ImageIcon(FileReader.getImage(accoladesGold));
         acLabel1 = new JLabel(acImage1);
-        acLabel1.setToolTipText("Not yet achieved.");
+        acLabel1.setToolTipText("Not yet achieved");
         acLabel2 = new JLabel(acImage2);
-        acLabel2.setToolTipText("Not yet achieved.");
+        acLabel2.setToolTipText("Not yet achieved");
         acLabel3 = new JLabel(acImage3);
-        acLabel3.setToolTipText("Not yet achieved.");
+        acLabel3.setToolTipText("Not yet achieved");
         accoladesPanel = this.createDataBox(accoladesEarnedData, acLabel1, acLabel2, acLabel3, new Color(255, 200, 250));
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

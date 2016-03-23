@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class UserConfig implements Serializable {
 
-    private static final long serialVersionUID = 11L;
+    private static final long serialVersionUID = 12L;
 
     private boolean testMode;
 
@@ -106,27 +106,27 @@ public class UserConfig implements Serializable {
         accoladesAccoladeSilver = false;
         accoladesAccoladeGold = false;
 
-        caloriesAccoladeBronzeDate = "Not yet achieved.";
-        caloriesAccoladeSilverDate = "Not yet achieved.";
-        caloriesAccoladeGoldDate = "Not yet achieved.";
-        distanceAccoladeBronzeDate = "Not yet achieved.";
-        distanceAccoladeSilverDate = "Not yet achieved.";
-        distanceAccoladeGoldDate = "Not yet achieved.";
-        activeAccoladeBronzeDate = "Not yet achieved.";
-        activeAccoladeSilverDate = "Not yet achieved.";
-        activeAccoladeGoldDate = "Not yet achieved.";
-        stepsAccoladeBronzeDate = "Not yet achieved.";
-        stepsAccoladeSilverDate = "Not yet achieved.";
-        stepsAccoladeGoldDate = "Not yet achieved.";
-        floorsAccoladeBronzeDate = "Not yet achieved.";
-        floorsAccoladeSilverDate = "Not yet achieved.";
-        floorsAccoladeGoldDate = "Not yet achieved.";
-        goalsAccoladeBronzeDate = "Not yet achieved.";
-        goalsAccoladeSilverDate = "Not yet achieved.";
-        goalsAccoladeGoldDate = "Not yet achieved.";
-        accoladesAccoladeBronzeDate = "Not yet achieved.";
-        accoladesAccoladeSilverDate = "Not yet achieved.";
-        accoladesAccoladeGoldDate = "Not yet achieved.";
+        caloriesAccoladeBronzeDate = "Not yet achieved";
+        caloriesAccoladeSilverDate = "Not yet achieved";
+        caloriesAccoladeGoldDate = "Not yet achieved";
+        distanceAccoladeBronzeDate = "Not yet achieved";
+        distanceAccoladeSilverDate = "Not yet achieved";
+        distanceAccoladeGoldDate = "Not yet achieved";
+        activeAccoladeBronzeDate = "Not yet achieved";
+        activeAccoladeSilverDate = "Not yet achieved";
+        activeAccoladeGoldDate = "Not yet achieved";
+        stepsAccoladeBronzeDate = "Not yet achieved";
+        stepsAccoladeSilverDate = "Not yet achieved";
+        stepsAccoladeGoldDate = "Not yet achieved";
+        floorsAccoladeBronzeDate = "Not yet achieved";
+        floorsAccoladeSilverDate = "Not yet achieved";
+        floorsAccoladeGoldDate = "Not yet achieved";
+        goalsAccoladeBronzeDate = "Not yet achieved";
+        goalsAccoladeSilverDate = "Not yet achieved";
+        goalsAccoladeGoldDate = "Not yet achieved";
+        accoladesAccoladeBronzeDate = "Not yet achieved";
+        accoladesAccoladeSilverDate = "Not yet achieved";
+        accoladesAccoladeGoldDate = "Not yet achieved";
 
         calGoal = -1;
         activeGoal = -1;
