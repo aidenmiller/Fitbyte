@@ -5,10 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
 import org.json.JSONException;
-
+/**
+ * Stores data pulled from the Fitbit API when refreshed so that data retains through launches.
+ * @author team07
+ *
+ */
 public class FitbitInfo implements Serializable {
 
-    private static final long serialVersionUID = 16L;
+    private static final long serialVersionUID = 17L;
 
     private boolean testMode;
     private Daily day; //holds daily data
