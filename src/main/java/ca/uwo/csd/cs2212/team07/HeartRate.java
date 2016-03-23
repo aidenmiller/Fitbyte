@@ -186,7 +186,7 @@ public class HeartRate extends JPanel implements ActionListener {
         p7.add(a7);
         p8.add(a8);
 
-        px.add(Box.createHorizontalStrut(140));
+        px.add(Box.createHorizontalStrut(100));
         p1.add(Box.createHorizontalStrut(95));
         p2.add(Box.createHorizontalStrut(95));
         p3.add(Box.createHorizontalStrut(95));
@@ -283,7 +283,7 @@ public class HeartRate extends JPanel implements ActionListener {
         add(p8);
 
         //tooltip texts for each heart zone
-        px.setToolTipText("Info about Resting HR");
+        px.setToolTipText("Average heart rate on this day");
         p1.setToolTipText("Heart rate between 160 - 220 bpm");
         p3.setToolTipText("Heart rate between 132 - 160 bpm");
         p5.setToolTipText("Heart rate between 94 - 132 bpm");
@@ -334,8 +334,7 @@ public class HeartRate extends JPanel implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == graphButton) {
-            //    JFrame ViewGraphGUI = new JFrame();
-            //    new ViewGraphGUI();
+            this.displayHeartGraph("Heart Rate Data", "Heart Rate");
         } else if (e.getSource() == prevButton) {
             currDayView.add(Calendar.DAY_OF_MONTH, -1);
             showDay(currDayView);
@@ -391,5 +390,22 @@ public class HeartRate extends JPanel implements ActionListener {
         col6.setText("" + roundedFatCal + " cals");
         col7.setText("" + heartInfo.getOutOfRangeMins() + " mins");
         col8.setText("" + roundedOutCal + " cals");
+    }
+
+    private void displayHeartGraph(String title, String yAxisTitle) {
+        if (fitbitInfo.isTestMode()) {
+            JOptionPane.showMessageDialog(new JFrame(), "Heart Rate Graph not available in test mode");
+        } else {
+            try {
+                TimeGraph graph = new TimeGraph(title, yAxisTitle, Api.getTimeSeriesData(new SimpleDateFormat("yyyy-MM-dd").format(currDayView.getTime()), "heart", 1));
+                graph.showGraph();
+            } catch (JSONException ex) {
+                JOptionPane.showMessageDialog(new JFrame(), "There was an error accessing heart rate data on this day, try again later");
+            } catch (RefreshTokenException ex) {
+                JOptionPane.showMessageDialog(new JFrame(), "Unable to open Heart Rate graph, outdated tokens file");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(new JFrame(), "An unexpected error occured");
+            }
+        }
     }
 }
