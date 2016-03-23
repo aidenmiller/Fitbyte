@@ -42,7 +42,7 @@ public class FitbitInfo implements Serializable {
             this.heart = Api.getHeartSummary(date);
         } catch (JSONException ex) {
             this.heart = new HeartData(date, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-            System.out.println("Note: HR Data not available yet for today");
+            System.out.println("Due to API Restrictions, Heart Rate Data not available for " + day);
         }
 
     }

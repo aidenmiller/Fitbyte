@@ -77,15 +77,15 @@ public class HeartRate extends JPanel implements ActionListener {
         p7 = new JPanel();
         p8 = new JPanel();
 
-        px.setBackground(new Color(0, 0, 0, 200));
-        p1.setBackground(new Color(0, 0, 0, 200));
-        p2.setBackground(new Color(0, 0, 0, 200));
-        p3.setBackground(new Color(0, 0, 0, 200));
-        p4.setBackground(new Color(0, 0, 0, 200));
-        p5.setBackground(new Color(0, 0, 0, 200));
-        p6.setBackground(new Color(0, 0, 0, 200));
-        p7.setBackground(new Color(0, 0, 0, 200));
-        p8.setBackground(new Color(0, 0, 0, 200));
+        px.setBackground(new Color(255, 100, 100, 215));
+        p1.setBackground(new Color(255, 100, 100, 215));
+        p2.setBackground(new Color(255, 100, 100, 215));
+        p3.setBackground(new Color(255, 100, 100, 215));
+        p4.setBackground(new Color(255, 100, 100, 215));
+        p5.setBackground(new Color(255, 100, 100, 215));
+        p6.setBackground(new Color(255, 100, 100, 215));
+        p7.setBackground(new Color(255, 100, 100, 215));
+        p8.setBackground(new Color(255, 100, 100, 215));
 
         px.setLayout(new BoxLayout(px, BoxLayout.X_AXIS));
         p1.setLayout(new BoxLayout(p1, BoxLayout.X_AXIS));
@@ -368,7 +368,7 @@ public class HeartRate extends JPanel implements ActionListener {
                 heartInfo = Api.getHeartSummary(new SimpleDateFormat("yyyy-MM-dd").format(dayToShow.getTime()));
             } catch (JSONException ex) {
                 heartInfo = new HeartData(new SimpleDateFormat("yyyy-MM-dd").format(dayToShow.getTime()), 0, 0, 0, 0, 0, 0, 0, 0, 0);
-                System.out.println("Note: HR Data not available for " + heartInfo.getDate());
+                System.out.println("Due to API Restrictions, Heart Rate Data not available for " + heartInfo.getDate());
             } catch (RefreshTokenException ex) {
                 JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
                 return; //so that the data does not update
