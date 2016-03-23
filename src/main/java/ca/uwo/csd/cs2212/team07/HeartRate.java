@@ -77,9 +77,8 @@ public class HeartRate extends JPanel implements ActionListener {
         p7 = new JPanel();
         p8 = new JPanel();
 
-        
         px.setBackground(new Color(0, 0, 0, 175));
-        
+
         p1.setBackground(new Color(0, 0, 0, 175));
         p2.setBackground(new Color(0, 0, 0, 175));
         p3.setBackground(new Color(0, 0, 0, 175));
@@ -88,7 +87,6 @@ public class HeartRate extends JPanel implements ActionListener {
         p6.setBackground(new Color(0, 0, 0, 175));
         p7.setBackground(new Color(0, 0, 0, 175));
         p8.setBackground(new Color(0, 0, 0, 175));
-        
 
         px.setLayout(new BoxLayout(px, BoxLayout.X_AXIS));
         p1.setLayout(new BoxLayout(p1, BoxLayout.X_AXIS));
@@ -285,12 +283,28 @@ public class HeartRate extends JPanel implements ActionListener {
         add(p7);
         add(p8);
 
-        //tooltip texts for each heart zone
-        px.setToolTipText("Average heart rate on this day");
-        p1.setToolTipText("Heart rate between 160 - 220 bpm");
-        p3.setToolTipText("Heart rate between 132 - 160 bpm");
-        p5.setToolTipText("Heart rate between 94 - 132 bpm");
-        p7.setToolTipText("Heart rate between 30 - 94 bpm");
+        //tooltip texts for each heart zone, html used to get around line break tooltip restrictions
+        px.setToolTipText("Resting Heart Rate on this day");
+        p1.setToolTipText("<html>"
+                + "<b>" + "Peak Heart Rate" + "</b>" + ": between 160 - 220 bpm"
+                + "<br>"
+                + "<i>" + "High Intensity Exercise Zone, for short intense sessions that improve performance and speed" + "</i>"
+                + "</html>");
+        p3.setToolTipText("<html>"
+                + "<b>" + "Cardio Heart Rate" + "</b>" + ": between 132 - 160 bpm"
+                + "<br>"
+                + "<i>" +"Medium-High Intensity Exercise Zone, you're pushing yourself but not straining" + "</i>"
+                + "</html>");
+        p5.setToolTipText("<html>"
+                + "<b>" + "Fat Burn Heart Rate" + "</b>" + ": between 94 - 132 bpm"
+                + "<br>"
+                + "<i>" + "Low-to-Medium Intensity Exercise Zone, higher percentage of calories burned from fat, but total calorie burn rate is lower" + "</i>"
+                + "</html>");
+        p7.setToolTipText("<html>"
+                + "<b>" + "Out of Range Heart Rate" + "</b>" + ": between 30 - 94 bpm"
+                + "<br>"
+                + "<i>" + "Time spent in this zone is not considered exercise" + "</i>"
+                + "</html>");
 
         this.refresh();
     }
@@ -326,11 +340,10 @@ public class HeartRate extends JPanel implements ActionListener {
         p6.setVisible(userConfig.isFatVisible());
         p7.setVisible(userConfig.isOutVisible());
         p8.setVisible(userConfig.isOutVisible());
-       
+
         nextButton.setVisible(false);
         this.repaint();
-        
-        
+
     }
 
     /**
@@ -396,7 +409,7 @@ public class HeartRate extends JPanel implements ActionListener {
         col6.setText("" + roundedFatCal + " cals");
         col7.setText("" + heartInfo.getOutOfRangeMins() + " mins");
         col8.setText("" + roundedOutCal + " cals");
-    
+
         this.repaint();
     }
 
