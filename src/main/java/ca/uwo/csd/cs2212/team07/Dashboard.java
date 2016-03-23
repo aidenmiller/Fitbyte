@@ -69,16 +69,21 @@ public class Dashboard extends JPanel implements ActionListener {
         calendarButton.setToolTipText("View Previous Day");
         ImageIcon icon = new ImageIcon(FileReader.getImage("calendar.png"));
         calendarButton.setIcon(icon);
+        calendarButton.setFocusPainted(false);
 
         todayButton = new JToggleButton("Today");
         todayButton.setToolTipText("Today's Activity");
         todayButton.addActionListener(this);
+        todayButton.setFocusPainted(false);
         bestButton = new JToggleButton("Best");
         bestButton.setToolTipText("Best Days");
         bestButton.addActionListener(this);
+        bestButton.setFocusPainted(false);
         lifetimeButton = new JToggleButton("Lifetime");
         lifetimeButton.setToolTipText("Total Lifetime Activity");
         lifetimeButton.addActionListener(this);
+        lifetimeButton.setFocusPainted(false);
+        
         buttonGroup = new ButtonGroup();
         buttonGroup.add(calendarButton);
         buttonGroup.add(todayButton);

@@ -77,15 +77,16 @@ public class HeartRate extends JPanel implements ActionListener {
         p7 = new JPanel();
         p8 = new JPanel();
 
-        px.setBackground(new Color(0, 0, 0, 200));
-        p1.setBackground(new Color(0, 0, 0, 200));
-        p2.setBackground(new Color(0, 0, 0, 200));
-        p3.setBackground(new Color(0, 0, 0, 200));
-        p4.setBackground(new Color(0, 0, 0, 200));
-        p5.setBackground(new Color(0, 0, 0, 200));
-        p6.setBackground(new Color(0, 0, 0, 200));
-        p7.setBackground(new Color(0, 0, 0, 200));
-        p8.setBackground(new Color(0, 0, 0, 200));
+        px.setBackground(new Color(0, 0, 0, 175));
+
+        p1.setBackground(new Color(0, 0, 0, 175));
+        p2.setBackground(new Color(0, 0, 0, 175));
+        p3.setBackground(new Color(0, 0, 0, 175));
+        p4.setBackground(new Color(0, 0, 0, 175));
+        p5.setBackground(new Color(0, 0, 0, 175));
+        p6.setBackground(new Color(0, 0, 0, 175));
+        p7.setBackground(new Color(0, 0, 0, 175));
+        p8.setBackground(new Color(0, 0, 0, 175));
 
         px.setLayout(new BoxLayout(px, BoxLayout.X_AXIS));
         p1.setLayout(new BoxLayout(p1, BoxLayout.X_AXIS));
@@ -127,7 +128,7 @@ public class HeartRate extends JPanel implements ActionListener {
 
         graphButton = new JButton();
         graphButton.addActionListener(this);
-        graphButton.setToolTipText("Click here to view your own personal heartrate graph");
+        graphButton.setToolTipText("View Heart Rate Time Series  for this day");
         ImageIcon icon = new ImageIcon(FileReader.getImage("iconmafia/graph3.png"));
         graphButton.setIcon(icon);
         px.add(graphButton);
@@ -151,13 +152,13 @@ public class HeartRate extends JPanel implements ActionListener {
         p8.add(iconLabel8);
 
         JLabel a1 = new JLabel("Peak Zone: ");
-        JLabel a2 = new JLabel("Calories Burnt: ");
+        JLabel a2 = new JLabel("Calories Burned: ");
         JLabel a3 = new JLabel("Cardio Zone: ");
-        JLabel a4 = new JLabel("Calories Burnt: ");
+        JLabel a4 = new JLabel("Calories Burned: ");
         JLabel a5 = new JLabel("Fat Zone: ");
-        JLabel a6 = new JLabel("Calories Burnt: ");
+        JLabel a6 = new JLabel("Calories Burned: ");
         JLabel a7 = new JLabel("OOR Zone: ");
-        JLabel a8 = new JLabel("Calories Burnt: ");
+        JLabel a8 = new JLabel("Calories Burned: ");
 
         a1.setFont(new Font("Arial", Font.BOLD, 14));
         a2.setFont(new Font("Arial", Font.BOLD, 14));
@@ -207,14 +208,13 @@ public class HeartRate extends JPanel implements ActionListener {
         col7 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeMins() + " mins");
         col8 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeCalsOut() + " cal");
 
-        restingRate.setToolTipText("current resting heart rate");
-        col1.setToolTipText("minutes spent in this zone");
+        col1.setToolTipText("Minutes spent in this heart zone");
         col2.setToolTipText("1 cal = 4.184 J");
-        col3.setToolTipText("minutes spent in this zone");
+        col3.setToolTipText("Minutes spent in this heart zone");
         col4.setToolTipText("1 cal = 4.184 J");
-        col5.setToolTipText("minutes spent in this zone");
+        col5.setToolTipText("Minutes spent in this heart zone");
         col6.setToolTipText("1 cal = 4.184 J");
-        col7.setToolTipText("minutes spent in this zone");
+        col7.setToolTipText("Minutes spent in this heart zone");
         col8.setToolTipText("1 cal = 4.184 J");
 
         date.setFont(new Font("Arial", Font.BOLD, 14));
@@ -282,12 +282,28 @@ public class HeartRate extends JPanel implements ActionListener {
         add(p7);
         add(p8);
 
-        //tooltip texts for each heart zone
-        px.setToolTipText("Average heart rate on this day");
-        p1.setToolTipText("Heart rate between 160 - 220 bpm");
-        p3.setToolTipText("Heart rate between 132 - 160 bpm");
-        p5.setToolTipText("Heart rate between 94 - 132 bpm");
-        p7.setToolTipText("Heart rate between 30 - 94 bpm");
+        //tooltip texts for each heart zone, html used to get around line break tooltip restrictions
+        px.setToolTipText("Resting Heart Rate on this day");
+        p1.setToolTipText("<html>"
+                + "<b>" + "Peak Heart Rate" + "</b>" + ": between 160 - 220 bpm"
+                + "<br>"
+                + "<i>" + "High Intensity Exercise Zone, for short intense sessions that improve performance and speed" + "</i>"
+                + "</html>");
+        p3.setToolTipText("<html>"
+                + "<b>" + "Cardio Heart Rate" + "</b>" + ": between 132 - 160 bpm"
+                + "<br>"
+                + "<i>" +"Medium-High Intensity Exercise Zone, you're pushing yourself but not straining" + "</i>"
+                + "</html>");
+        p5.setToolTipText("<html>"
+                + "<b>" + "Fat Burn Heart Rate" + "</b>" + ": between 94 - 132 bpm"
+                + "<br>"
+                + "<i>" + "Low-to-Medium Intensity Exercise Zone, higher percentage of calories burned from fat, but total calorie burn rate is lower" + "</i>"
+                + "</html>");
+        p7.setToolTipText("<html>"
+                + "<b>" + "Out of Range Heart Rate" + "</b>" + ": between 30 - 94 bpm"
+                + "<br>"
+                + "<i>" + "Time spent in this zone is not considered exercise" + "</i>"
+                + "</html>");
 
         this.refresh();
     }
@@ -325,6 +341,8 @@ public class HeartRate extends JPanel implements ActionListener {
         p8.setVisible(userConfig.isOutVisible());
 
         nextButton.setVisible(false);
+        this.repaint();
+
     }
 
     /**
@@ -368,7 +386,7 @@ public class HeartRate extends JPanel implements ActionListener {
                 heartInfo = Api.getHeartSummary(new SimpleDateFormat("yyyy-MM-dd").format(dayToShow.getTime()));
             } catch (JSONException ex) {
                 heartInfo = new HeartData(new SimpleDateFormat("yyyy-MM-dd").format(dayToShow.getTime()), 0, 0, 0, 0, 0, 0, 0, 0, 0);
-                System.out.println("Note: HR Data not available for " + heartInfo.getDate());
+                System.out.println("Due to API Restrictions, Heart Rate Data not available for " + heartInfo.getDate());
             } catch (RefreshTokenException ex) {
                 JOptionPane.showMessageDialog(new JFrame(), "Refresh Tokens are out of date. Please replace tokens.");
                 return; //so that the data does not update
@@ -390,12 +408,16 @@ public class HeartRate extends JPanel implements ActionListener {
         col6.setText("" + roundedFatCal + " cals");
         col7.setText("" + heartInfo.getOutOfRangeMins() + " mins");
         col8.setText("" + roundedOutCal + " cals");
+
+        this.repaint();
     }
 
     /**
-     * displayHeartGraph() method, loads time series data from the api, and displays a graph based on data
+     * displayHeartGraph() method, loads time series data from the api, and
+     * displays a graph based on data
+     *
      * @param title Title of graph String
-     * @param yAxisTitle  Title of y axis String
+     * @param yAxisTitle Title of y axis String
      */
     private void displayHeartGraph(String title, String yAxisTitle) {
         if (fitbitInfo.isTestMode()) {

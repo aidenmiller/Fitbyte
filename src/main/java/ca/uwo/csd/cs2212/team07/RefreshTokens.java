@@ -9,30 +9,32 @@ import java.io.IOException;
 
 import com.github.scribejava.apis.FitbitApi20;
 import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.model.*; //Request Verb
-import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.apis.service.FitbitOAuth20ServiceImpl;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-
 /**
-
- *  This class is used to refresh tokens and make API calls
+ *
+ * This class is used to refresh tokens and make API calls
+ *
  * @author Team07
  */
 public class RefreshTokens {
 
-   // Static instance variables
+    // Static instance variables
     private static String CALL_BACK_URI = "http://localhost:8080";
     private static int CALL_BACK_PORT = 8080;
 
     /**
-     * getResponse() method, used to make an API request and returns the response from Fitbit
+     * getResponse() method, used to make an API request and returns the
+     * response from Fitbit
+     *
      * @param requestUrl url specifying the api request to make
-     * @return Response object containing JSON object with information from Fitbit
-     * @throws RefreshTokenException  if there is a problem refreshing (status code != 200)
+     * @return Response object containing JSON object with information from
+     * Fitbit
+     * @throws RefreshTokenException if there is a problem refreshing (status
+     * code != 200)
      */
     public static Response getResponse(String requestUrl) throws RefreshTokenException {
 
@@ -79,7 +81,7 @@ public class RefreshTokens {
                     "Unable to open file\n" + ex.getMessage());
             System.exit(1);
         } catch (IOException ex) {  // error message if file cannot be written
-            System.out.println( 
+            System.out.println(
                     "Error reading/write file\n" + ex.getMessage());
             System.exit(1);
         } finally { // gets executed no matter what
@@ -145,11 +147,9 @@ public class RefreshTokens {
                 try {
                     accessToken = service.refreshOAuth2AccessToken(accessToken); //THIS IS WHERE REFRESH TOKEN PROBLEM HAPPENS
                     writeToken(accessToken);
-                }
-                catch (RefreshTokenException e){
+                } catch (RefreshTokenException e) {
                     throw e;
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     throw new RefreshTokenException("Error refreshing token, expired token" + e.getMessage());
                 }
 
@@ -166,7 +166,6 @@ public class RefreshTokens {
                 throw new RefreshTokenException("429-Rate Limit Exceeded");
         }
 
-        
         // if the response code was not 200, throw exception
         if (response.getCode() != 200) {
             throw new RefreshTokenException("Error Accessing API");
@@ -174,9 +173,9 @@ public class RefreshTokens {
             return response;
         }
     }
-    
-    private static void writeToken(OAuth2AccessToken tokenToSave) throws RefreshTokenException{
-         BufferedWriter bufferedWriter = null;
+
+    private static void writeToken(OAuth2AccessToken tokenToSave) throws RefreshTokenException {
+        BufferedWriter bufferedWriter = null;
         //  Save the current accessToken information for next time
 
         // IF YOU DO NOT SAVE THE CURRENTLY ACTIVE TOKEN INFO YOU WILL NOT BE ABLE TO REFRESH
@@ -202,7 +201,7 @@ public class RefreshTokens {
         } catch (FileNotFoundException ex) {
             throw new RefreshTokenException("Unable to open file\n" + ex.getMessage());
         } catch (IOException ex) {
-             throw new RefreshTokenException("Unable to read/write file\n" + ex.getMessage());
+            throw new RefreshTokenException("Unable to read/write file\n" + ex.getMessage());
         } finally {
             try {
                 if (bufferedWriter != null) {
@@ -213,7 +212,7 @@ public class RefreshTokens {
                         "Error closing file\n" + e.getMessage());
             }
         }//end try
-       
+
     }
 
 }

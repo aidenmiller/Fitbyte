@@ -176,7 +176,7 @@ public class DateChooserGUI extends JPanel implements ActionListener {
             add(constructControlPanel(), BorderLayout.SOUTH);
         }
         setDate(calendar.getTime());
-        
+
     }
 
     /**

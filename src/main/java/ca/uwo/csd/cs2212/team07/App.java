@@ -26,8 +26,7 @@ public class App {
                     window.setVisible(true);
                 }
             });
-        } 
-        //Runs normal mode if either no command line argument is provided or arguments are unrecognized
+        } //Runs normal mode if either no command line argument is provided or arguments are unrecognized
         else {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {

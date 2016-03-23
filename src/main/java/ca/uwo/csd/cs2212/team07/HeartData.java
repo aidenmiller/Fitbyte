@@ -1,15 +1,14 @@
-
 package ca.uwo.csd.cs2212.team07;
 
 import java.io.Serializable;
-import org.json.JSONArray;
 
 /**
  * HeartData Class: Stores all the heartrate data for the user on any given day
+ *
  * @author Team07
  */
 public class HeartData implements Serializable {
-    
+
     //INSTANCE VARIABLES:
     private String date;
     private int restingHeartRate;
@@ -18,19 +17,21 @@ public class HeartData implements Serializable {
 
     /**
      * CONSTRUCTOR: Creates a new HeartData object
+     *
      * @param date The date that this heartrate data comes from
      * @param restingHeartRate Resting heart rate of the user on this day
      * @param outOfRangeMins minutes in the "out of range" heartrate category
      * @param fatBurnMins minutes in the "fat burn" heart rate category
      * @param cardioMins minutes in the "cardio" heart rate category
      * @param peakMins minutes in the "peak" heart rate category
-     * @param outOfRangeCalsOut calories burned while in the "out of range" category
+     * @param outOfRangeCalsOut calories burned while in the "out of range"
+     * category
      * @param fatBurnCalsOut calories burned while in the "fatburn" category
      * @param cardioCalsOut calories burned while in the "cardio" category
      * @param peakCalsOut calories burned while in the "peak" category
      */
-    public HeartData(String date, int restingHeartRate, int outOfRangeMins, int fatBurnMins, int cardioMins, int peakMins, double outOfRangeCalsOut, 
-                     double fatBurnCalsOut, double cardioCalsOut, double peakCalsOut) {
+    public HeartData(String date, int restingHeartRate, int outOfRangeMins, int fatBurnMins, int cardioMins, int peakMins, double outOfRangeCalsOut,
+            double fatBurnCalsOut, double cardioCalsOut, double peakCalsOut) {
         this.date = date;
         this.restingHeartRate = restingHeartRate;
         this.outOfRangeMins = outOfRangeMins;
@@ -45,6 +46,7 @@ public class HeartData implements Serializable {
 
     /**
      * getDate() method: returns the date string
+     *
      * @return date that this heart rate data comes from
      */
     public String getDate() {
@@ -52,7 +54,8 @@ public class HeartData implements Serializable {
     }
 
     /**
-     *setDate() method: sets the date of this heart rate data
+     * setDate() method: sets the date of this heart rate data
+     *
      * @param date String of date to set for this heart rate data
      */
     public void setDate(String date) {
@@ -61,6 +64,7 @@ public class HeartData implements Serializable {
 
     /**
      * getRestingHeartRate() method:
+     *
      * @return int of the resting heart rate for this day
      */
     public int getRestingHeartRate() {
@@ -69,6 +73,7 @@ public class HeartData implements Serializable {
 
     /**
      * setRestingHeartRate() method: sets the resting heart rate for this day
+     *
      * @param restingHeartRate int of resting heart rate to set
      */
     public void setRestingHeartRate(int restingHeartRate) {
@@ -76,8 +81,11 @@ public class HeartData implements Serializable {
     }
 
     /**
-     * getOutOfRangeMins() method: returns the minutes that this user spent in the "out of range" heartrate category in this day
-     * @return outOfRangeMins integer of mins user spent in the out of range heartrate category
+     * getOutOfRangeMins() method: returns the minutes that this user spent in
+     * the "out of range" heartrate category in this day
+     *
+     * @return outOfRangeMins integer of mins user spent in the out of range
+     * heartrate category
      */
     public int getOutOfRangeMins() {
         return outOfRangeMins;
@@ -85,7 +93,9 @@ public class HeartData implements Serializable {
 
     /**
      * setOutOfRangeMins()
-     * @param outOfRangeMins minutes to set as minutes spent in out of range heartrate category
+     *
+     * @param outOfRangeMins minutes to set as minutes spent in out of range
+     * heartrate category
      */
     public void setOutOfRangeMins(int outOfRangeMins) {
         this.outOfRangeMins = outOfRangeMins;
@@ -93,7 +103,9 @@ public class HeartData implements Serializable {
 
     /**
      * getFatBurnMins() method:
-     * @return int of the minutes spent in the fat burn heart rate category on this day
+     *
+     * @return int of the minutes spent in the fat burn heart rate category on
+     * this day
      */
     public int getFatBurnMins() {
         return fatBurnMins;
@@ -101,6 +113,7 @@ public class HeartData implements Serializable {
 
     /**
      * setFatBurnMins() method:
+     *
      * @param fatBurnMins int to set as the fat burn minutes for this day
      */
     public void setFatBurnMins(int fatBurnMins) {
@@ -109,6 +122,7 @@ public class HeartData implements Serializable {
 
     /**
      * getCardioMins() method:
+     *
      * @return int of the minutes spent in the cardio heart rate category
      */
     public int getCardioMins() {
@@ -117,7 +131,9 @@ public class HeartData implements Serializable {
 
     /**
      * setCardioMins() method:
-     * @param cardioMins int to set as the minutes spent in the "cardio" heart rate category
+     *
+     * @param cardioMins int to set as the minutes spent in the "cardio" heart
+     * rate category
      */
     public void setCardioMins(int cardioMins) {
         this.cardioMins = cardioMins;
@@ -125,6 +141,7 @@ public class HeartData implements Serializable {
 
     /**
      * getPeakMins() method:
+     *
      * @return int of the minutes spent in the "peak" heart rate category
      */
     public int getPeakMins() {
@@ -133,7 +150,9 @@ public class HeartData implements Serializable {
 
     /**
      * setPeakMins() method
-     * @param peakMins int to set as the minutes spent in the "peak" heart rate category
+     *
+     * @param peakMins int to set as the minutes spent in the "peak" heart rate
+     * category
      */
     public void setPeakMins(int peakMins) {
         this.peakMins = peakMins;
@@ -141,7 +160,9 @@ public class HeartData implements Serializable {
 
     /**
      * getOutOfRangeCalsOut() method
-     * @return a double value of the calories burned while spent in the "out of range" heart rate category
+     *
+     * @return a double value of the calories burned while spent in the "out of
+     * range" heart rate category
      */
     public double getOutOfRangeCalsOut() {
         return outOfRangeCalsOut;
@@ -149,7 +170,9 @@ public class HeartData implements Serializable {
 
     /**
      * setOutOfRangeCalsOut() method:
-     * @param outOfRangeCalsOut double value to set as the calories burned while in the out of range heart rate category
+     *
+     * @param outOfRangeCalsOut double value to set as the calories burned while
+     * in the out of range heart rate category
      */
     public void setOutOfRangeCalsOut(double outOfRangeCalsOut) {
         this.outOfRangeCalsOut = outOfRangeCalsOut;
@@ -157,7 +180,9 @@ public class HeartData implements Serializable {
 
     /**
      * getFatBurnCalsOut() method:
-     * @return double value representing calories burned while in the "fat burn" heart rate category
+     *
+     * @return double value representing calories burned while in the "fat burn"
+     * heart rate category
      */
     public double getFatBurnCalsOut() {
         return fatBurnCalsOut;
@@ -165,7 +190,9 @@ public class HeartData implements Serializable {
 
     /**
      * setFatBurnCalsOut() method:
-     * @param fatBurnCalsOut double value to set as the calories burned while in the fat burn heart rate category
+     *
+     * @param fatBurnCalsOut double value to set as the calories burned while in
+     * the fat burn heart rate category
      */
     public void setFatBurnCalsOut(double fatBurnCalsOut) {
         this.fatBurnCalsOut = fatBurnCalsOut;
@@ -173,7 +200,9 @@ public class HeartData implements Serializable {
 
     /**
      * getCardioCalsOut() method:
-     * @return double value of the calories burned while in the cardio heart rate category
+     *
+     * @return double value of the calories burned while in the cardio heart
+     * rate category
      */
     public double getCardioCalsOut() {
         return cardioCalsOut;
@@ -181,7 +210,9 @@ public class HeartData implements Serializable {
 
     /**
      * setCardioCalsOut() method:
-     * @param cardioCalsOut double value to set as the calories burned while in the cardio heart rate category
+     *
+     * @param cardioCalsOut double value to set as the calories burned while in
+     * the cardio heart rate category
      */
     public void setCardioCalsOut(double cardioCalsOut) {
         this.cardioCalsOut = cardioCalsOut;
@@ -189,7 +220,9 @@ public class HeartData implements Serializable {
 
     /**
      * getPeakCalsOut() method:
-     * @return double value of the calories burned while in the peak heart rate category
+     *
+     * @return double value of the calories burned while in the peak heart rate
+     * category
      */
     public double getPeakCalsOut() {
         return peakCalsOut;
@@ -197,11 +230,12 @@ public class HeartData implements Serializable {
 
     /**
      * setPeakCalsOut() method:
-     * @param peakCalsOut double value to set as the calories burned while in the peak heart rate category
+     *
+     * @param peakCalsOut double value to set as the calories burned while in
+     * the peak heart rate category
      */
     public void setPeakCalsOut(double peakCalsOut) {
         this.peakCalsOut = peakCalsOut;
     }
 
-   
 }

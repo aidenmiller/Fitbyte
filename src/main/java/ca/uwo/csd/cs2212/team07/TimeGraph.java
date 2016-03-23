@@ -28,7 +28,8 @@ public class TimeGraph extends ApplicationFrame {
      * @param title Title String of graph
      * @param yAxisTitle Y axis label string of graph (x axis will always be
      * time)
-     * @param timeData TimeSeriesData object that will be used to populate data points on the graph
+     * @param timeData TimeSeriesData object that will be used to populate data
+     * points on the graph
      */
     public TimeGraph(final String title, final String yAxisTitle, TimeSeriesData timeData) {
         super(title); // create new ApplicationFrame object with the title
@@ -39,8 +40,8 @@ public class TimeGraph extends ApplicationFrame {
 
         chartPanel.setMouseZoomable(true, false); // set zoomable in the x axis, but not the y axis
         chartPanel.setRangeZoomable(false);
-        setContentPane(chartPanel); 
-        
+        setContentPane(chartPanel);
+
         /* CUSTOMIZE GRAPH */
         chart.getPlot().setBackgroundPaint(Color.WHITE); // set background colour of chart
         chart.getTitle().setFont(new Font("Arial", 1, 24)); // set font and size of title
@@ -61,20 +62,22 @@ public class TimeGraph extends ApplicationFrame {
     }
 
     /**
-     * createDataset() method: converts the TimeSeriesData object into a dataset that the graph can use for population
+     * createDataset() method: converts the TimeSeriesData object into a dataset
+     * that the graph can use for population
+     *
      * @param data TimeSeriesData that will be used to populate TimeGraph
      * @return XYDataset in proper format that JFreeChart API can use
      */
     private XYDataset createDataset(TimeSeriesData data) {
-        
+
         final TimeSeries series = new TimeSeries("Fitbit Data");  //create TimeSeries object
-        
+
         for (int i = 0; i < data.getDatasetLength(); i++) { // loop through every data point in the TimeSeriesData object
             try {
                 TimePoint currentTimePoint = data.getTimePoint(i);
-                
+
                 // add each of these data points into the TimeSeries object, the time and the value
-                series.add(new Minute(Time.valueOf(currentTimePoint.getTime())), currentTimePoint.getValue()); 
+                series.add(new Minute(Time.valueOf(currentTimePoint.getTime())), currentTimePoint.getValue());
 
             } catch (SeriesException e) { // throw exception if there was a error parsing into the TimeSeries
                 System.err.println("Error adding to series");
@@ -82,9 +85,10 @@ public class TimeGraph extends ApplicationFrame {
         }
         return new TimeSeriesCollection(series); // return the TimeSeriesCollection that the chart will be able to use for population
     }
-    
+
     /**
      * windowClosing() method, overrides the default window closing
+     *
      * @param e WindowEvent of user clicking on 'X'
      */
     public void windowClosing(WindowEvent e) {
@@ -93,9 +97,11 @@ public class TimeGraph extends ApplicationFrame {
 
     /**
      * createChart() method: specifies the details of the chart
+     *
      * @param dataset data that will be used to populate chart
      * @param title title of graph
-     * @param yAxisTitle String of title of Y axis (distance, calories, steps, heartrate)
+     * @param yAxisTitle String of title of Y axis (distance, calories, steps,
+     * heartrate)
      * @return the created Time Series Chart
      */
     private JFreeChart createChart(final XYDataset dataset, String title, String yAxisTitle) {
