@@ -15,7 +15,6 @@ public class HeartData implements Serializable {
     private int restingHeartRate;
     private int outOfRangeMins, fatBurnMins, cardioMins, peakMins;
     private double outOfRangeCalsOut, fatBurnCalsOut, cardioCalsOut, peakCalsOut;
-    private final JSONArray intraDayDataset;
 
     /**
      * CONSTRUCTOR: Creates a new HeartData object
@@ -29,10 +28,9 @@ public class HeartData implements Serializable {
      * @param fatBurnCalsOut calories burned while in the "fatburn" category
      * @param cardioCalsOut calories burned while in the "cardio" category
      * @param peakCalsOut calories burned while in the "peak" category
-     * @param intraDayDataset JSONArray storing intraday heart rate data
      */
     public HeartData(String date, int restingHeartRate, int outOfRangeMins, int fatBurnMins, int cardioMins, int peakMins, double outOfRangeCalsOut, 
-                     double fatBurnCalsOut, double cardioCalsOut, double peakCalsOut, JSONArray intraDayDataset) {
+                     double fatBurnCalsOut, double cardioCalsOut, double peakCalsOut) {
         this.date = date;
         this.restingHeartRate = restingHeartRate;
         this.outOfRangeMins = outOfRangeMins;
@@ -43,7 +41,6 @@ public class HeartData implements Serializable {
         this.fatBurnCalsOut = fatBurnCalsOut;
         this.cardioCalsOut = cardioCalsOut;
         this.peakCalsOut = peakCalsOut;
-        this.intraDayDataset = intraDayDataset;
     }
 
     /**
@@ -206,12 +203,5 @@ public class HeartData implements Serializable {
         this.peakCalsOut = peakCalsOut;
     }
 
-    /**
-     * toString() method: used for testing purposes
-     * @return string containing data in object
-     */
-    public String toString() {
-        return "HeartData{" + "date=" + date + ", restingHeartRate=" + restingHeartRate + ", outOfRangeMins=" + outOfRangeMins + ", fatBurnMins=" + fatBurnMins + ", cardioMins=" + cardioMins + ", peakMins=" + peakMins + ", outOfRangeCalsOut=" + outOfRangeCalsOut + ", fatBurnCalsOut=" + fatBurnCalsOut + ", cardioCalsOut=" + cardioCalsOut + ", peakCalsOut=" + peakCalsOut + '}';
-    }
    
 }
