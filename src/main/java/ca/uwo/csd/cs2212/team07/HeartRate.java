@@ -130,7 +130,7 @@ public class HeartRate extends JPanel implements ActionListener {
 
         graphButton = new JButton();
         graphButton.addActionListener(this);
-        graphButton.setToolTipText("Click here to view your own personal heartrate graph");
+        graphButton.setToolTipText("View Heart Rate Time Series  for this day");
         ImageIcon icon = new ImageIcon(FileReader.getImage("iconmafia/graph3.png"));
         graphButton.setIcon(icon);
         px.add(graphButton);
@@ -210,14 +210,14 @@ public class HeartRate extends JPanel implements ActionListener {
         col7 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeMins() + " mins");
         col8 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeCalsOut() + " cal");
 
-        restingRate.setToolTipText("current resting heart rate");
-        col1.setToolTipText("minutes spent in this zone");
+        restingRate.setToolTipText("Current Resting Heart Rate");
+        col1.setToolTipText("Minutes spent in this heart zone");
         col2.setToolTipText("1 cal = 4.184 J");
-        col3.setToolTipText("minutes spent in this zone");
+        col3.setToolTipText("Minutes spent in this heart zone");
         col4.setToolTipText("1 cal = 4.184 J");
-        col5.setToolTipText("minutes spent in this zone");
+        col5.setToolTipText("Minutes spent in this heart zone");
         col6.setToolTipText("1 cal = 4.184 J");
-        col7.setToolTipText("minutes spent in this zone");
+        col7.setToolTipText("Minutes spent in this heart zone");
         col8.setToolTipText("1 cal = 4.184 J");
 
         date.setFont(new Font("Arial", Font.BOLD, 14));
