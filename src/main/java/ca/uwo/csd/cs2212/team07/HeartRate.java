@@ -208,7 +208,6 @@ public class HeartRate extends JPanel implements ActionListener {
         col7 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeMins() + " mins");
         col8 = new JLabel("" + fitbitInfo.getHeart().getOutOfRangeCalsOut() + " cal");
 
-        restingRate.setToolTipText("Current Resting Heart Rate");
         col1.setToolTipText("Minutes spent in this heart zone");
         col2.setToolTipText("1 cal = 4.184 J");
         col3.setToolTipText("Minutes spent in this heart zone");
