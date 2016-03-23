@@ -77,7 +77,9 @@ public class HeartRate extends JPanel implements ActionListener {
         p7 = new JPanel();
         p8 = new JPanel();
 
+        
         px.setBackground(new Color(0, 0, 0, 175));
+        
         p1.setBackground(new Color(0, 0, 0, 175));
         p2.setBackground(new Color(0, 0, 0, 175));
         p3.setBackground(new Color(0, 0, 0, 175));
@@ -86,6 +88,7 @@ public class HeartRate extends JPanel implements ActionListener {
         p6.setBackground(new Color(0, 0, 0, 175));
         p7.setBackground(new Color(0, 0, 0, 175));
         p8.setBackground(new Color(0, 0, 0, 175));
+        
 
         px.setLayout(new BoxLayout(px, BoxLayout.X_AXIS));
         p1.setLayout(new BoxLayout(p1, BoxLayout.X_AXIS));
@@ -323,8 +326,11 @@ public class HeartRate extends JPanel implements ActionListener {
         p6.setVisible(userConfig.isFatVisible());
         p7.setVisible(userConfig.isOutVisible());
         p8.setVisible(userConfig.isOutVisible());
-
+       
         nextButton.setVisible(false);
+        this.repaint();
+        
+        
     }
 
     /**
@@ -390,6 +396,8 @@ public class HeartRate extends JPanel implements ActionListener {
         col6.setText("" + roundedFatCal + " cals");
         col7.setText("" + heartInfo.getOutOfRangeMins() + " mins");
         col8.setText("" + roundedOutCal + " cals");
+    
+        this.repaint();
     }
 
     /**
