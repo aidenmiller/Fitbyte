@@ -77,15 +77,15 @@ public class HeartRate extends JPanel implements ActionListener {
         p7 = new JPanel();
         p8 = new JPanel();
 
-        px.setBackground(new Color(255, 100, 100, 215));
-        p1.setBackground(new Color(255, 100, 100, 215));
-        p2.setBackground(new Color(255, 100, 100, 215));
-        p3.setBackground(new Color(255, 100, 100, 215));
-        p4.setBackground(new Color(255, 100, 100, 215));
-        p5.setBackground(new Color(255, 100, 100, 215));
-        p6.setBackground(new Color(255, 100, 100, 215));
-        p7.setBackground(new Color(255, 100, 100, 215));
-        p8.setBackground(new Color(255, 100, 100, 215));
+        px.setBackground(new Color(0, 0, 0, 175));
+        p1.setBackground(new Color(0, 0, 0, 175));
+        p2.setBackground(new Color(0, 0, 0, 175));
+        p3.setBackground(new Color(0, 0, 0, 175));
+        p4.setBackground(new Color(0, 0, 0, 175));
+        p5.setBackground(new Color(0, 0, 0, 175));
+        p6.setBackground(new Color(0, 0, 0, 175));
+        p7.setBackground(new Color(0, 0, 0, 175));
+        p8.setBackground(new Color(0, 0, 0, 175));
 
         px.setLayout(new BoxLayout(px, BoxLayout.X_AXIS));
         p1.setLayout(new BoxLayout(p1, BoxLayout.X_AXIS));
