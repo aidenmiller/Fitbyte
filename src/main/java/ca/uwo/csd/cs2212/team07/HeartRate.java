@@ -151,13 +151,13 @@ public class HeartRate extends JPanel implements ActionListener {
         p8.add(iconLabel8);
 
         JLabel a1 = new JLabel("Peak Zone: ");
-        JLabel a2 = new JLabel("Calories Burnt: ");
+        JLabel a2 = new JLabel("Calories Burned: ");
         JLabel a3 = new JLabel("Cardio Zone: ");
-        JLabel a4 = new JLabel("Calories Burnt: ");
+        JLabel a4 = new JLabel("Calories Burned: ");
         JLabel a5 = new JLabel("Fat Zone: ");
-        JLabel a6 = new JLabel("Calories Burnt: ");
+        JLabel a6 = new JLabel("Calories Burned: ");
         JLabel a7 = new JLabel("OOR Zone: ");
-        JLabel a8 = new JLabel("Calories Burnt: ");
+        JLabel a8 = new JLabel("Calories Burned: ");
 
         a1.setFont(new Font("Arial", Font.BOLD, 14));
         a2.setFont(new Font("Arial", Font.BOLD, 14));
