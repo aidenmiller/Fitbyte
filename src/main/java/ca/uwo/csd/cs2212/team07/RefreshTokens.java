@@ -196,7 +196,6 @@ public class RefreshTokens {
             bufferedWriter.write(tokenToSave.getRawResponse());
             bufferedWriter.newLine();
             bufferedWriter.close();
-            JOptionPane.showMessageDialog(new JFrame(), "TOKENS REFRESHED. Send your team07tokens.txt file to the team!");
             System.err.println("team07tokens.txt has been refreshed - please send file to the rest of the team");
         } catch (FileNotFoundException ex) {
             throw new RefreshTokenException("Unable to open file\n" + ex.getMessage());
