@@ -1,4 +1,4 @@
-# `FitByte` - CS2212 Team07 Winter 2016
+# **FitByte** - CS2212 Team07 Winter 2016
 ##### Optimized for Mac OS X
 * **Author**: team07
 * **Contributors**: John Abed, Bowen Jiang, Jue OuYang, Kevin Hong, Aiden Miller, Leonard Beth
