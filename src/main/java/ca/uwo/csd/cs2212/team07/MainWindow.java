@@ -77,7 +77,6 @@ public class MainWindow extends JFrame implements ActionListener {
      * Loads the serialized user data into a FitbitInfo object, or generates
      * test data if in test mode
      *
-     * @param testMode whether or not the program is run in test mode
      */
     private void getUserData() {
         if (!testMode) {
