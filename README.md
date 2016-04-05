@@ -33,7 +33,7 @@ java -jar target/team07_fitbitViewer-1.0-SNAPSHOT-jar-with-dependencies.jar test
 ```
 
 ## Usage
-Please watch this [live demonstration](http://www.youtube.com) on usage of the FitByte desktop application.
+Please watch this [live demonstration](https://youtu.be/HPprnObtrQw) on usage of the FitByte desktop application.
 
 ## Documentation
-JavaDoc documentation for the application can be viewed [here](doc/index.html).
+JavaDoc documentation for the application can be viewed [here](doc/).
